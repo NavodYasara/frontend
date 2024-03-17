@@ -1,24 +1,12 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Title from '../Components/Title'
-import { Navbar , Nav } from 'react-bootstrap';
+
 
 function Register() {
     return (
         <div>
-
-            <Navbar bg={"primary"} expand={"lg"} >
-                <Navbar.Brand href={"/"}>Home</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="mr-auto">
-                        <Nav.Link href="#home">Moda gon sala</Nav.Link>
-                        <Nav.Link href="#services">Our Services</Nav.Link>
-                        <Nav.Link href="#contact">Contact Us</Nav.Link>
-                    </Nav>
-                </Navbar.Collapse>
-            </Navbar>
-
+            
             <Title />
             <div  className="bg-secondary d-flex justify-content-center align-items-center vh-100">
                 <div id="box1" className="p-3 rounded bg-white">
