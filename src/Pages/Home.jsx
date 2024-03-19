@@ -3,15 +3,13 @@ import Title from '../Components/Title';
 import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import caroimg from '../Resources/caroimg.png';
+import './Home.css';
 
 function Home() {
   return (
     <div>
-      <div className='d-flex justify-content-center align-items-center'>
-          <Title />
-      </div>
-
-      <div className="carousel container">
+      <>
+        <div className="carousel container my-5">
         <Carousel data-bs-theme="dark">
           <Carousel.Item>
             <img
@@ -19,10 +17,6 @@ function Home() {
               src={caroimg} // Use the imported image
               alt="First slide"
             />
-            <Carousel.Caption>
-              <h5>First slide label</h5>
-              <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-            </Carousel.Caption>
           </Carousel.Item>
 
           <Carousel.Item>
@@ -31,10 +25,6 @@ function Home() {
               src={caroimg} // Use the imported image
               alt="First slide"
             />
-            <Carousel.Caption>
-              <h5>Second slide label</h5>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </Carousel.Caption>
           </Carousel.Item>
           
           <Carousel.Item>
@@ -43,13 +33,26 @@ function Home() {
               src={caroimg} // Use the imported image
               alt="First slide"
             />
-            <Carousel.Caption>
-              <h5>Third slide label</h5>
-              <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-            </Carousel.Caption>
           </Carousel.Item>
         </Carousel>
       </div>
+      </>
+      
+      <div className='justify-content-center align-items-center'>
+          <Title />
+      </div>
+
+      <div className="section">
+        
+      </div>
+      <div className='boxone justify-content-center align-items-center'>
+        <p className="herotext"> 
+          Welcome to Serene Care Solutions' disability services, We are dedicated to providing high-quality care 
+          solutions for individuals with disabilities. Our goal is to promote independence, dignity, and wellbeing 
+          for our clients, and to offer support and guidance to their families.
+        </p>
+      </div>
+  
     </div>
   );
 }
