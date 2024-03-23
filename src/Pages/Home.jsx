@@ -2,8 +2,9 @@ import React from 'react';
 import Title from '../Components/Title';
 import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import caroimg from '../Resources/caroimg.png';
 import './Home.css';
+import caroimg from '../Assets/caroimg.png';
+
 
 function Home() {
   return (
@@ -11,6 +12,8 @@ function Home() {
       <>
         <div className="carousel container my-5">
         <Carousel data-bs-theme="dark">
+          
+
           <Carousel.Item>
             <img
               className="d-block w-100"

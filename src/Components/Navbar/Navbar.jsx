@@ -1,8 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-// import img1 from '/Users/USER/Desktop/serene-care-solution/frontend/Serene-care-frontend/src/Resources/img1.png'; // Corrected import path
-// import { Link } from 'react-router-dom';
+import img1 from '../../Assets/img1.png'; // Import the image
 
 function BasicExample() {
   return (
