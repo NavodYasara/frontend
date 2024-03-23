@@ -3,43 +3,44 @@ import Title from '../Components/Title';
 import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Home.css';
-import caroimg from '../Assets/caroimg.png';
+import img2 from '../Assets/img2.webp';
+import img3 from '../Assets/img3.webp';
+import img4 from '../Assets/img4.webp';
 
 
 function Home() {
   return (
     <div>
-      <>
-        <div className="carousel container my-5">
+      <div className='justift-content-center w-50 m-auto'>
+      <div className="carousel container my-5">
         <Carousel data-bs-theme="dark">
           
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src={img2} 
+            alt="First slide"
+          />
+        </Carousel.Item>
 
-          <Carousel.Item>
-            <img
-              className="d-block w-100"
-              src={caroimg} // Use the imported image
-              alt="First slide"
-            />
-          </Carousel.Item>
-
-          <Carousel.Item>
-            <img
-              className="d-block w-100"
-              src={caroimg} // Use the imported image
-              alt="First slide"
-            />
-          </Carousel.Item>
-          
-          <Carousel.Item>
-            <img
-              className="d-block w-100"
-              src={caroimg} // Use the imported image
-              alt="First slide"
-            />
-          </Carousel.Item>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src={img3} 
+            alt="Second slide"
+          />
+        </Carousel.Item>
+        
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src={img4}
+            alt="Third slide"
+          />
+        </Carousel.Item>
         </Carousel>
       </div>
-      </>
+      </div>
       
       <div className='justify-content-center align-items-center'>
           <Title />
