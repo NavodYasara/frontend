@@ -2,13 +2,15 @@ import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Title from '../Components/Title'
 
+
 function Register() {
     return (
         <div>
+            
             <Title />
             <div  className="bg-secondary d-flex justify-content-center align-items-center vh-100">
                 <div id="box1" className="p-3 rounded bg-white">
-                    <h2> Register </h2>
+                    <h2 > Register </h2>
 
                     <form>
                         <div className="form-group mb-3">

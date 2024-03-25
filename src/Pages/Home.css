@@ -1,0 +1,12 @@
+.boxone{
+    background-color: rgb(11, 7, 3);
+}
+
+.herotext{
+    width: 500px;
+    color: white;
+    margin-left: auto;
+    Margin-right: auto;
+    text-align: center;
+    padding: 10px;
+}
