@@ -1,35 +1,44 @@
-import React from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import Title from '../Components/Title'
+import React from 'react';
+import {
+  MDBBtn,
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
+  MDBInput,
+  MDBCheckbox,
+  MDBIcon
+} from 'mdb-react-ui-kit';
 
+function FormDisabledInputExample() {
+  return (
+    <MDBContainer className="d-flex justify-content-center align-items-center vh-100">
+      <MDBCol md='6'>
+        <MDBCard className='my-5'>
+          <MDBCardBody className='p-5'>
+            <MDBRow>
+              <MDBCol col='6'>
+                <MDBInput wrapperClass='mb-4' label='First name' id='form1' type='text'/>
+              </MDBCol>
+              <MDBCol col='6'>
+                <MDBInput wrapperClass='mb-4' label='Last name' id='form1' type='text'/>
+              </MDBCol>
+            </MDBRow>
+            <MDBInput wrapperClass='mb-4' label='Email' id='form1' type='email'/>
+            <MDBInput wrapperClass='mb-4' label='Password' id='form1' type='password'/>
 
-function Register() {
-    return (
-        <div>
+            {/* <div className='d-flex justify-content-center mb-4'>
+              <MDBCheckbox name='flexCheck' value='' id='flexCheckDefault' label='Subscribe to our newsletter' />
+            </div> */}
             
-            <Title />
-            <div  className="bg-secondary d-flex justify-content-center align-items-center vh-100">
-                <div id="box1" className="p-3 rounded bg-white">
-                    <h2 > Register </h2>
-
-                    <form>
-                        <div className="form-group mb-3">
-                            <label htmlFor="username">Username</label>
-                            <input type="text" className="form-control" id="username" placeholder="Enter username"/>
-                        </div>
-                        <div className="form-group mb-3">
-                            <label htmlFor="email">Email</label>
-                            <input type="email" className="form-control" id="email" placeholder="Enter email"/>
-                        </div>
-                        <div className="form-group mb-3">
-                            <label htmlFor="password">Password</label>
-                            <input type="password" className="form-control" id="password" placeholder="Enter password"/>
-                        </div>
-                        <button type="submit" className="btn btn-primary">Register</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    )
+            <MDBBtn className='w-100 mb-4' size='md'>sign up</MDBBtn>
+            
+          </MDBCardBody>
+        </MDBCard>
+      </MDBCol>
+    </MDBContainer>
+  );
 }
-export default Register;
+
+export default FormDisabledInputExample;
