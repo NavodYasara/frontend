@@ -9,7 +9,7 @@ function BasicExample() {
       <Container>
         <Navbar.Brand href="#home">
           <img
-            alt=""
+            alt="LOGO"
             src={img1} // Use the imported image
             width="30"
             height="30"
@@ -20,11 +20,11 @@ function BasicExample() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <img src="" alt="" />
-            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="/src/Pages/Home.jsx">Home</Nav.Link>
             <Nav.Link href="#link">Our Services</Nav.Link>
             <Nav.Link href="#link">Contact Us</Nav.Link>
-            <Nav.Link href="/src/Pages/Login.jsx">Login</Nav.Link> 
+            <Nav.Link href="/Register.jsx">Register</Nav.Link>
+            <Nav.Link href="/login.jsx">Login</Nav.Link>  
           </Nav>
         </Navbar.Collapse>
       </Container>

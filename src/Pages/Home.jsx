@@ -8,13 +8,13 @@ import img4 from '../Assets/img4.webp';
 export default function Home() {
   return (
     <>
-      <div>
+      <div className="container-fluid">
+        
         <Title />
-      </div>
 
-      {/* carousal */}
+        {/* carousal */}
 
-      <div className='carouselbox d-flex justify-content-center'>
+        <div className='container d-flex justify-content-center'>
       <Carousel data-bs-theme="dark" className="w-75">
         <Carousel.Item>
           <img
@@ -50,8 +50,11 @@ export default function Home() {
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
-</div>
+        </div>
+      </div>                  
 
     </>
   );
 }
+
+
