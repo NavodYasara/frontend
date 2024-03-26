@@ -40,9 +40,7 @@
     ]
   },
   "devDependencies": {
-    "@types/bootstrap": "^5.2.10"
-  },
-  "devDependencies": {
-    "@types/bootstrap": "^5.2.10"
+    "@types/bootstrap": "^5.2.10",
+    "eslint": "^8.57.0"
   }
 }
