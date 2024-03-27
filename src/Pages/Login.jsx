@@ -1,5 +1,6 @@
+import { style } from '@mui/system';
 import React from 'react';
-import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
+import { Container, Col, Card, Form, Button, Dropdown } from 'react-bootstrap';
 
 function FormDisabledInputExample() {
   return (
@@ -7,6 +8,20 @@ function FormDisabledInputExample() {
       <Col md='6'>
         <Card className='my-5'>
           <Card.Body className='p-5'>
+            <h3 className='text-center'>login</h3>
+            <Form.Group className='mb-4'>
+              <Form.Label>User Type</Form.Label>
+              <Dropdown>
+                <Dropdown.Toggle variant="secondary">
+                  Select User Type
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item>Admin</Dropdown.Item>
+                  <Dropdown.Item>Caretaker</Dropdown.Item>
+                  <Dropdown.Item>Caregiver</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Form.Group>
             <Form.Group className='mb-4'>
               <Form.Label>User Name</Form.Label>
               <Form.Control type='text' placeholder='Enter your username' />
@@ -28,3 +43,4 @@ function FormDisabledInputExample() {
 }
 
 export default FormDisabledInputExample;
+

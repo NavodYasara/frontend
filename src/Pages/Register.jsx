@@ -3,11 +3,15 @@ import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 
 function FormDisabledInputExample() {
   return (
-    <Container className="d-flex justify-content-center align-items-center vh-100">
-      <Col md='6'>
+    <Container className="d-flex justify-content-center align-items-center ">
+      <Col md='7'>
         <Card className='my-5'>
           <Card.Body className='p-5'>
             <Row>
+              <div className="title  mb-4">
+                <h3 className='text-center'>Register</h3>
+              </div>
+              
               <Col md='6'>
                 <Form.Group className='mb-4'>
                   <Form.Label>First name</Form.Label>
