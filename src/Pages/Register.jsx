@@ -1,55 +1,68 @@
 import React from 'react';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
-import { Dropdown } from 'react-bootstrap';
 
-function FormDisabledInputExample() {
+const Register = () => {
   return (
-    <Container className="d-flex justify-content-center align-items-center ">
-      <Col md='7'>
-        <Card className='my-5'>
-          <Card.Body className='p-5'>
-            <Row>
-              <div className="title mb-4 text-center"> {/* Add text-center class here */}
-                <h3>Register</h3>
-              </div>
-              <Col md='12' className="d-flex justify-content-center"> {/* Use md='12' to occupy full width */}
+    <Container className='mt-5'>
+      <Col md='6' className='mx-auto'>
+        <Card>
+          <Card.Body>
+            <div className="title mb-4 text-center"> 
+              <h3>Register</h3>
+            </div>
+            <Row className=''> 
+              <Col md='12'>
                 <Form.Group className='mb-4'>
-                  
-                  <Dropdown>
-                    <Dropdown.Toggle variant="secondary">
-                      Select User Type
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      <Dropdown.Item>Admin</Dropdown.Item>
-                      <Dropdown.Item>Caretaker</Dropdown.Item>
-                      <Dropdown.Item>Caregiver</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
+                  <Form.Label>Full Name</Form.Label>
+                  <Form.Control type='text' placeholder='Enter your full name' />
                 </Form.Group>
-              </Col>
-              <Col md='6'>
                 <Form.Group className='mb-4'>
-                  <Form.Label>First name</Form.Label>
-                  <Form.Control type='text' placeholder='Enter your first name' />
+                  <Form.Label>Contact Number</Form.Label>
+                  <Form.Control type='text' placeholder='Enter your contact number' />
                 </Form.Group>
-              </Col>
-              <Col md='6'>
                 <Form.Group className='mb-4'>
-                  <Form.Label>Last name</Form.Label>
-                  <Form.Control type='text' placeholder='Enter your last name' />
+                  <Form.Label>Date of Birth</Form.Label>
+                  <Form.Control type='date' />
+                </Form.Group>
+                <Form.Group className='mb-4'>
+                  <Form.Label>Gender</Form.Label>
+                  <Form.Control as='select'>
+                    <option>Male</option>
+                    <option>Female</option>
+                    <option>Other</option>
+                  </Form.Control>
+                </Form.Group>
+                <Form.Group className='mb-4'>
+                  <Form.Label>Address</Form.Label>
+                  <Form.Control type='text' placeholder='Enter your address' />
+                </Form.Group>
+                <Form.Group className='mb-4'>
+                  <Form.Label>User Name</Form.Label>
+                  <Form.Control type='text' placeholder='Enter your username' />
+                </Form.Group>
+                <Form.Group className='mb-4'>
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control type='password' placeholder='Enter your password' />
+                </Form.Group>
+                <Form.Group className='mb-4'>
+                  <Form.Label>Confirm Password</Form.Label>
+                  <Form.Control type='password' placeholder='Confirm your password' />
+                </Form.Group>
+                <Form.Group className='mb-4'>
+                  <Form.Label>Service Category</Form.Label>
+                  <Form.Control as='select'>
+                    <option>Service 1</option>
+                    <option>Service 2</option>
+                    <option>Service 3</option>
+                  </Form.Control>
                 </Form.Group>
               </Col>
             </Row>
-
-            <Form.Group className='mb-4'>
-              <Form.Label>Email</Form.Label>
-              <Form.Control type='email' placeholder='Enter your email' />
-            </Form.Group>
-            <Form.Group className='mb-4'>
-              <Form.Label>Password</Form.Label>
-              <Form.Control type='password' placeholder='Enter your password' />
-            </Form.Group>
-            <Button className='w-100 mb-4' size='md' variant='primary'>Sign Up</Button>
+            <Row>
+              <Col md='12'>
+                <Button className='w-100 mb-4' size='md' variant='primary'>Sign Up</Button>
+              </Col>
+            </Row>
           </Card.Body>
         </Card>
       </Col>
@@ -57,4 +70,4 @@ function FormDisabledInputExample() {
   );
 }
 
-export default FormDisabledInputExample;
+export default Register;
