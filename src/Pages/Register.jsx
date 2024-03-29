@@ -9,22 +9,24 @@ function FormDisabledInputExample() {
         <Card className='my-5'>
           <Card.Body className='p-5'>
             <Row>
-              <div className="title  mb-4">
-                <h3 className='text-center'>Register</h3>
+              <div className="title mb-4 text-center"> {/* Add text-center class here */}
+                <h3>Register</h3>
               </div>
-              <Form.Group className='mb-4'>
-              <Form.Label>User Type</Form.Label>
-              <Dropdown>
-                <Dropdown.Toggle variant="secondary">
-                  Select User Type
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item>Admin</Dropdown.Item>
-                  <Dropdown.Item>Caretaker</Dropdown.Item>
-                  <Dropdown.Item>Caregiver</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Form.Group>
+              <Col md='12' className="d-flex justify-content-center"> {/* Use md='12' to occupy full width */}
+                <Form.Group className='mb-4'>
+                  
+                  <Dropdown>
+                    <Dropdown.Toggle variant="secondary">
+                      Select User Type
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu>
+                      <Dropdown.Item>Admin</Dropdown.Item>
+                      <Dropdown.Item>Caretaker</Dropdown.Item>
+                      <Dropdown.Item>Caregiver</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Form.Group>
+              </Col>
               <Col md='6'>
                 <Form.Group className='mb-4'>
                   <Form.Label>First name</Form.Label>
@@ -38,6 +40,7 @@ function FormDisabledInputExample() {
                 </Form.Group>
               </Col>
             </Row>
+
             <Form.Group className='mb-4'>
               <Form.Label>Email</Form.Label>
               <Form.Control type='email' placeholder='Enter your email' />
