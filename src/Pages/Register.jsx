@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
+import { Dropdown } from 'react-bootstrap';
 
 function FormDisabledInputExample() {
   return (
@@ -11,7 +12,19 @@ function FormDisabledInputExample() {
               <div className="title  mb-4">
                 <h3 className='text-center'>Register</h3>
               </div>
-              
+              <Form.Group className='mb-4'>
+              <Form.Label>User Type</Form.Label>
+              <Dropdown>
+                <Dropdown.Toggle variant="secondary">
+                  Select User Type
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item>Admin</Dropdown.Item>
+                  <Dropdown.Item>Caretaker</Dropdown.Item>
+                  <Dropdown.Item>Caregiver</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Form.Group>
               <Col md='6'>
                 <Form.Group className='mb-4'>
                   <Form.Label>First name</Form.Label>
