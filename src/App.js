@@ -7,11 +7,12 @@ import Register from "./Pages/Register";
 import Navbar from './Components/Navbar/Navbar'
 import Login from './Pages/Login'
 import TestRegister from './Pages/Register'
+import AdminDashboard from './Pages/Admin-Dashboard'
  
 
-
-
 function App() {
+
+    
     return (
 
         <BrowserRouter>
@@ -20,7 +21,8 @@ function App() {
             </div>
 
             <Routes>
-                <Route path="/" element={<Home/>} />
+                {/* <Route path="/" element={<Home/>} /> */}
+                <Route path="/" element={<AdminDashboard/>} />
                 <Route path="/src/Pages/Home.jsx" element={<Home/>} />
                 <Route path="/register.jsx" element={<Register/>} />
                 <Route path="/TestRegister.jsx" element={<TestRegister/>} />
