@@ -7,7 +7,7 @@ import Register from "./Pages/Register";
 import Navbar from './Components/Navbar/Navbar'
 import Login from './Pages/Login'
 import TestRegister from './Pages/Register'
-import AdminDashboard from './Pages/AdminDashboard'
+import AdminDashboard from './Pages/ADMIN/AdminDashboard'
  
 
 function App() {
