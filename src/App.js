@@ -7,7 +7,7 @@ import Register from "./Pages/Register";
 import Navbar from './Components/Navbar/Navbar'
 import Login from './Pages/Login'
 import TestRegister from './Pages/Register'
-import AdminDashboard from './Pages/Admin-Dashboard'
+import AdminDashboard from './Pages/AdminDashboard'
  
 
 function App() {
@@ -21,12 +21,12 @@ function App() {
             </div>
 
             <Routes>
-                {/* <Route path="/" element={<Home/>} /> */}
-                <Route path="/" element={<AdminDashboard/>} />
+                <Route path="/" element={<Home/>} />
                 <Route path="/src/Pages/Home.jsx" element={<Home/>} />
                 <Route path="/register.jsx" element={<Register/>} />
                 <Route path="/TestRegister.jsx" element={<TestRegister/>} />
                 <Route path="/Login.jsx" element={<Login/>} />
+                <Route path="/src/Pages/AdminDashboard.jsx" element={<AdminDashboard/>} />
             </Routes>
         </BrowserRouter>
         
