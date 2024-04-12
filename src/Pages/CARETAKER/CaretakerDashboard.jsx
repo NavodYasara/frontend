@@ -2,8 +2,6 @@
 import Sidebar from '../../Components/Sidebar'
 import { Container, Table } from 'react-bootstrap';
 import Avatar from '@mui/material/Avatar';
-import { PiSelectionBackground } from 'react-icons/pi';
-import { margin } from '@mui/system';
 
 
 function CaretakerDashboard() {
@@ -14,7 +12,7 @@ function CaretakerDashboard() {
             </div>
 
             <div style={{marginLeft:'280px'}}>
-                <Container fluid className="vh-100 d-flex bg-primary">
+                <Container fluid className="vh-100 d-flex ">
                     <div className="flex-grow-1 ">
                         <div className="d-flex justify-content-center align-items-center h-100" >
                             <div className="text-center p-5 shadow rounded">
