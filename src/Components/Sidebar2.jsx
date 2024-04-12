@@ -15,27 +15,27 @@ const Sidebar = () => {
       <CDBSidebar textColor="#fff" backgroundColor="#333">
         <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
           <a href="/" className="text-decoration-none" style={{ color: 'inherit' }}>
-            Sidebar
+            Sidebar2(Caretaker)
           </a>
         </CDBSidebarHeader>
 
         <CDBSidebarContent className="sidebar-content">
           <CDBSidebarMenu>
             <NavLink exact to="/" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="columns">View Caregivers</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="columns">Your Profile</CDBSidebarMenuItem>
             </NavLink>
             <NavLink exact to="/tables" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="table">View CarePlans</CDBSidebarMenuItem>
             </NavLink>
             <NavLink exact to="/profile" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="user">View Manager</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="user">Caregiver details</CDBSidebarMenuItem>
             </NavLink>
             <NavLink exact to="/analytics" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="chart-line">View Accountant</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="chart-line">Reports</CDBSidebarMenuItem>
             </NavLink>
 
             <NavLink exact to="/hero404" target="_blank" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="exclamation-circle">404 page</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="exclamation-circle">Payments</CDBSidebarMenuItem>
             </NavLink>
           </CDBSidebarMenu>
         </CDBSidebarContent>

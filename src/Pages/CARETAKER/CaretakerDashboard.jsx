@@ -1,12 +1,14 @@
- import React from 'react';
-import Sidebar from '../../Components/Sidebar'
+
+import React from 'react';
+import Sidebar from '../../Components/Sidebar2'
 import { Container, Table} from 'react-bootstrap';
-import Avatar from '@mui/material/Avatar';
+// import Avatar from '@mui/material/Avatar';
 import Dropdown from 'react-bootstrap/Dropdown';
-
-
+import { useState } from 'react';
 
 function CaretakerDashboard() {
+    const [selectedCategory, setSelectedCategory] = useState(''); // Define setSelectedCategory using useState hook
+
     return (
         <div style={{ display: 'flex' }}>
             <div>
@@ -17,8 +19,8 @@ function CaretakerDashboard() {
                 <Container fluid className="vh-100 d-flex " style={{width:'100%'}}>
                     <div className="flex-grow-2">
                         <div className="d-flex justify-content-center align-items-center h-100 " >
-                            <div className="text-center p-5 shadow rounded">
-                                <Avatar alt="Profile Picture" src="" sx={{ width: 100, height: 100, marginBottom: 20 }} />
+                            <div className="text-center p-4 shadow rounded" style={{ width: '50vw' }}>
+                                {/* <Avatar alt="Profile Picture" src="" sx={{ width: 100, height: 100, marginBottom: 20 }} /> */}
                                 <Table borderless className="invisible-table">
                                     <tbody>
                                         <tr>
@@ -42,19 +44,26 @@ function CaretakerDashboard() {
                                             <td>123-456-7890</td>
                                         </tr>
                                         <tr>
-                                            
-                                            <Dropdown>
-                                                <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                                    Disble Catagory
-                                                </Dropdown.Toggle>
+                                            <td className="fw-bold">
+                                                <Dropdown>
+                                                    <Dropdown.Toggle variant="success" id="dropdown-basic">
+                                                        Disble Catagory
+                                                    </Dropdown.Toggle>
 
-                                                <Dropdown.Menu>
-                                                    <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                                    <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                                    <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                                                </Dropdown.Menu>
-                                            </Dropdown>
-
+                                                    <Dropdown.Menu>
+                                                        <Dropdown.Item onClick={() => setSelectedCategory('Mental disorders')}>Mental disorders</Dropdown.Item>
+                                                        <Dropdown.Item onClick={() => setSelectedCategory('Physical Disability')}>Physical Disability</Dropdown.Item>
+                                                        <Dropdown.Item onClick={() => setSelectedCategory('Eldering')}>Eldering</Dropdown.Item>
+                                                    </Dropdown.Menu>
+                                                </Dropdown>
+                                            </td>
+                                            <td>
+                                                {selectedCategory}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td className="fw-bold">Your requirements:</td>
+                                            <td>Bla bla bla</td>
                                         </tr>
                                     </tbody>
                                 </Table>
@@ -64,6 +73,7 @@ function CaretakerDashboard() {
                 </Container>
             </div>
         </div>
-);
+    );
 }
+
 export default CaretakerDashboard;
