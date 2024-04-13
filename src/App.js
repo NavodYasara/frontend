@@ -19,7 +19,6 @@ function App() {
             <div>
                 <Navbar/>
             </div>
-
             <Routes>
                 <Route path="/" element={<Home/>} />
                 <Route path="/src/Pages/Home.jsx" element={<Home/>} />
