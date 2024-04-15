@@ -1,14 +1,17 @@
 import React from 'react'
-import './App.css'
-import Home from './Pages/Home'
-import {Routes, Route, BrowserRouter} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import {Routes, Route, BrowserRouter} from 'react-router-dom'
+
+import Home from './Pages/Home'
 import Register from "./Pages/Register";
 import Navbar from './Components/Navbar/Navbar'
 import Login from './Pages/Login'
 import AdminDashboard from './Pages/ADMIN/AdminDashboard'
 import CaretakerDashboard from './Pages/CARETAKER/CaretakerDashboard'
- 
+import Careplan from './Pages/CARETAKER/Careplan.jsx'
+import ViewCaregiver from './Pages/CARETAKER/ViewCaregiver.jsx' 
+
+
 
 function App() {
 
@@ -20,12 +23,14 @@ function App() {
             </div>
             <Routes>
                 <Route path="/" element={<Home/>} />
-                <Route path="/src/Pages/Home.jsx" element={<Home/>} />
-                <Route path="/register.jsx" element={<Register/>} />
-                <Route path="/Login.jsx" element={<Login/>} />
+                <Route path="/Home" element={<Home/>} />
+                <Route path="/Register" element={<Register/>} />
+                <Route path="/Login" element={<Login/>} />
 
-                <Route path="/src/Pages/AdminDashboard.jsx" element={<AdminDashboard/>} />
-                <Route path="/src/Pages/CaretakerDashboard.jsx" element={<CaretakerDashboard/>} />
+                <Route path="AdminDashboard" element={<AdminDashboard/>} />
+                <Route path="CaretakerDashboard" element={<CaretakerDashboard/>} />
+                <Route path="Careplan" element={<Careplan/>} />
+                <Route path="ViewCaregiver" element={<ViewCaregiver/>} />
             </Routes>
         </BrowserRouter>
         
