@@ -20,7 +20,7 @@ function BasicExample() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/src/Pages/Home.jsx">Home</Nav.Link>
+            <Nav.Link href="Home">Home</Nav.Link>
             <Nav.Link href="#link">Our Services</Nav.Link>
             <Nav.Link href="#link">Contact Us</Nav.Link>
             <Nav.Link href="Register">Register</Nav.Link>

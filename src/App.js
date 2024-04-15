@@ -20,11 +20,12 @@ function App() {
             <div>
                 <Navbar/>
             </div>
+
             <Routes>
                 <Route path="/" element={<Home/>} />
-                <Route path="/Home" element={<Home/>} />
-                <Route path="/Register" element={<Register/>} />
-                <Route path="/Login" element={<Login/>} />
+                <Route path="Home" element={<Home/>} />
+                <Route path="Register" element={<Register/>} />
+                <Route path="Login" element={<Login/>} />
 
                 <Route path="AdminDashboard" element={<AdminDashboard/>} />
                 <Route path="CaretakerDashboard" element={<CaretakerDashboard/>} />
