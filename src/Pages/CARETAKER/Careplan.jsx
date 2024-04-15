@@ -13,7 +13,7 @@ function Careplan() {
         <Sidebar />
       </div>
 
-      <div>
+      <div fluid className="vh-100 d-flex " style={{width:'100%'}}>
         <Container fluid className="vh-100 d-flex" style={{ width: '100%' }}>
           <div className="flex-grow-2">
             <div className="d-flex justify-content-center align-items-center h-100 ">
@@ -41,7 +41,7 @@ function Careplan() {
                     </tr>
                   </tbody>
                 </Table>
-                
+
                 {/* Goals and Objectives Section */}
                 <h5 className="mt-4 mb-3">Goals and Objectives</h5>
                 <p>
