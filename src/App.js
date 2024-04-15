@@ -12,7 +12,6 @@ import CaretakerDashboard from './Pages/CARETAKER/CaretakerDashboard'
 
 function App() {
 
-    
     return (
 
         <BrowserRouter>

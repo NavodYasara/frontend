@@ -15,7 +15,7 @@ function FormDisabledInputExample() {
     event.preventDefault();
     // Implement logic to validate username and password
     if (userType === 'Caretaker' /* && valid username and password */) {
-      navigate('/CaretakerDashboard');
+      navigate('/src/Pages/CaretakerDashboard.jsx');
     } else {
       setError('Invalid login credentials or user type.');
     }
@@ -33,15 +33,7 @@ function FormDisabledInputExample() {
               <Col md='6'>
                 <Form.Group>
                   <Dropdown className='d-flex justify-content-center'>
-                    {/* <Dropdown.Toggle variant="secondary">
-                      {userType || 'Select User Type'}
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      <Dropdown.Item onSelect={() => setUserType('Admin')}>Admin</Dropdown.Item>
-                      <Dropdown.Item onSelect={() => setUserType('Caretaker')}>Caretaker</Dropdown.Item>
-                      <Dropdown.Item onSelect={() => setUserType('Caregiver')}>Caregiver</Dropdown.Item>
-                    </Dropdown.Menu> */}
-
+                   
                     <Dropdown onSelect={(value) => setUserType(value)}>
                       <Dropdown.Toggle variant="success" id="dropdown-basic">
                         {userType || 'Select User Type'}
