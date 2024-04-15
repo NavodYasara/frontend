@@ -1,8 +1,9 @@
-
 import React, { useState } from 'react';
 import { Container, Col, Card, Form, Button, Dropdown } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import CaretakerDashboard from './CARETAKER/CaretakerDashboard'
+
 
 function FormDisabledInputExample() {
   const [userType, setUserType] = useState('');
@@ -15,14 +16,14 @@ function FormDisabledInputExample() {
     event.preventDefault();
     // Implement logic to validate username and password
     if (userType === 'Caretaker' /* && valid username and password */) {
-      navigate('/src/Pages/CaretakerDashboard.jsx');
+      navigate('/CaretakerDashboard');
     } else {
       setError('Invalid login credentials or user type.');
     }
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center vh-100">
+    <Container className="d-flex justify-content-center align-i tems-center vh-100">
       <Col md='6'>
         <Card className='my-5'>
           <Card.Body className='p-5'>

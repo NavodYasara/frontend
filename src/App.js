@@ -1,6 +1,6 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import {Routes, Route, BrowserRouter} from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Home from './Pages/Home'
 import Register from "./Pages/Register";
@@ -10,7 +10,6 @@ import AdminDashboard from './Pages/ADMIN/AdminDashboard'
 import CaretakerDashboard from './Pages/CARETAKER/CaretakerDashboard'
 import Careplan from './Pages/CARETAKER/Careplan.jsx'
 import ViewCaregiver from './Pages/CARETAKER/ViewCaregiver.jsx' 
-
 
 
 function App() {
