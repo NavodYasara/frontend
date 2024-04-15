@@ -21,21 +21,23 @@ const Sidebar = () => {
 
         <CDBSidebarContent className="sidebar-content">
           <CDBSidebarMenu>
-            <NavLink exact to="CaretakerDashboard.jsx" activeClassName="activeClicked">
+            <NavLink exact to="/CaretakerDashboard" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="columns">Your Profile</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink exact to="" activeClassName="activeClicked">
+            <NavLink exact to="/Careplan " activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="table">View CarePlans</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink exact to="/profile" activeClassName="activeClicked">
+            <NavLink exact to="/CaregiverDetail" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="user">Caregiver details</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink exact to="/analytics" activeClassName="activeClicked">
+            <NavLink exact to="/Report" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="chart-line">Reports</CDBSidebarMenuItem>
             </NavLink>
-
-            <NavLink exact to="/hero404" target="_blank" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="exclamation-circle">Payments</CDBSidebarMenuItem>
+             <NavLink exact to="/Payment" activeClassName="activeClicked">
+              <CDBSidebarMenuItem icon="exclamation-circle">Payment</CDBSidebarMenuItem>
+            </NavLink>
+            <NavLink exact to="/Payment" target="_blank" activeClassName="activeClicked">
+              <CDBSidebarMenuItem icon="exclamation-circle">/Payments</CDBSidebarMenuItem>
             </NavLink>
           </CDBSidebarMenu>
         </CDBSidebarContent>

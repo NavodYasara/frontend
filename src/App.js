@@ -9,7 +9,9 @@ import Login from './Pages/Login'
 import AdminDashboard from './Pages/ADMIN/AdminDashboard'
 import CaretakerDashboard from './Pages/CARETAKER/CaretakerDashboard'
 import Careplan from './Pages/CARETAKER/Careplan.jsx'
-import ViewCaregiver from './Pages/CARETAKER/ViewCaregiver.jsx' 
+import CaregiverDetail from './Pages/CARETAKER/CaregiverDetail.jsx'
+import Report from './Pages/CARETAKER/Report.jsx'
+import Payment from './Pages/CARETAKER/Payment.jsx'
 
 
 function App() {
@@ -30,7 +32,9 @@ function App() {
                 <Route path="AdminDashboard" element={<AdminDashboard/>} />
                 <Route path="CaretakerDashboard" element={<CaretakerDashboard/>} />
                 <Route path="Careplan" element={<Careplan/>} />
-                <Route path="ViewCaregiver" element={<ViewCaregiver/>} />
+                <Route path="CaregiverDetail" element={<CaregiverDetail/>} />
+                <Route path="Report" element={<Report/>} />
+                <Route path="Payment" element={<Payment/>} />
             </Routes>
         </BrowserRouter>
         
