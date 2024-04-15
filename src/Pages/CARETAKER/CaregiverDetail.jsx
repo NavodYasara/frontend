@@ -48,7 +48,7 @@ function CaregiverDetail() {
         </div>
 
         <div>
-          <Container fluid className="vh-100 d-flex" style={{ width: '100%' }}>
+          <Container fluid className="d-flex" style={{ width: '100%' }}>
             <div className="flex-grow-2">
               <div className="d-flex justify-content-center align-items-center h-100 ">
                 <div className="text-center p-4 shadow rounded" style={{ width: '80vw' }}>
