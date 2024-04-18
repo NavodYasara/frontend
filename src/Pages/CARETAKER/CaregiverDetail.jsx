@@ -40,6 +40,7 @@ function CaregiverDetail() {
     profilePicture: '[Image URL or path]', // Replace with actual image URL
   };
 
+  
   return (
     <>
       <div style={{ display: 'flex' }}>
@@ -189,15 +190,12 @@ function CaregiverDetail() {
                     <Col sm={6}>Driving License:</Col>
                     <Col sm={6}>{caregiver.drivingLicense}</Col>
                   </Row>
-                  <Row>
-                    <Col sm={6}>Criminal Background Check:</Col>
-                    <Col sm={6}>{caregiver.criminalBackgroundCheck}</Col>
-                  </Row>
                 </div>
               </div>
             </div>
           </Container>
         </div>
+
       </div>
     </>
   );

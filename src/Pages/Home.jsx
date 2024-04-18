@@ -36,24 +36,15 @@ export default function Home() {
         <Carousel fade>
           <Carousel.Item>
             <img className="d-block w-100" src={img3} alt="First slide" />
-            <Carousel.Caption>
-              <h3>Welcome to Our Website</h3>
-              <p>Discover our services and explore what we offer.</p>
-            </Carousel.Caption>
+            <Carousel.Caption></Carousel.Caption>
           </Carousel.Item>
           <Carousel.Item>
             <img className="d-block w-100" src={img4} alt="Second slide" />
-            <Carousel.Caption>
-              <h3>Modern Design</h3>
-              <p>Experience a modern and user-friendly design.</p>
-            </Carousel.Caption>
+            <Carousel.Caption></Carousel.Caption>
           </Carousel.Item>
           <Carousel.Item>
             <img className="d-block w-100" src={img2} alt="Third slide" />
-            <Carousel.Caption>
-              <h3>Responsive Layout</h3>
-              <p>Enjoy our website on any device, anywhere.</p>
-            </Carousel.Caption>
+            <Carousel.Caption></Carousel.Caption>
           </Carousel.Item>
         </Carousel>
       </div>
