@@ -4,8 +4,6 @@ import { Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 
-
-
 function FormDisabledInputExample() {
   const [userType, setUserType] = useState('');
   const [username, setUsername] = useState('');
@@ -16,15 +14,15 @@ function FormDisabledInputExample() {
   const handleLogin = (event) => {
     event.preventDefault();
     // Implement logic to validate username and password
-    if (userType === 'Caretaker' /* && valid username and password */) {
+    if (userType === 'Caretaker' && username === '' && password === '') {
       navigate('/CaretakerDashboard');
     } else {
       setError('Invalid login credentials or user type.');
     }
+  
   };
 
   
-
   return (
     <Container className="d-flex justify-content-center align-i tems-center vh-100">
       <Col md='6'>

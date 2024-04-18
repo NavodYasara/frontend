@@ -1,5 +1,6 @@
 import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import Axios from 'axios'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Home from './Pages/Home'
