@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 const Register = () => {
   const [values, setValues] = useState({
     username: '',
-    password: '',
-    usertype: ''
+    password: ''
+    // usertype: ''
   });
 
   const navigate = useNavigate();
@@ -15,9 +15,9 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post('add_user', values)
+    axios.post('http://localhost:3001/server/register', values)
       .then((res) => {
-        navigate('/');
+        navigate('/CaretakerDashboard');
         console.log(res);
       })
       .catch((err) => {
@@ -46,7 +46,7 @@ const Register = () => {
                 <Col md='12'>
                   <Form.Group className='mb-4'>
                     <Form.Label>Full Name</Form.Label>
-                    <Form.Control type='text' placeholder='Enter your full name' />
+                    <Form.Control type='text' placeholder='Enter your full name'/>
                 </Form.Group>
                 <Form.Group className='mb-4'>
                   <Form.Label>Contact Number</Form.Label>
@@ -70,11 +70,11 @@ const Register = () => {
                 </Form.Group>
                 <Form.Group className='mb-4'>
                   <Form.Label>User Name</Form.Label>
-                  <Form.Control type='text' placeholder='Enter your username' />
+                  <Form.Control type='text' placeholder='Enter your username' name='username' onChange={handleChange} />
                 </Form.Group>
                 <Form.Group className='mb-4'>
                   <Form.Label>Password</Form.Label>
-                  <Form.Control type='password' placeholder='Enter your password' />
+                  <Form.Control type='password' placeholder='Enter your password' name='password' onChange={handleChange} />
                 </Form.Group>
                 <Form.Group className='mb-4'>
                   <Form.Label>Confirm Password</Form.Label>
@@ -82,8 +82,8 @@ const Register = () => {
                 </Form.Group>
                 <Form.Group className='mb-4'>
                   <Form.Label>Service Category</Form.Label>
-                  <Form.Control as='select'>
-                    <option>Service 1</option>
+                  <Form.Control as='select' >
+                    <option>Caretaker</option>
                     <option>Service 2</option>
                     <option>Service 3</option>
                   </Form.Control>
