@@ -6,14 +6,26 @@ import { useNavigate } from 'react-router-dom';
 const Register = () => {
   const [values, setValues] = useState({
     username: '',
-    password: ''
-    // usertype: ''
+    password: '',
+    confirmPassword: '',
+    usertype: '',
+    fullName: '',
+    contactNumber: '',
+    dob: '',
+    gender: '',
+    address: ''
   });
 
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    // Check if password matches confirmation
+    if (values.password !== values.confirmPassword) {
+      alert("Password and confirm password do not match");
+      return;
+    }
 
     axios.post('http://localhost:3001/server/register', values)
       .then((res) => {
@@ -22,6 +34,7 @@ const Register = () => {
       })
       .catch((err) => {
         console.log(err);
+        alert("Registration failed. Please try again.");
       });
   };
 
@@ -46,47 +59,47 @@ const Register = () => {
                 <Col md='12'>
                   <Form.Group className='mb-4'>
                     <Form.Label>Full Name</Form.Label>
-                    <Form.Control type='text' placeholder='Enter your full name'/>
-                </Form.Group>
-                <Form.Group className='mb-4'>
-                  <Form.Label>Contact Number</Form.Label>
-                  <Form.Control type='text' placeholder='Enter your contact number' />
-                </Form.Group>
-                <Form.Group className='mb-4'>
-                  <Form.Label>Date of Birth</Form.Label>
-                  <Form.Control type='date' />
-                </Form.Group>
-                <Form.Group className='mb-4'>
-                  <Form.Label>Gender</Form.Label>
-                  <Form.Control as='select'>
-                    <option>Male</option>
-                    <option>Female</option>
-                    <option>Other</option>
-                  </Form.Control>
-                </Form.Group>
-                <Form.Group className='mb-4'>
-                  <Form.Label>Address</Form.Label>
-                  <Form.Control type='text' placeholder='Enter your address' />
-                </Form.Group>
-                <Form.Group className='mb-4'>
-                  <Form.Label>User Name</Form.Label>
-                  <Form.Control type='text' placeholder='Enter your username' name='username' onChange={handleChange} />
-                </Form.Group>
-                <Form.Group className='mb-4'>
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control type='password' placeholder='Enter your password' name='password' onChange={handleChange} />
-                </Form.Group>
-                <Form.Group className='mb-4'>
-                  <Form.Label>Confirm Password</Form.Label>
-                  <Form.Control type='password' placeholder='Confirm your password' />
-                </Form.Group>
-                <Form.Group className='mb-4'>
-                  <Form.Label>Service Category</Form.Label>
-                  <Form.Control as='select' >
-                    <option>Caretaker</option>
-                    <option>Service 2</option>
-                    <option>Service 3</option>
-                  </Form.Control>
+                    <Form.Control type='text' placeholder='Enter your full name' name='fullName' onChange={handleChange} />
+                  </Form.Group>
+                  <Form.Group className='mb-4'>
+                    <Form.Label>Contact Number</Form.Label>
+                    <Form.Control type='text' placeholder='Enter your contact number' name='contactNumber' onChange={handleChange} />
+                  </Form.Group>
+                  <Form.Group className='mb-4'>
+                    <Form.Label>Date of Birth</Form.Label>
+                    <Form.Control type='date' name='dob' onChange={handleChange} />
+                  </Form.Group>
+                  <Form.Group className='mb-4'>
+                    <Form.Label>Gender</Form.Label>
+                    <Form.Control as='select' name='gender' onChange={handleChange}>
+                      <option>Male</option>
+                      <option>Female</option>
+                      <option>Other</option>
+                    </Form.Control>
+                  </Form.Group>
+                  <Form.Group className='mb-4'>
+                    <Form.Label>Address</Form.Label>
+                    <Form.Control type='text' placeholder='Enter your address' name='address' onChange={handleChange} />
+                  </Form.Group>
+                  <Form.Group className='mb-4'>
+                    <Form.Label>User Name</Form.Label>
+                    <Form.Control type='text' placeholder='Enter your username' name='username' onChange={handleChange} />
+                  </Form.Group>
+                  <Form.Group className='mb-4'>
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type='password' placeholder='Enter your password' name='password' onChange={handleChange} />
+                  </Form.Group>
+                  <Form.Group className='mb-4'>
+                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Control type='password' placeholder='Confirm your password' name='confirmPassword' onChange={handleChange} />
+                  </Form.Group>
+                  <Form.Group className='mb-4'>
+                    <Form.Label>Service Category</Form.Label>
+                    <Form.Control as='select' name='usertype' onChange={handleChange}>
+                      <option>Caretaker</option>
+                      <option>Caregiver</option>
+                      <option>Manager</option>
+                    </Form.Control>
                   </Form.Group>
                 </Col>
               </Row>
@@ -94,7 +107,6 @@ const Register = () => {
                 <Col md='12'>
                   <Button className='w-100 mb-4' size='md' variant='primary' type='submit'>Sign Up</Button>
                 </Col>
-                
               </Row>
             </Form>
           </Card.Body>
