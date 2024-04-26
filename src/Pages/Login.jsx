@@ -92,30 +92,33 @@ function Login() {
     const navigate = useNavigate();
     
     const handleLogin = async (event) => {
-        event.preventDefault();
+      event.preventDefault();
+      try {
+        const response = await fetch('/server/login', {
+          method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          body: JSON.stringify({ username, password, userType })
+          
+        });
+  
 
-        try {
-            const response = await fetch('/server/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ username, password })
-            });
+        const data = await response.json(); // Parse the JSON response
 
-            const data = await response.json();
-
-            if (response.ok) {
-                // If login is successful, navigate to the appropriate dashboard
-                if (data.userType === 'Caretaker') {
-                    navigate('/CaretakerDashboard');
-                  } else {
-                    setError('Invalid user type');
-                  }
-                } else {
-                  setError(data.error || 'Failed to login');
-            }
+        // If login is successful, navigate to the appropriate dashboard
+        if (response.ok) {
+          if (data.userType === 'caretaker') {
+              console.log(data.response);
+              navigate('/CaretakerDashboard');
+          } else {
+            setError('Invalid user type');
+          }
+          } else {
+            setError(data.error || 'Failed to login');
+          }
         } catch (error) {
+           console.log(error);
             setError('Failed to connect to the server');
         }
     };
@@ -140,11 +143,10 @@ function Login() {
                       </Dropdown.Toggle>
 
                       <Dropdown.Menu>
-                        <Dropdown.Item eventKey="Caretaker">Caretaker</Dropdown.Item>
-                        <Dropdown.Item eventKey="Caregiver">Caregiver</Dropdown.Item>
-                        <Dropdown.Item eventKey="Admin">Admin</Dropdown.Item>
-                        <Dropdown.Item eventKey="Manager">Manager</Dropdown.Item>
-                          {/* Add more user types as needed */}
+                        <Dropdown.Item eventKey="caretaker" onSelect={(value) => setUserType(value)}>Caretaker</Dropdown.Item>
+                        <Dropdown.Item eventKey="Caregiver" onSelect={(value) => setUserType(value)}>Caregiver</Dropdown.Item>
+                        <Dropdown.Item eventKey="Admin" onSelect={(value) => setUserType(value)}>Admin</Dropdown.Item>
+                        <Dropdown.Item eventKey="Manager" onSelect={(value) => setUserType(value)}>Manager</Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
 
