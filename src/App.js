@@ -11,6 +11,7 @@ import CaretakerDashboard from './Pages/CARETAKER/CaretakerDashboard'
 import Careplan from './Pages/CARETAKER/Careplan.jsx'
 import CaregiverDetail from './Pages/CARETAKER/CaregiverDetail.jsx'
 import Report from './Pages/CARETAKER/Report.jsx'
+import ManagerDashboard from './Pages/MANAGER/ManagerDashboard.jsx' 
 // import Payment from './Pages/CARETAKER/Payment.jsx'
 
 
@@ -34,6 +35,8 @@ function App() {
                 <Route path="Careplan" element={<Careplan/>} />
                 <Route path="CaregiverDetail" element={<CaregiverDetail/>} />
                 <Route path="Report" element={<Report/>} />
+
+                <Route path="ManagerDashboard" element={<ManagerDashboard/>} />
 
             </Routes>
         </BrowserRouter>

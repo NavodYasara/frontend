@@ -144,7 +144,7 @@ const Register = () => {
     e.preventDefault();
     try {
       console.log((await axios.post('http://localhost:5000/server/registercaretaker', form)).data);
-      navigate('/CaretakerDashboard');
+      navigate('/Login');
     } catch (error) {
       console.error(error);
       alert("Registration failed. Please try again.");
