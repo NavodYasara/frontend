@@ -3,20 +3,19 @@ import Sidebar from "../../Components/Sidebar2";
 import { Container, Table } from "react-bootstrap";
 import Button from "@mui/material/Button";
 import Dropdown from "react-bootstrap/Dropdown";
-
+import axios from "axios";
 
 function CaretakerDashboard() {
-  
   const [editMode, setEditMode] = useState(false);
   const [profileData, setProfileData] = useState({
-    firstName: "John",
-    lastName: "Doe",
-    age: 30,
-    address: "123 Main St, City",
-    contactNumber: "123-456-7890",
-    selectedCategory: "",
-    requirements: "Bla bla bla",
+    firstName: "",
+    lastName: "",
+    age: "",
+    address: "",
+    contactNumber: "",
+    requirements: "",
   });
+
   const [selectedCategory, setSelectedCategory] = useState("");
 
   const handleEditProfile = () => {
@@ -27,10 +26,22 @@ function CaretakerDashboard() {
     setEditMode(false);
   };
 
-  const handleSave = () => {
-    // Here you can implement the backend logic to save the updated profile data
-    setEditMode(false);
-    // Send a request to your backend to save profileData
+  const handleSave = async (event) => {
+    try {
+      const response = await axios.put("http://your-server.com/update", {
+        
+        firstName: profileData.firstName,
+        lastName: profileData.lastName,
+        age: profileData.age,
+        address: profileData.address,
+        contactNumber: profileData.contactNumber,
+        requirements: profileData.requirements,
+      });
+      console.log(response.data);
+      setEditMode(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleChange = (e) => {
@@ -40,6 +51,7 @@ function CaretakerDashboard() {
       [name]: value,
     }));
   };
+
 
   return (
     <div style={{ display: "flex" }}>
@@ -52,9 +64,8 @@ function CaretakerDashboard() {
         className="vh-100 d-flex "
         style={{ width: "100%", marginTop: "100px" }}
       >
-      
         <Container>
-          <div className="flex-grow-2 " >
+          <div className="flex-grow-2 ">
             <div className="d-flex justify-content-center align-items-center h-100">
               <div
                 className="text-center p-4 shadow rounded"
@@ -64,23 +75,78 @@ function CaretakerDashboard() {
                   <tbody>
                     <tr>
                       <td className="fw-bold">First Name:</td>
-                      <td>{editMode ? <input type="text" name="firstName" value={profileData.firstName} onChange={handleChange} /> : profileData.firstName}</td>
+                      <td>
+                        {editMode ? (
+                          <input
+                            type="text"
+                            name="firstName"
+                            value={profileData.firstName}
+                            onChange={handleChange}
+                          />
+                        ) : (
+                          profileData.firstName
+                        )}
+                      </td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Last Name:</td>
-                      <td>{editMode ? <input type="text" name="lastName" value={profileData.lastName} onChange={handleChange} /> : profileData.lastName}</td>
+                      <td>
+                        {editMode ? (
+                          <input
+                            type="text"
+                            name="lastName"
+                            value={profileData.lastName}
+                            onChange={handleChange}
+                          />
+                        ) : (
+                          profileData.lastName
+                        )}
+                      </td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Age:</td>
-                      <td>{editMode ? <input type="number" name="age" value={profileData.age} onChange={handleChange} /> : profileData.age}</td>
+                      <td>
+                        {editMode ? (
+                          <input
+                            type="number"
+                            name="age"
+                            value={profileData.age}
+                            onChange={handleChange}
+                          />
+                        ) : (
+                          profileData.age
+                        )}
+                      </td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Address:</td>
-                      <td>{editMode ? <input type="text" name="address" value={profileData.address} onChange={handleChange} /> : profileData.address}</td>
+                      <td>
+                        {editMode ? (
+                          <input
+                            type="text"
+                            name="address"
+                            value={profileData.address}
+                            onChange={handleChange}
+                          />
+                        ) : (
+                          profileData.address
+                        )}
+                      </td>
                     </tr>
                     <tr>
                       <td className="fw-bold">Contact Number:</td>
-                      <td>{editMode ? <input type="text" name="contactNumber" value={profileData.contactNumber} onChange={handleChange} /> : profileData.contactNumber}</td>
+                      <td>
+                        {editMode ? (
+                          <input
+                            type="text"
+                            name="contactNumber"
+                            value={profileData.contactNumber}
+                            onChange={handleChange}
+                          />
+                        ) : (
+                          profileData.contactNumber
+                        )}
+                      </td>
                     </tr>
                     <tr>
                       <td className="fw-bold">
@@ -119,7 +185,18 @@ function CaretakerDashboard() {
                     </tr>
                     <tr>
                       <td className="fw-bold">Your requirements:</td>
-                      <td>{editMode ? <input type="text" name="requirements" value={profileData.requirements} onChange={handleChange} /> : profileData.requirements}</td>
+                      <td>
+                        {editMode ? (
+                          <input
+                            type="text"
+                            name="requirements"
+                            value={profileData.requirements}
+                            onChange={handleChange}
+                          />
+                        ) : (
+                          profileData.requirements
+                        )}
+                      </td>
                     </tr>
                   </tbody>
                 </Table>
@@ -163,7 +240,6 @@ function CaretakerDashboard() {
             )}
           </div>
         </Container>
-
       </div>
     </div>
   );

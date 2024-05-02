@@ -1,6 +1,6 @@
 import React from 'react';
 import Sidebar from '../../Components/Sidebar2';
-import { Container, Row, Col, Image } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 
 const ManagerDashboard = ({ manager }) => {
   return (
@@ -15,9 +15,7 @@ const ManagerDashboard = ({ manager }) => {
             <div className="flex-grow-2">
               <div className="d-flex justify-content-center align-items-center h-100 ">
                 <div className="text-center p-4 shadow rounded" style={{ width: '80vw' }}>
-                  {/* Profile Picture */}
-                  <Image src={manager.profilePicture} roundedCircle style={{ width: '150px', height: '150px', marginBottom: '20px' }} />
-
+                  
                   {/* Personal Information Section */}
                   <h5 className="mb-3">Personal Information</h5>
                   <Row>
