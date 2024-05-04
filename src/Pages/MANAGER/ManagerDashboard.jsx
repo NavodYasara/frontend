@@ -1,8 +1,15 @@
 import React from 'react';
-import Sidebar from '../../Components/Sidebar2';
+import Sidebar from '../../Components/Sidebar';
 import { Container, Row, Col } from 'react-bootstrap';
 
+
+
 const ManagerDashboard = ({ manager }) => {
+
+  
+
+
+
   return (
     <>
       <div style={{ display: 'flex' }}>

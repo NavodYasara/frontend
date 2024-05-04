@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Sidebar from "../../Components/Sidebar2";
+import Sidebar from "../../Components/Sidebar";
 import { Container, Table } from "react-bootstrap";
 import Button from "@mui/material/Button";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -8,11 +8,6 @@ import axios from "axios";
 function CaretakerDashboard() {
   const [editMode, setEditMode] = useState(false);
   const [profileData, setProfileData] = useState({
-    firstName: "",
-    lastName: "",
-    age: "",
-    address: "",
-    contactNumber: "",
     requirements: "",
   });
 
@@ -27,15 +22,22 @@ function CaretakerDashboard() {
   };
 
   const handleSave = async (event) => {
+    console.log("F_Name", profileData.firstName);
+    console.log("L_Name", profileData.lastName);
+    console.log("Age", profileData.age);
+    console.log("Address", profileData.address);
+    console.log("Contact", profileData.contactNumber);
+    console.log("Requirements", profileData.requirements);
     try {
-      const response = await axios.put("http://your-server.com/update", {
-        
+      const response = await axios.put("http://localhost:5000/server/updatecaretakerprofile", {
+
         firstName: profileData.firstName,
         lastName: profileData.lastName,
         age: profileData.age,
         address: profileData.address,
         contactNumber: profileData.contactNumber,
         requirements: profileData.requirements,
+
       });
       console.log(response.data);
       setEditMode(false);
@@ -51,7 +53,6 @@ function CaretakerDashboard() {
       [name]: value,
     }));
   };
-
 
   return (
     <div style={{ display: "flex" }}>
@@ -88,116 +89,116 @@ function CaretakerDashboard() {
                         )}
                       </td>
                     </tr>
-                    <tr>
-                      <td className="fw-bold">Last Name:</td>
-                      <td>
-                        {editMode ? (
-                          <input
-                            type="text"
-                            name="lastName"
-                            value={profileData.lastName}
-                            onChange={handleChange}
-                          />
-                        ) : (
-                          profileData.lastName
-                        )}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Age:</td>
-                      <td>
-                        {editMode ? (
-                          <input
-                            type="number"
-                            name="age"
-                            value={profileData.age}
-                            onChange={handleChange}
-                          />
-                        ) : (
-                          profileData.age
-                        )}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Address:</td>
-                      <td>
-                        {editMode ? (
-                          <input
-                            type="text"
-                            name="address"
-                            value={profileData.address}
-                            onChange={handleChange}
-                          />
-                        ) : (
-                          profileData.address
-                        )}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Contact Number:</td>
-                      <td>
-                        {editMode ? (
-                          <input
-                            type="text"
-                            name="contactNumber"
-                            value={profileData.contactNumber}
-                            onChange={handleChange}
-                          />
-                        ) : (
-                          profileData.contactNumber
-                        )}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">
-                        <Dropdown>
-                          <Dropdown.Toggle
-                            variant="success"
-                            id="dropdown-basic"
-                          >
-                            Disable Category
-                          </Dropdown.Toggle>
+<tr>
+  <td className="fw-bold">Last Name:</td>
+  <td>
+    {editMode ? (
+      <input
+        type="text"
+        name="lastName"
+        value={profileData.lastName}
+        onChange={handleChange}
+      />
+    ) : (
+      profileData.lastName
+    )}
+  </td>
+</tr>
+<tr>
+  <td className="fw-bold">Age:</td>
+  <td>
+    {editMode ? (
+      <input
+        type="number"
+        name="age"
+        value={profileData.age}
+        onChange={handleChange}
+      />
+    ) : (
+      profileData.age
+    )}
+  </td>
+</tr>
+<tr>
+  <td className="fw-bold">Address:</td>
+  <td>
+    {editMode ? (
+      <input
+        type="text"
+        name="address"
+        value={profileData.address}
+        onChange={handleChange}
+      />
+    ) : (
+      profileData.address
+    )}
+  </td>
+</tr>
+<tr>
+  <td className="fw-bold">Contact Number:</td>
+  <td>
+    {editMode ? (
+      <input
+        type="text"
+        name="contactNumber"
+        value={profileData.contactNumber}
+        onChange={handleChange}
+      />
+    ) : (
+      profileData.contactNumber
+    )}
+  </td>
+</tr>
+<tr>
+  <td className="fw-bold">
+    <Dropdown>
+      <Dropdown.Toggle
+        variant="success"
+        id="dropdown-basic"
+      >
+        Disable Category
+      </Dropdown.Toggle>
 
-                          <Dropdown.Menu>
-                            <Dropdown.Item
-                              onClick={() =>
-                                setSelectedCategory("Mental disorders")
-                              }
-                            >
-                              Mental disorders
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              onClick={() =>
-                                setSelectedCategory("Physical Disability")
-                              }
-                            >
-                              Physical Disability
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              onClick={() => setSelectedCategory("Eldering")}
-                            >
-                              Eldering
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      </td>
-                      <td>{selectedCategory}</td>
-                    </tr>
-                    <tr>
-                      <td className="fw-bold">Your requirements:</td>
-                      <td>
-                        {editMode ? (
-                          <input
-                            type="text"
-                            name="requirements"
-                            value={profileData.requirements}
-                            onChange={handleChange}
-                          />
-                        ) : (
-                          profileData.requirements
-                        )}
-                      </td>
-                    </tr>
+      <Dropdown.Menu>
+        <Dropdown.Item
+          onClick={() =>
+            setSelectedCategory("Mental disorders")
+          }
+        >
+          Mental disorders
+        </Dropdown.Item>
+        <Dropdown.Item
+          onClick={() =>
+            setSelectedCategory("Physical Disability")
+          }
+        >
+          Physical Disability
+        </Dropdown.Item>
+        <Dropdown.Item
+          onClick={() => setSelectedCategory("Eldering")}
+        >
+          Eldering
+        </Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+  </td>
+  <td>{selectedCategory}</td>
+</tr>
+<tr>
+  <td className="fw-bold">Your requirements:</td>
+  <td>
+    {editMode ? (
+      <input
+        type="text"
+        name="requirements"
+        value={profileData.requirements}
+        onChange={handleChange}
+      />
+    ) : (
+      profileData.requirements
+    )}
+  </td>
+</tr>
                   </tbody>
                 </Table>
               </div>
@@ -246,3 +247,4 @@ function CaretakerDashboard() {
 }
 
 export default CaretakerDashboard;
+

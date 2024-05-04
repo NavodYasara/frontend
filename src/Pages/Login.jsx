@@ -1,42 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Container, Col, Card, Form, Button, Dropdown } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { UserContext } from './UserContext';
 
 function Login() {
-  const [userType, setUserType] = useState('');
+  
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [userType, setUserType] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // Use navigate hook to redirect to another page
+  const navigate = useNavigate();
 
   const handleLogin = async (event) => {
-  event.preventDefault();
+    event.preventDefault();
 
-  try {
-    const response = await axios.post('/server/login', {
-      username,
-      password,
-      usertype: userType,
-    });
+    try {
+      const response = await axios.post('/server/login', {
+        username,
+        password,
+        usertype: userType,
+      });
 
-    if (response.status === 200) {
-      // Login successful, navigate to appropriate dashboard
-      if (userType === 'caretaker') {
-        navigate('/CaretakerDashboard');
+      if (response.status === 200) {
+        setUserType(userType); // Set userType in context
+        if (userType === 'caretaker') {
+          navigate('/CaretakerDashboard');
+        } else {
+          // Handle other user types here
+        }
       } else {
-        // Handle other user types here
+        setError('Invalid login credentials or user type.');
       }
-    } else {
-      setError('Invalid login credentials or user type.');
+    } catch (error) {
+      console.error(error);
+      setError('An error occurred while logging in.');
     }
-  } catch (error) {
-    console.error(error);
-    setError('An error occurred while logging in.');
-  }
-};
-
+  };
 
   return (
     <Container className="d-flex justify-content-center align-items-center vh-100">
@@ -58,7 +60,6 @@ function Login() {
                       <Dropdown.Item onClick={() => setUserType('caregiver')}>Caregiver</Dropdown.Item>
                       <Dropdown.Item onClick={() => setUserType('admin')}>Admin</Dropdown.Item>
                       <Dropdown.Item onClick={() => setUserType('manager')}>Manager</Dropdown.Item>
-                      {/* Add more user types as needed */}
                     </Dropdown.Menu>
                   </Dropdown>
                 </Form.Group>
