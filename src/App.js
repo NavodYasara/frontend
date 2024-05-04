@@ -8,22 +8,22 @@ import Navbar from './Components/Navbar/Navbar'
 import Register from "./Pages/Register";
 import Login from './Pages/Login'
 
-import AccDashboard from './Pages/ACCOUNTANT/AccDashboard.jsx'
+import AccDashboard from './Pages/ACCOUNTANT/AccDashboard'
 
 import AdminDashboard from './Pages/ADMIN/AdminDashboard'
 import UserManagement from './Pages/ADMIN/UserManagement'
 
-import Appoinment from './Pages/CAREGIVER/Appointment.jsx'
-import CaregiverDashboard from './Pages/CAREGIVER/CaregiverDashboard.jsx'
-import CaregiverProfile from './Pages/CAREGIVER/CaregiverProfile.jsx'
+import Appoinment from './Pages/CAREGIVER/Appointment'
+import CaregiverDashboard from './Pages/CAREGIVER/CaregiverDashboard'
+import CaregiverProfile from './Pages/CAREGIVER/CaregiverProfile'
 
-import CaregiverDetail from './Pages/CARETAKER/CaregiverDetail.jsx'
-import Careplan from './Pages/CARETAKER/Careplan.jsx'
+import CaregiverDetail from './Pages/CARETAKER/CaregiverDetail'
+import Careplan from './Pages/CARETAKER/Careplan'
 import CaretakerDashboard from './Pages/CARETAKER/CaretakerDashboard'
-import Report from './Pages/CARETAKER/Report.jsx'
+import Report from './Pages/CARETAKER/Report'
 
-import CreateCareplan from './Pages/MANAGER/CreateCareplan.jsx'
-import ManagerDashboard from './Pages/MANAGER/ManagerDashboard.jsx'
+import CreateCareplan from './Pages/MANAGER/CreateCareplan'
+import ManagerDashboard from './Pages/MANAGER/ManagerDashboard'
 
 
 function App() {
