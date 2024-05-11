@@ -12,42 +12,6 @@ function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // const handleLogin = async (event) => {
-  //   event.preventDefault();
-
-  //   try {
-  //     const response = await axios.post("/server/login", {
-  //       username,
-  //       password,
-  //       usertype: userType,
-  //     });
-
-  //     if (response.status === 200) {
-  //       setUserType(userType); // Set userType in context
-
-  //       switch (userType) {
-  //         case "caretaker":
-  //           navigate("/CaretakerDashboard");
-  //           break;
-  //         case "caregiver":
-  //           navigate("/CaregiverDashboard");
-  //           break;
-  //         case "manager":
-  //           navigate("/ManagerDashboard");
-  //           break;
-  //         default:
-  //           setError("Invalid user type.");
-  //           break;
-  //       }
-  //     } else {
-  //       setError("Invalid login credentials or user type.");
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     setError("An error occurred while logging in.");
-  //   }
-  // };
-
   const handleLogin = async (event) => {
     event.preventDefault();
 
@@ -59,6 +23,9 @@ function Login() {
       });
 
       if (response.status === 200) {
+
+        setUserType(userType); 
+
         switch (userType) {
           case "caretaker":
             navigate("/CaretakerDashboard");
@@ -71,10 +38,8 @@ function Login() {
             break;
           default:
             setError("Invalid user type.");
-            return; // Return early if user type is invalid
+            break;
         }
-
-        setUserType(userType); // Set userType after successful navigation
       } else {
         setError("Invalid login credentials or user type.");
       }
