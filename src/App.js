@@ -13,7 +13,7 @@ import AccDashboard from "./Pages/ACCOUNTANT/AccDashboard";
 import AdminDashboard from "./Pages/ADMIN/AdminDashboard";
 import UserManagement from "./Pages/ADMIN/UserManagement";
 
-import Appoinment from "./Pages/CAREGIVER/Appointment";
+// import Appoinment from "./Pages/CAREGIVER/Appointment";
 import CaregiverDashboard from "./Pages/CAREGIVER/CaregiverDashboard";
 import CaregiverProfile from "./Pages/CAREGIVER/CaregiverProfile";
 
@@ -48,7 +48,7 @@ function App() {
         <Route path="AdminDashboard" element={<AdminDashboard />} />
         <Route path="UserManagement" element={<UserManagement />} />
 
-        <Route path="Appoinment" element={<Appoinment />} />
+        {/* <Route path="Appoinment" element={<Appoinment />} /> */}
         <Route path="CaregiverDashboard" element={<CaregiverDashboard />} />
         <Route path="CaregiverProfile" element={<CaregiverProfile />} />
 

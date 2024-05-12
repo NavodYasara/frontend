@@ -1,0 +1,37 @@
+.App {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.name-button-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.name-button {
+    width: 200px;
+}
+
+.careplan{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.section-1, .section-2 {
+    display:grid;
+    border: 2px solid black;
+    align-items: center;
+}
+
+.col{
+    border: 1px solid rgb(201, 26, 26);
+}
+
+
