@@ -3,6 +3,7 @@ import { Container, Col, Card, Form, Button, Dropdown } from "react-bootstrap";
 import { Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Navbar from "../Components/Navbar/Navbar";
 // import { UserContext } from "./UserContext";
 
 function Login() {
@@ -23,8 +24,7 @@ function Login() {
       });
 
       if (response.status === 200) {
-
-        setUserType(userType); 
+        setUserType(userType);
 
         switch (userType) {
           case "caretaker":
@@ -50,69 +50,80 @@ function Login() {
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center vh-100">
-      <Col md="6">
-        <Card className="my-5">
-          <Card.Body className="p-5">
-            <div className="title mb-4 text-center">
-              <h3>Login</h3>
-            </div>
-            <Row className="justify-content-center mb-4">
-              <Col md="6">
-                <Form.Group>
-                  <Dropdown className="d-flex justify-content-center">
-                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                      {userType || "Select User Type"}
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                      <Dropdown.Item onClick={() => setUserType("caretaker")}>
-                        Caretaker
-                      </Dropdown.Item>
-                      <Dropdown.Item onClick={() => setUserType("caregiver")}>
-                        Caregiver
-                      </Dropdown.Item>
-                      <Dropdown.Item onClick={() => setUserType("admin")}>
-                        Admin
-                      </Dropdown.Item>
-                      <Dropdown.Item onClick={() => setUserType("manager")}>
-                        Manager
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
+    <>
+      <div>
+        <Navbar />
+      </div>
+      <div>
+        <Container className="d-flex justify-content-center align-items-center vh-100">
+          <Col md="6">
+            <Card className="my-5">
+              <Card.Body className="p-5">
+                <div className="title mb-4 text-center">
+                  <h3>Login</h3>
+                </div>
+                <Row className="justify-content-center mb-4">
+                  <Col md="6">
+                    <Form.Group>
+                      <Dropdown className="d-flex justify-content-center">
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                          {userType || "Select User Type"}
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                          <Dropdown.Item
+                            onClick={() => setUserType("caretaker")}
+                          >
+                            Caretaker
+                          </Dropdown.Item>
+                          <Dropdown.Item
+                            onClick={() => setUserType("caregiver")}
+                          >
+                            Caregiver
+                          </Dropdown.Item>
+                          <Dropdown.Item onClick={() => setUserType("admin")}>
+                            Admin
+                          </Dropdown.Item>
+                          <Dropdown.Item onClick={() => setUserType("manager")}>
+                            Manager
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Form.Group className="mb-4">
+                  <Form.Label>User Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter your username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
                 </Form.Group>
-              </Col>
-            </Row>
-            <Form.Group className="mb-4">
-              <Form.Label>User Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter your username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </Form.Group>
-            <Form.Group className="mb-4">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Form.Group>
-            {error && <div className="text-danger mb-3">{error}</div>}
-            <Button
-              className="btn-login w-100 mb-4"
-              size="md"
-              variant="primary"
-              onClick={handleLogin}
-            >
-              {userType ? `Sign in as ${userType}` : "Sign In"}
-            </Button>
-          </Card.Body>
-        </Card>
-      </Col>
-    </Container>
+                <Form.Group className="mb-4">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </Form.Group>
+                {error && <div className="text-danger mb-3">{error}</div>}
+                <Button
+                  className="btn-login w-100 mb-4"
+                  size="md"
+                  variant="primary"
+                  onClick={handleLogin}
+                >
+                  {userType ? `Sign in as ${userType}` : "Sign In"}
+                </Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Container>
+      </div>
+    </>
   );
 }
 

@@ -1,37 +1,35 @@
-.App {
-    display: flex;
-    flex-direction: row;
+
+.main{
+    background-color: rgb(164, 21, 171);
+
+}
+.navbar-part {
+    background-color: #cc1515;
+    color: white;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
+    /* Fixed navbar */
+    width: 100%;
+    z-index: 100;
+}
+.sidebar-part {
+    position: fixed;
+    background-color: #114aa6;
+    width: 282px;
+    height: auto;
+    margin-top: 50px;
+}
+
+.content-part {
+    background-color: rgb(202, 235, 217);
+    margin-left: 282px; /* Same as the width of the sidebar */
+    margin-top: 56px;
+    display: flex;
+    flex-direction: column;
     height: 100vh;
-    padding: 20px;
-    box-sizing: border-box;
+    width: calc(100% - 282px); /* Subtract the width of the sidebar */
+    flex: none;
+    overflow-y: auto; /* Scrollable content vertically */
+    overflow-x: hidden; /* Prevents horizontal scrolling */
 }
-
-.name-button-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.name-button {
-    width: 200px;
-}
-
-.careplan{
-    display: flex;
-    flex-direction: column;
-
-}
-
-.section-1, .section-2 {
-    display:grid;
-    border: 2px solid black;
-    align-items: center;
-}
-
-.col{
-    border: 1px solid rgb(201, 26, 26);
-}
-
-

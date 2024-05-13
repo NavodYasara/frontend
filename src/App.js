@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Sidebar from "./Components/Sidebar";
 
 import Home from "./Pages/Home";
-import Navbar from "./Components/Navbar/Navbar";
 import Register from "./Pages/Register";
 import Login from "./Pages/Login";
 
@@ -15,7 +14,6 @@ import AccDashboard from "./Pages/ACCOUNTANT/AccDashboard";
 import AdminDashboard from "./Pages/ADMIN/AdminDashboard";
 import UserManagement from "./Pages/ADMIN/UserManagement";
 
-// import Appoinment from "./Pages/CAREGIVER/Appointment";
 import CaregiverDashboard from "./Pages/CAREGIVER/CaregiverDashboard";
 import CaregiverProfile from "./Pages/CAREGIVER/CaregiverProfile";
 

@@ -4,18 +4,21 @@ import "../App.css";
 import Sidebar from "../Components/Sidebar";
 
 function Layout() {
+  
+
   return (
     <>
-      <div>
+      <div className="main">
         <div className="navbar-part">
-          <Navbar />
+          <Navbar/>
         </div>
         <div className="row page-part">
-          <div className="sidebar-part">
-            <Sidebar />
+          <div className="col-2 sidebar-part">
+            <Sidebar/>
           </div>
-          <div className="content-part">
+          <div className="col-10 content-part">
             {/* Content goes here */}
+
           </div>
         </div>
       </div>

@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from "react";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -5,7 +7,6 @@ import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { Typography, Paper } from "@mui/material";
 import { Table } from "react-bootstrap";
 import Sidebar from "../../Components/Sidebar";
-
 
 const ManagerDashboard = () => {
   const [caretakers, setCaretakers] = useState([]);
@@ -16,7 +17,6 @@ const ManagerDashboard = () => {
       .then(data => setCaretakers(data))
       .catch(error => console.error('Error:', error));
   }, []);
-
 
   return (
     <div style={{ display: "flex" }}>
@@ -30,7 +30,7 @@ const ManagerDashboard = () => {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                justifyContent: "center", 
+                justifyContent: "center",
                 backgroundColor: "#f5f5f5",
                 padding: "10px",
                 boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
