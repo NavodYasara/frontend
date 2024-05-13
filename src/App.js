@@ -8,6 +8,8 @@ import Navbar from "./Components/Navbar/Navbar";
 import Register from "./Pages/Register";
 import Login from "./Pages/Login";
 
+import Layout from "./Layouts/Layout";
+
 import AccDashboard from "./Pages/ACCOUNTANT/AccDashboard";
 
 import AdminDashboard from "./Pages/ADMIN/AdminDashboard";
@@ -33,22 +35,20 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div>
-        <Navbar />
-      </div>
-
       <Routes>
+
         <Route path="/" element={<Home />} />
         <Route path="Home" element={<Home />} />
         <Route path="Register" element={<Register />} />
         <Route path="Login" element={<Login />} />
+
+        <Route path="Layout" element={<Layout/>} />
 
         <Route path="AccDashboard" element={<AccDashboard />} />
 
         <Route path="AdminDashboard" element={<AdminDashboard />} />
         <Route path="UserManagement" element={<UserManagement />} />
 
-        {/* <Route path="Appoinment" element={<Appoinment />} /> */}
         <Route path="CaregiverDashboard" element={<CaregiverDashboard />} />
         <Route path="CaregiverProfile" element={<CaregiverProfile />} />
 

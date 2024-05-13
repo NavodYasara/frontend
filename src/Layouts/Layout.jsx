@@ -8,9 +8,9 @@ function Layout() {
     <>
       <div>
         <div className="navbar-part">
-          <Navbar/>
+          <Navbar />
         </div>
-        <div className="page-part">
+        <div className="row page-part">
           <div className="sidebar-part">
             <Sidebar />
           </div>
@@ -26,3 +26,25 @@ function Layout() {
 export default Layout;
 
 
+
+// function Layout() {
+//   return (
+//     <>
+//       <div>
+//         <div className="navbar-part">
+//           <Navbar />
+//         </div>
+//         <div className="row page-part">
+//           <div className="col-2 sidebar-part">
+//             <Sidebar />
+//           </div>
+//           <div className="col-10 content-part">
+//             {/* Content goes here */}
+//           </div>
+//         </div>
+//       </div>
+//     </>
+//   );
+// }
+
+// export default Layout;
