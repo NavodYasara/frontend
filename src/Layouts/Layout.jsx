@@ -1,27 +1,28 @@
-import Sidebar from "../../Components/Sidebar";
-import { Container} from "react-bootstrap";
+import React from "react";
+import Navbar from "../Components/Navbar/Navbar";
+import "../App.css";
+import Sidebar from "../Components/Sidebar";
 
-function name() {
-
+function Layout() {
   return (
-    <div style={{ display: "flex" }}>
+    <>
       <div>
-        <Sidebar />
+        <div className="navbar-part">
+          <Navbar/>
+        </div>
+        <div className="page-part">
+          <div className="sidebar-part">
+            <Sidebar />
+          </div>
+          <div className="content-part">
+            {/* Content goes here */}
+          </div>
+        </div>
       </div>
-
-      <div
-        fluid
-        className="vh-100 d-flex "
-        style={{ width: "100%", marginTop: "100px" }}
-      >
-        <Container>
-        
-        </Container>
-
-      </div>
-    </div>
+    </>
   );
 }
 
-export default name ;
+export default Layout;
+
 
