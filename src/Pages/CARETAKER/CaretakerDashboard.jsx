@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../../Components/Sidebar";
-import { Container, Table, Dropdown } from "react-bootstrap";
-import Button from "@mui/material/Button";
+import { Container, Table, Dropdown, Button } from "react-bootstrap";
 import axios from "axios";
 import { Grid } from "@mui/material";
+import Navbar from "../../Components/Navbar/Navbar";
+import "../../App.css";
 
 function CaretakerDashboard() {
   const [editMode, setEditMode] = useState(false);
+  const [originalProfileData, setOriginalProfileData] = useState({});
+  const [caregivers, setCaregivers] = useState([]);
+
   const [profileData, setProfileData] = useState({
     firstName: "",
     lastName: "",
@@ -17,8 +21,6 @@ function CaretakerDashboard() {
     gender: "",
     selectedCategory: "",
   });
-  const [originalProfileData, setOriginalProfileData] = useState({});
-  const [caregivers, setCaregivers] = useState([]);
 
   useEffect(() => {
     // Save original profile data when component mounts
@@ -76,199 +78,218 @@ function CaretakerDashboard() {
 
   return (
     <div>
+      <Navbar />
       <Container className="mt-5">
         <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            <div className="p-3 shadow rounded">
-              <h2 className="mb-4">Profile</h2>
-              <Table bordered>
-                <tbody>
-                  <tr>
-                    <td className="fw-bold">First Name:</td>
-                    <td>
-                      {editMode ? (
-                        <input
-                          type="text"
-                          name="firstName"
-                          value={profileData.firstName}
-                          onChange={handleChange}
-                          className="form-control"
-                        />
-                      ) : (
-                        profileData.firstName
-                      )}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="fw-bold">Last Name:</td>
-                    <td>
-                      {editMode ? (
-                        <input
-                          type="text"
-                          name="lastName"
-                          value={profileData.lastName}
-                          onChange={handleChange}
-                          className="form-control"
-                        />
-                      ) : (
-                        profileData.lastName
-                      )}
-                    </td>
-                  </tr>
-                  {/* Repeat for other profile fields */}
-                  <tr>
-                    <td className="fw-bold">Gender:</td>
-                    <td>
-                      {editMode ? (
-                        <Dropdown>
-                          <Dropdown.Toggle
-                            variant="success"
-                            id="dropdown-basic"
-                          >
-                            {profileData.gender || "Select Gender"}
-                          </Dropdown.Toggle>
-                          <Dropdown.Menu>
-                            <Dropdown.Item
-                              onClick={() =>
-                                setProfileData({
-                                  ...profileData,
-                                  gender: "male",
-                                })
-                              }
+          <div className="parent">
+            <Grid item xs={12} md={6}>
+              <div className="profile section-1 p-3 shadow rounded">
+                <h2 className="mb-4">Profile</h2>
+                <Table bordered>
+                  <tbody>
+                    <tr>
+                      <td className="fw-bold">First Name:</td>
+                      <td>
+                        {editMode ? (
+                          <input
+                            type="text"
+                            name="firstName"
+                            value={profileData.firstName}
+                            onChange={handleChange}
+                            className="form-control"
+                          />
+                        ) : (
+                          profileData.firstName
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="fw-bold">Last Name:</td>
+                      <td>
+                        {editMode ? (
+                          <input
+                            type="text"
+                            name="lastname"
+                            value={profileData.lastname}
+                            onChange={handleChange}
+                          />
+                        ) : (
+                          profileData.lastname
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="fw-bold">Contact Number:</td>
+                      <td>
+                        {editMode ? (
+                          <input
+                            type="text"
+                            name="contactNumber"
+                            value={profileData.contactNumber}
+                            onChange={handleChange}
+                          />
+                        ) : (
+                          profileData.contactNumber
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="fw-bold">Date of Birth:</td>
+                      <td>
+                        {editMode ? (
+                          <input
+                            type="text"
+                            name="dob"
+                            value={profileData.dob}
+                            onChange={handleChange}
+                          />
+                        ) : (
+                          profileData.dob
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="fw-bold">Gender:</td>
+                      <td>
+                        {editMode ? (
+                          <Dropdown>
+                            <Dropdown.Toggle
+                              variant="success"
+                              id="dropdown-basic"
                             >
-                              Male
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              onClick={() =>
-                                setProfileData({
-                                  ...profileData,
-                                  gender: "female",
-                                })
-                              }
-                            >
-                              Female
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              onClick={() =>
-                                setProfileData({
-                                  ...profileData,
-                                  gender: "other",
-                                })
-                              }
-                            >
-                              Other
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      ) : (
-                        profileData.gender
-                      )}
-                    </td>
-                  </tr>
+                              Select Category
+                            </Dropdown.Toggle>
 
-                  {/* Repeat for other profile fields */}
-                  <tr>
-                    <td className="fw-bold">Selected Category:</td>
-                    <td>
-                      {editMode ? (
-                        <Dropdown>
-                          <Dropdown.Toggle
-                            variant="success"
-                            id="dropdown-basic"
-                          >
-                            {profileData.selectedCategory || "Select Category"}
-                          </Dropdown.Toggle>
-                          <Dropdown.Menu>
-                            <Dropdown.Item
-                              onClick={() =>
-                                setProfileData({
-                                  ...profileData,
-                                  selectedCategory: "Mental disorders",
-                                })
-                              }
-                            >
-                              Mental disorders
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              onClick={() =>
-                                setProfileData({
-                                  ...profileData,
-                                  selectedCategory: "Physical Disability",
-                                })
-                              }
-                            >
-                              Physical Disability
-                            </Dropdown.Item>
-                            <Dropdown.Item
-                              onClick={() =>
-                                setProfileData({
-                                  ...profileData,
-                                  selectedCategory: "Eldering",
-                                })
-                              }
-                            >
-                              Eldering
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      ) : (
-                        profileData.selectedCategory
-                      )}
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-              <div className="text-center">
-                {editMode ? (
-                  <>
+                            <Dropdown.Menu>
+                              <Dropdown.Item>Mental</Dropdown.Item>
+                              <Dropdown.Item>Disable</Dropdown.Item>
+                              <Dropdown.Item>Elderly</Dropdown.Item>
+                            </Dropdown.Menu>
+                          </Dropdown>
+                        ) : (
+                          profileData.gender
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="fw-bold">Address:</td>
+                      <td>
+                        {editMode ? (
+                          <input
+                            type="text"
+                            name="address"
+                            value={profileData.address}
+                            onChange={handleChange}
+                          />
+                        ) : (
+                          profileData.address
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="fw-bold">User Type:</td>
+                      <td>
+                        {editMode ? (
+                          <input
+                            type="text"
+                            name="usertype"
+                            value={profileData.usertype}
+                            onChange={handleChange}
+                          />
+                        ) : (
+                          profileData.usertype
+                        )}
+                      </td>
+                    </tr>
+                    {/* Other profile fields */}
+                  </tbody>
+                </Table>
+
+                <div className="text-center">
+                  {editMode ? (
+                    <>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        className="me-2"
+                        onClick={handleSave}
+                      >
+                        Save
+                      </Button>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={handleCancel}
+                      >
+                        Cancel
+                      </Button>
+                    </>
+                  ) : (
                     <Button
                       variant="contained"
                       color="primary"
-                      className="me-2"
-                      onClick={handleSave}
+                      onClick={handleEditProfile}
                     >
-                      Save
+                      Edit Profile
                     </Button>
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={handleCancel}
-                    >
-                      Cancel
-                    </Button>
-                  </>
-                ) : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleEditProfile}
-                  >
-                    Edit Profile
-                  </Button>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <div className="p-3 shadow rounded">
-              <h2 className="mb-4">Caretaker's Requirements</h2>
-              <p>
-                Here, you can list the caretaker's requirements, such as skills,
-                experience, availability, etc.
-              </p>
-              <p>
-                Example:
-                <ul>
-                  <li>Experience in caring for elderly individuals</li>
-                  <li>Basic first aid knowledge</li>
-                  <li>Good communication skills</li>
-                  <li>Flexibility in working hours</li>
-                </ul>
-              </p>
-            </div>
-          </Grid>
+            </Grid>
+
+            {/* ///////////////////////////////////////////////////////////////// */}
+
+            <Grid item xs={12} md={6}>
+  <div className="requirement section-2 p-3 shadow rounded">
+    <h2 className="mb-4" style={{textAlign: "center"}}>Your Requirements</h2>
+    {editMode ? (
+      <textarea
+        name="requirements"
+        value={profileData.requirements}
+        onChange={handleChange}
+        className="form-control mb-3"
+        rows="5"
+      />
+    ) : (
+      <p className="mb-3">{profileData.requirements}</p>
+    )}
+    <div className="text-center">
+      {editMode ? (
+        <>
+          <Button
+            variant="contained"
+            color="primary"
+            className="me-2"
+            onClick={handleSave}
+          >
+            Save
+          </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleCancel}
+          >
+            Cancel
+          </Button>
+        </>
+      ) : (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleEditProfile}
+        >
+          Edit Information
+        </Button>
+      )}
+    </div>
+  </div>
+</Grid>
+          </div>
         </Grid>
       </Container>
+
+      {/* //////////////////////////////////////////////////////////////////////////////////////////////////////// */}
+
       <Container className="mt-5">
         <div className="p-3 shadow rounded">
           <h2 className="mb-4">Allocated Caregivers</h2>
