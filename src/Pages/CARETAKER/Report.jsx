@@ -1,5 +1,7 @@
+
+
 import React from 'react';
-import Sidebar from '../../Components/Sidebar2';
+import Sidebar from '../../Components/Sidebar';
 import { Container, Row, Col, Image, Table } from 'react-bootstrap';
 
 function Report() {
@@ -54,9 +56,6 @@ function Report() {
                 <div className="text-center p-4 shadow rounded" style={{ width: '80vw' }}>
                   {/* Report Heading (consider using a more descriptive title) */}
                   <h2 className="mb-4">Caregiver Report: {caregiver.name}</h2>
-
-                  {/* Profile Picture (optional) */}
-                  <Image src={caregiver.profilePicture} roundedCircle style={{ width: '150px', height: '150px', marginBottom: '20px' }} />
 
                   {/* Personal Information Section */}
                   <h5 className="mb-3">Personal Information</h5>

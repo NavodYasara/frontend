@@ -1,5 +1,5 @@
 import React from 'react';
-import Sidebar from '../../Components/Sidebar2';
+import Sidebar from '../../Components/Sidebar';
 import { Container, Table } from 'react-bootstrap';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { useState } from 'react';
