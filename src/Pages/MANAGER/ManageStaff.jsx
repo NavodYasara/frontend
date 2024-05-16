@@ -1,151 +1,211 @@
-import React, { useState } from "react";
-import Sidebar from "../../Components/Sidebar";
-import {
-  Container,
-  Grid,
-  Typography,
-  Paper,
-  TextField,
-  Button,
-} from "@mui/material";
+import React from "react";
+import { Link } from "react-router-dom";
+import { Button, Table } from "react-bootstrap";
 
-
-const ManagerStaff = () => {
-  // Sample data for caretaker (replace with actual data fetched from backend)
-  const [caretaker, setcaretaker] = useState([
-    { id: 1, name: "Alice Johnson", specialty: "Elderly Care" },
-    { id: 2, name: "Bob Smith", specialty: "Special Needs Care" },
-  ]);
-
-  const [caregiver, setcaregiver] = useState([
-    { id: 3, name: "Carol Davis", specialty: "Pediatric Care" },
-    { id: 4, name: "David Wilson", specialty: "Dementia Care" },
-  ]);
-
-  // State for search query
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchQueryCg, setSearchQueryCg] = useState("");
-
-  // Function to handle search query change
-  const handleSearchChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const handleSearchChangeCg = (event) => {
-    setSearchQueryCg(event.target.value);
-  };
-
-  // Function to filter caretaker based on search query
-  const handleFilter = () => {
-    const filteredcaretaker = caretaker.filter((caretaker) =>
-      caretaker.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    return filteredcaretaker;
-  };
-
-  const handleFilterCg = () => {
-    const filteredcaregiver = caregiver.filter((caregiver) =>
-      caregiver.name.toLowerCase().includes(searchQueryCg.toLowerCase())
-    );
-    return filteredcaregiver;
-  };
-
+const ManageStaff = () => {
   return (
-    <div style={{ display: "flex" }}>
-      <div>
-        <Sidebar />
-      </div>
-      <div
-        fluid
-        className="vh-100 d-flex "
-        style={{ width: "100%", marginTop: "50px" }}
-      >
-        <Grid container spacing={1}>
-          <Grid item xs={6}>
-            <Container className="caretakerlist">
-              <Grid container spacing={1}>
-                <Grid container direction="row" alignItems="center" spacing={2}>
-                  <Grid item xs={8}>
-                    <TextField
-                      label="Search for a caretaker"
-                      variant="outlined"
-                      fullWidth
-                      value={searchQuery}
-                      onChange={handleSearchChange}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleFilter}
-                    >
-                      OK
-                    </Button>
-                  </Grid>
-                </Grid>
-
-                {/* Display filtered caretaker list */}
-                {handleFilter().map((caretaker) => (
-                  <Grid item xs={12} key={caretaker.id}>
-                    <Paper elevation={3} style={{ padding: "20px" }}>
-                      <Typography variant="h5" gutterBottom>
-                        {caretaker.name}
-                      </Typography>
-                      <Typography variant="body1" gutterBottom>
-                        Specialty: {caretaker.specialty}
-                      </Typography>
-                    </Paper>
-                  </Grid>
-                ))}
-              </Grid>
-            </Container>
-          </Grid>
-
-          <Grid item xs={6}>
-            <Container className="ccaregiverlist">
-              <Grid container spacing={1}>
-                <Grid container direction="row" alignItems="center" spacing={2}>
-                  <Grid item xs={8}>
-                    <TextField
-                      label="Search for a Caregiver"
-                      variant="outlined"
-                      fullWidth
-                      value={searchQueryCg}
-                      onChange={handleSearchChangeCg}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleFilterCg}
-                    >
-                      OK
-                    </Button>
-                  </Grid>
-                </Grid>
-
-                {/* Display filtered caregiver list */}
-                {handleFilterCg().map((caregiver) => (
-                  <Grid item xs={12} key={caregiver.id}>
-                    <Paper elevation={3} style={{ padding: "20px" }}>
-                      <Typography variant="h5" gutterBottom>
-                        {caregiver.name}
-                      </Typography>
-                      <Typography variant="body1" gutterBottom>
-                        Specialty: {caregiver.specialty}
-                      </Typography>
-                    </Paper>
-                  </Grid>
-                ))}
-              </Grid>
-            </Container>
-          </Grid>
-        </Grid>
+    <div>
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <h1>Manage Staff</h1>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>FIRST NAME</th>
+                  <th>LAST NAME</th>
+                  <th>USER TYPE</th>
+                  <th>GENDER</th>
+                  <th>MOBILE NO</th>
+                  <th>DATE OF BIRTH</th>
+                  <th>ADDRESS</th>
+                  <th>CATEGORY</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>John Doe</td>
+                  <td>Manager</td>
+                  <td>john.doe@example.com</td>
+                  <td>123-456-7890</td>
+                  <td>123 Main St</td>
+                  <td>Active</td>
+                  <td>
+                    <Link to={`/edit/${1}`}>
+                      <Button variant="primary">Edit</Button>
+                    </Link>
+                    <Button variant="danger">Delete</Button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Jane Smith</td>
+                  <td>Employee</td>
+                  <td>jane.smith@example.com</td>
+                  <td>987-654-3210</td>
+                  <td>456 Elm St</td>
+                  <td>Inactive</td>
+                  <td>
+                    <Link to={`/edit/${2}`}>
+                      <Button variant="primary">Edit</Button>
+                    </Link>
+                    <Button variant="danger">Delete</Button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>John Doe</td>
+                  <td>Manager</td>
+                  <td>john.doe@example.com</td>
+                  <td>123-456-7890</td>
+                  <td>123 Main St</td>
+                  <td>Active</td>
+                  <td>
+                    <Link to={`/edit/${1}`}>
+                      <Button variant="primary">Edit</Button>
+                    </Link>
+                    <Button variant="danger">Delete</Button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>John Doe</td>
+                  <td>Manager</td>
+                  <td>john.doe@example.com</td>
+                  <td>123-456-7890</td>
+                  <td>123 Main St</td>
+                  <td>Active</td>
+                  <td>
+                    <Link to={`/edit/${1}`}>
+                      <Button variant="primary">Edit</Button>
+                    </Link>
+                    <Button variant="danger">Delete</Button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>John Doe</td>
+                  <td>Manager</td>
+                  <td>john.doe@example.com</td>
+                  <td>123-456-7890</td>
+                  <td>123 Main St</td>
+                  <td>Active</td>
+                  <td>
+                    <Link to={`/edit/${1}`}>
+                      <Button variant="primary">Edit</Button>
+                    </Link>
+                    <Button variant="danger">Delete</Button>
+                  </td>
+                </tr>
+                {/* Add more rows for other staff members */}
+              </tbody>
+            </Table>
+          </div>
+        </div>
+        <div className="row mt-4">
+          <div className="col">
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>FIRST NAME</th>
+                  <th>LAST NAME</th>
+                  <th>USER TYPE</th>
+                  <th>GENDER</th>
+                  <th>MOBILE NO</th>
+                  <th>DATE OF BIRTH</th>
+                  <th>ADDRESS</th>
+                  <th>CATEGORY</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>John Doe</td>
+                  <td>Manager</td>
+                  <td>john.doe@example.com</td>
+                  <td>123-456-7890</td>
+                  <td>123 Main St</td>
+                  <td>Active</td>
+                  <td>
+                    <Link to={`/edit/${1}`}>
+                      <Button variant="primary">Edit</Button>
+                    </Link>
+                    <Button variant="danger">Delete</Button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Jane Smith</td>
+                  <td>Employee</td>
+                  <td>jane.smith@example.com</td>
+                  <td>987-654-3210</td>
+                  <td>456 Elm St</td>
+                  <td>Inactive</td>
+                  <td>
+                    <Link to={`/edit/${2}`}>
+                      <Button variant="primary">Edit</Button>
+                    </Link>
+                    <Button variant="danger">Delete</Button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>John Doe</td>
+                  <td>Manager</td>
+                  <td>john.doe@example.com</td>
+                  <td>123-456-7890</td>
+                  <td>123 Main St</td>
+                  <td>Active</td>
+                  <td>
+                    <Link to={`/edit/${1}`}>
+                      <Button variant="primary">Edit</Button>
+                    </Link>
+                    <Button variant="danger">Delete</Button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>John Doe</td>
+                  <td>Manager</td>
+                  <td>john.doe@example.com</td>
+                  <td>123-456-7890</td>
+                  <td>123 Main St</td>
+                  <td>Active</td>
+                  <td>
+                    <Link to={`/edit/${1}`}>
+                      <Button variant="primary">Edit</Button>
+                    </Link>
+                    <Button variant="danger">Delete</Button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>John Doe</td>
+                  <td>Manager</td>
+                  <td>john.doe@example.com</td>
+                  <td>123-456-7890</td>
+                  <td>123 Main St</td>
+                  <td>Active</td>
+                  <td>
+                    <Link to={`/edit/${1}`}>
+                      <Button variant="primary">Edit</Button>
+                    </Link>
+                    <Button variant="danger">Delete</Button>
+                  </td>
+                </tr>
+                {/* Add more rows for other staff members */}
+              </tbody>
+            </Table>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default ManagerStaff;
+export default ManageStaff;
