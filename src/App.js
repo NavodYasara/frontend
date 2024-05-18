@@ -17,9 +17,10 @@ import UserManagement from "./Pages/ADMIN/UserManagement";
 import CaregiverDashboard from "./Pages/CAREGIVER/CaregiverDashboard";
 import CaregiverProfile from "./Pages/CAREGIVER/CaregiverProfile";
 
-import CaregiverDetail from "./Pages/CARETAKER/CaregiverDetail";
+import CtProfile from "./Pages/CARETAKER/CtProfile";
 import CaretakerDashboard from "./Pages/CARETAKER/CaretakerDashboard";
 import Report from "./Pages/CARETAKER/Report";
+import CtRequirement from "./Pages/CARETAKER/CtRequirement";
 
 import ManagerDashboard from "./Pages/MANAGER/ManagerDashboard";
 import ManageStaff from "./Pages/MANAGER/ManageStaff";
@@ -49,7 +50,8 @@ function App() {
         <Route path="CaregiverDashboard" element={<CaregiverDashboard />} />
         <Route path="CaregiverProfile" element={<CaregiverProfile />} />
 
-        <Route path="CaregiverDetail" element={<CaregiverDetail />} />
+        <Route path="CtProfile" element={<CtProfile />} />
+        <Route path="CtRequirement" element={<CtRequirement />} />
         <Route path="Careplan" element={<Careplan />} />
         <Route path="CaretakerDashboard" element={<CaretakerDashboard />} />
         <Route path="Report" element={<Report />} />
