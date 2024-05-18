@@ -18,12 +18,12 @@ import CaregiverDashboard from "./Pages/CAREGIVER/CaregiverDashboard";
 import CaregiverProfile from "./Pages/CAREGIVER/CaregiverProfile";
 
 import CaregiverDetail from "./Pages/CARETAKER/CaregiverDetail";
-import Careplan from "./Pages/CARETAKER/Careplan";
 import CaretakerDashboard from "./Pages/CARETAKER/CaretakerDashboard";
 import Report from "./Pages/CARETAKER/Report";
 
 import ManagerDashboard from "./Pages/MANAGER/ManagerDashboard";
 import ManageStaff from "./Pages/MANAGER/ManageStaff";
+import Careplan from "./Pages/MANAGER/Careplan";
 
 
 function App() {
