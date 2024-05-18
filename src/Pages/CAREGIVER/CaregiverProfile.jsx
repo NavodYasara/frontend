@@ -1,26 +1,93 @@
+import React from 'react';
 import Sidebar from "../../Components/Sidebar";
-import { Container} from "react-bootstrap";
+import { Container, Form, Row, Col, Button } from "react-bootstrap";
+import Navbar from '../../Components/Navbar/Navbar';
+import './CaregiverStyles.css';
 
-function name() {
-
+function CaregiverProfile() {
   return (
-    <div style={{ display: "flex" }}>
-      <div>
-        <Sidebar />
-      </div>
+    <div style={{display: "flex"}}>
+    <Sidebar />
+    <div className="caregiver-profile" style={{flex: 1 }}>
+      <Navbar />
+      <div className="parent">
+        <div className="content-part">
+          <Container fluid>
+            <h2>Caregiver Profile</h2>
+            <Form>
+              <Row className="mb-3">
+                <Col>
+                  <Form.Group controlId="formCaregiverName">
+                    <Form.Label>Caregiver Name</Form.Label>
+                    <Form.Control type="text" placeholder="Enter caregiver name" />
+                  </Form.Group>
+                </Col>
+                <Col>
+                  <Form.Group controlId="formGender">
+                    <Form.Label>Gender</Form.Label>
+                    <Form.Control type="text" placeholder="Enter gender" />
+                  </Form.Group>
+                </Col>
+              </Row>
 
-      <div
-        fluid
-        className="vh-100 d-flex "
-        style={{ width: "100%", marginTop: "100px" }}
-      >
-        <Container>
-        </Container>
+              <Row className="mb-3">
+                <Col>
+                  <Form.Group controlId="formCaregiverCategory">
+                    <Form.Label>Caregiver Category</Form.Label>
+                    <Form.Control type="text" placeholder="Enter caregiver category" />
+                  </Form.Group>
+                </Col>
+                <Col>
+                  <Form.Group controlId="formMobileNumber">
+                    <Form.Label>Mobile Number</Form.Label>
+                    <Form.Control type="text" placeholder="Enter mobile number" />
+                  </Form.Group>
+                </Col>
+              </Row>
 
+              <Row className="mb-3">
+                <Col>
+                  <Form.Group controlId="formAddress">
+                    <Form.Label>Address</Form.Label>
+                    <Form.Control type="text" placeholder="Enter address" />
+                  </Form.Group>
+                </Col>
+                <Col>
+                  <Form.Group controlId="formAge">
+                    <Form.Label>Age</Form.Label>
+                    <Form.Control type="text" placeholder="Enter age" />
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              <Row className="mb-3">
+                <Col>
+                  <Form.Group controlId="formUnavailableDates">
+                    <Form.Label>Unavailable Dates</Form.Label>
+                    <Form.Control as="textarea" rows={3} placeholder="Enter unavailable dates" />
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              <Row className="mb-3">
+                <Col>
+                  <Button variant="primary" type="submit">
+                    Save
+                  </Button>
+                </Col>
+              </Row>
+            </Form>
+
+            <h2>Assigned Caretaker Profile</h2>
+            <div className="caretaker-profile">
+              {/* Add details or link to the assigned caretaker profile */}
+            </div>
+          </Container>
+        </div>
       </div>
+    </div>
     </div>
   );
 }
 
-export default name ;
-
+export default CaregiverProfile;

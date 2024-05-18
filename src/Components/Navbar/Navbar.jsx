@@ -3,7 +3,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import img1 from '../../Assets/img1.png'; // Import the image
 
-function BasicExample() {
+function NavbarComponent() {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
@@ -34,4 +34,4 @@ function BasicExample() {
 
 
 
-export default BasicExample;
+export default NavbarComponent;
