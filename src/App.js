@@ -22,7 +22,6 @@ import Careplan from "./Pages/CARETAKER/Careplan";
 import CaretakerDashboard from "./Pages/CARETAKER/CaretakerDashboard";
 import Report from "./Pages/CARETAKER/Report";
 
-import CaregiverAllocation from "./Pages/MANAGER/CaregiverAllocation";
 import ManagerDashboard from "./Pages/MANAGER/ManagerDashboard";
 import ManageStaff from "./Pages/MANAGER/ManageStaff";
 
@@ -55,7 +54,6 @@ function App() {
         <Route path="CaretakerDashboard" element={<CaretakerDashboard />} />
         <Route path="Report" element={<Report />} />
 
-        <Route path="CaregiverAllocation" element={<CaregiverAllocation />} />
         <Route path="ManagerDashboard" element={<ManagerDashboard />} />
         <Route path="ManageStaff" element={<ManageStaff/>} />
 
