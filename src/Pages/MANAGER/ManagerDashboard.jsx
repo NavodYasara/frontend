@@ -5,15 +5,13 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import Dropdown from "react-bootstrap/Dropdown";
+import Card from "react-bootstrap/Card";
 import dayjs from "dayjs";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
 
 const ManagerDashboard = () => {
   const [caretakers, setCaretakers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCaretaker, setSelectedCaretaker] = useState(null);
 
   useEffect(() => {
     fetch("http://localhost:5000/caretakerDetails")
@@ -24,6 +22,10 @@ const ManagerDashboard = () => {
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
+  };
+
+  const handleRowClick = (caretaker) => {
+    setSelectedCaretaker(caretaker);
   };
 
   const filteredCaretakers = caretakers.filter((caretaker) =>
@@ -39,6 +41,11 @@ const ManagerDashboard = () => {
       endDate: "2023-12-31",
       gender: "Female",
       caregiver: "Sample Caregiver A",
+      medicalConditions: "Condition A",
+      emergencyContact: "1234567890",
+      address: "123 Street A",
+      requirement: "Requirement A",
+      age: 30,
     },
     {
       caretakerid: 2,
@@ -47,307 +54,133 @@ const ManagerDashboard = () => {
       endDate: "2023-11-30",
       gender: "Male",
       caregiver: "Sample Caregiver B",
-    },
-    {
-      caretakerid: 3,
-      firstName: "Charlie",
-      startDate: "2023-03-01",
-      endDate: "2023-10-31",
-      gender: "Male",
-      caregiver: "Sample Caregiver C",
-    },
-    {
-      caretakerid: 4,
-      firstName: "David",
-      startDate: "2023-04-01",
-      endDate: "2023-09-30",
-      gender: "Male",
-      caregiver: "Sample Caregiver D",
-    },
-    {
-      caretakerid: 5,
-      firstName: "Eve",
-      startDate: "2023-05-01",
-      endDate: "2023-08-31",
-      gender: "Female",
-      caregiver: "Sample Caregiver E",
-    },
-    {
-      caretakerid: 6,
-      firstName: "Frank",
-      startDate: "2023-06-01",
-      endDate: "2023-07-31",
-      gender: "Male",
-      caregiver: "Sample Caregiver F",
-    },
-    {
-      caretakerid: 7,
-      firstName: "Grace",
-      startDate: "2023-07-01",
-      endDate: "2023-12-31",
-      gender: "Female",
-      caregiver: "Sample Caregiver G",
-    },
-    {
-      caretakerid: 8,
-      firstName: "Hank",
-      startDate: "2023-08-01",
-      endDate: "2023-11-30",
-      gender: "Male",
-      caregiver: "Sample Caregiver H",
-    },
-    {
-      caretakerid: 9,
-      firstName: "Ivy",
-      startDate: "2023-09-01",
-      endDate: "2023-10-31",
-      gender: "Female",
-      caregiver: "Sample Caregiver I",
-    },
-    {
-      caretakerid: 10,
-      firstName: "Jack",
-      startDate: "2023-10-01",
-      endDate: "2023-12-31",
-      gender: "Male",
-      caregiver: "Sample Caregiver J",
-    },
-    {
-      caretakerid: 11,
-      firstName: "Kathy",
-      startDate: "2023-11-01",
-      endDate: "2023-12-31",
-      gender: "Female",
-      caregiver: "Sample Caregiver K",
+      medicalConditions: "Condition B",
+      emergencyContact: "0987654321",
+      address: "456 Street B",
+      requirement: "Requirement B",
+      age: 40,
     },
   ];
+
+  const sampleCaregivers = [
+    {
+      caregiverid: 1,
+      name: "Sample Caregiver A",
+      age: 35,
+      category: "Category A",
+      gender: "Female",
+      unavailableDates: ["2023-01-01", "2023-02-15"],
+    },
+    {
+      caregiverid: 2,
+      name: "Sample Caregiver B",
+      age: 45,
+      category: "Category B",
+      gender: "Male",
+      unavailableDates: ["2023-03-01", "2023-04-10"],
+    },
+  ];
+
+  const selectedCaregiver = sampleCaregivers.find(
+    (caregiver) => caregiver.name === selectedCaretaker?.caregiver
+  );
 
   return (
     <>
       <div className="mgd-main" style={{ alignItems: "center" }}>
-        <div className="calenderview">
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer
-              components={[
-                "DatePicker",
-                "MobileDatePicker",
-                "DesktopDatePicker",
-                "StaticDatePicker",
-              ]}
-            >
-              <div className="bg-primary">
-                <DemoItem label="Static variant">
-                  <StaticDatePicker defaultValue={dayjs("2022-04-17")} />
-                </DemoItem>
-              </div>
-            </DemoContainer>
-          </LocalizationProvider>
-        </div>
+        <Container fluid>
+          <Row>
+            <Col>
+              <Form>
+                <Form.Group controlId="caretakerSearch">
+                  <Form.Label>Search Caretaker</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter name"
+                    value={searchTerm}
+                    onChange={handleSearch}
+                  />
+                </Form.Group>
+              </Form>
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>Caretaker ID</th>
+                    <th>Caretaker's Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Preferred Gender</th>
+                    <th>Caregiver</th>
+                    <th>Gender</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sampleCaretakers.map((caretaker) => (
+                    <tr key={caretaker.caretakerid} onClick={() => handleRowClick(caretaker)}>
+                      <td>{caretaker.caretakerid}</td>
+                      <td>{caretaker.firstName}</td>
+                      <td>{dayjs(caretaker.startDate).format("YYYY-MM-DD")}</td>
+                      <td>{dayjs(caretaker.endDate).format("YYYY-MM-DD")}</td>
+                      <td>{caretaker.gender}</td>
+                      <td>
+                        <Dropdown>
+                          <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                            {caretaker.caregiver}
+                          </Dropdown.Toggle>
 
-        <div className="section-2">
-          <Container fluid>
+                          <Dropdown.Menu>
+                            <Dropdown.Item>Action</Dropdown.Item>
+                            {/* Add more dropdown items as needed */}
+                          </Dropdown.Menu>
+                        </Dropdown>
+                      </td>
+                      <td>{caretaker.gender}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </Col>
+          </Row>
+
+          {selectedCaretaker && (
             <Row>
               <Col>
-                <Form>
-                  <Form.Group controlId="caretakerSearch">
-                    <Form.Label>Search Caretaker</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter name"
-                      value={searchTerm}
-                      onChange={handleSearch}
-                    />
-                  </Form.Group>
-                </Form>
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      
-                      <th>Caretaker ID</th>
-                      <th>Caretaker's Name</th>
-                      <th>Start Date</th>
-                      <th>End Date</th>
-                      <th>Preferred Gender</th>
-                      <th>Caregiver</th>
-                      <th>Gender</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {sampleCaretakers.map((caretaker) => (
-                      <tr>
-                        <td>{caretaker.caretakerid}</td>
-                        <td>{caretaker.firstName}</td>
-                        <td>
-                          {dayjs(caretaker.startDate).format("YYYY-MM-DD")}
-                        </td>
-                        <td>
-                          {dayjs(caretaker.endDate).format("YYYY-MM-DD")}
-                        </td>
-                        <td>{caretaker.gender}</td>
-                        <td>
-                          <Dropdown>
-                            <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                              {caretaker.caregiver}
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu>
-                              <Dropdown.Item>Action</Dropdown.Item>
-                              {/* Add more dropdown items as needed */}
-                            </Dropdown.Menu>
-                          </Dropdown>
-                        </td>
-                        <td>{caretaker.gender}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
+                <Card>
+                  <Card.Body>
+                    <Card.Title>Caretaker Information</Card.Title>
+                    <Card.Text>
+                      <p>Name: {selectedCaretaker.firstName}</p>
+                      <p>Medical Conditions: {selectedCaretaker.medicalConditions}</p>
+                      <p>Emergency Contact: {selectedCaretaker.emergencyContact}</p>
+                      <p>Address: {selectedCaretaker.address}</p>
+                      <p>Requirement: {selectedCaretaker.requirement}</p>
+                      <p>Age: {selectedCaretaker.age}</p>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              </Col>
+              <Col>
+                {selectedCaregiver && (
+                  <Card>
+                    <Card.Body>
+                      <Card.Title>Caregiver Information</Card.Title>
+                      <Card.Text>
+                        <p>Name: {selectedCaregiver.name}</p>
+                        <p>Age: {selectedCaregiver.age}</p>
+                        <p>Category: {selectedCaregiver.category}</p>
+                        <p>Gender: {selectedCaregiver.gender}</p>
+                        <p>Unavailable Dates: {selectedCaregiver.unavailableDates.join(", ")}</p>
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                )}
               </Col>
             </Row>
-          </Container>
-        </div>
+          )}
+        </Container>
       </div>
     </>
   );
 };
 
 export default ManagerDashboard;
-
-
-// import React, { useState, useEffect } from "react";
-// import Container from "react-bootstrap/Container";
-// import Row from "react-bootstrap/Row";
-// import Col from "react-bootstrap/Col";
-// import Form from "react-bootstrap/Form";
-// import Table from "react-bootstrap/Table";
-// import Dropdown from "react-bootstrap/Dropdown";
-// import dayjs from "dayjs";
-// import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-// import { StaticDatePicker } from "@mui/x-date-pickers/StaticDatePicker";
-
-
-// const ManagerDashboard = () => {
-//   const [caretakers, setCaretakers] = useState([]);
-//   const [searchTerm, setSearchTerm] = useState("");
-
-//   useEffect(() => {
-//     fetch("http://localhost:5000/caretakerDetails")
-//       .then((response) => response.json())
-//       .then((data) => setCaretakers(data))
-//       .catch((error) => console.error("Error:", error));
-//   }, []);
-
-//   const handleSearch = (event) => {
-//     setSearchTerm(event.target.value);
-//   };
-
-//   const filteredCaretakers = caretakers.filter((caretaker) =>
-//     caretaker.firstName.toLowerCase().includes(searchTerm.toLowerCase())
-//   );
-
-//   // Sample data for demonstration
-//   const sampleCaretakers = [
-//     {
-//       caretakerid: 1,
-//       firstName: "Alice",
-//       startDate: "2023-01-01",
-//       endDate: "2023-12-31",
-//       gender: "Female",
-//       caregiver: "Sample Caregiver",
-//     },
-//     // Add more sample data as needed
-//   ];
-
-//   return (
-//     <>
-//       <div className="mgd-main" style={{ alignItems: "center" }}>
-//         <div className="calenderview">
-//           <LocalizationProvider dateAdapter={AdapterDayjs}>
-//             <DemoContainer
-//               components={[
-//                 "DatePicker",
-//                 "MobileDatePicker",
-//                 "DesktopDatePicker",
-//                 "StaticDatePicker",
-//               ]}
-//             >
-//               <div className="bg-primary">
-//                 <DemoItem label="Static variant">
-//                   <StaticDatePicker defaultValue={dayjs("2022-04-17")} />
-//                 </DemoItem>
-//               </div>
-//             </DemoContainer>
-//           </LocalizationProvider>
-//         </div>
-
-//         <div className="section-2">
-//           <Container fluid>
-//             <Row>
-//               <Col>
-//                 <Form>
-//                   <Form.Group controlId="caretakerSearch">
-//                     <Form.Label>Search Caretaker</Form.Label>
-//                     <Form.Control
-//                       type="text"
-//                       placeholder="Enter name"
-//                       value={searchTerm}
-//                       onChange={handleSearch}
-//                     />
-//                   </Form.Group>
-//                 </Form>
-//                 <Table striped bordered hover>
-//                   <thead>
-//                     <tr>
-//                       <th>#</th>
-//                       <th>Caretaker ID</th>
-//                       <th>Caretaker's Name</th>
-//                       <th>Start Date</th>
-//                       <th>End Date</th>
-//                       <th>Preferred Gender</th>
-//                       <th>Caregiver</th>
-//                       <th>Gender</th>
-//                     </tr>
-//                   </thead>
-//                   <tbody>
-//                     {sampleCaretakers.map((caretaker, index) => (
-//                       <tr key={index}>
-//                         <td>{index + 1}</td>
-//                         <td>{caretaker.caretakerid}</td>
-//                         <td>{caretaker.firstName}</td>
-//                         <td>
-//                           {dayjs(caretaker.startDate).format("YYYY-MM-DD")}
-//                         </td>
-//                         <td>
-//                           {dayjs(caretaker.endDate).format("YYYY-MM-DD")}
-//                         </td>
-//                         <td>{caretaker.gender}</td>
-//                         <td>
-//                           <Dropdown>
-//                             <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-//                               {caretaker.caregiver}
-//                             </Dropdown.Toggle>
-
-//                             <Dropdown.Menu>
-//                               <Dropdown.Item>Action</Dropdown.Item>
-//                               {/* Add more dropdown items as needed */}
-//                             </Dropdown.Menu>
-//                           </Dropdown>
-//                         </td>
-//                         <td>{caretaker.gender}</td>
-//                       </tr>
-                      
-//                     ))}
-//                   </tbody>
-//                 </Table>
-//               </Col>
-              
-//             </Row>
-//           </Container>
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default ManagerDashboard;
