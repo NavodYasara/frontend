@@ -12,7 +12,7 @@ import Layout from "./Layouts/Layout";
 import AccDashboard from "./Pages/ACCOUNTANT/AccDashboard";
 
 import AdminDashboard from "./Pages/ADMIN/AdminDashboard";
-import UserManagement from "./Pages/ADMIN/UserManagement";
+import ManageStaff from "./Pages/ADMIN/ManageStaff";
 
 import CaregiverDashboard from "./Pages/CAREGIVER/CaregiverDashboard";
 import CaregiverProfile from "./Pages/CAREGIVER/CaregiverProfile";
@@ -22,7 +22,6 @@ import Report from "./Pages/CARETAKER/Report";
 import CtRequirement from "./Pages/CARETAKER/CtRequirement";
 
 import ManagerDashboard from "./Pages/MANAGER/ManagerDashboard";
-import ManageStaff from "./Pages/MANAGER/ManageStaff";
 import Careplan from "./Pages/MANAGER/Careplan";
 
 
@@ -44,7 +43,7 @@ function App() {
         <Route path="AccDashboard" element={<AccDashboard />} />
 
         <Route path="AdminDashboard" element={<AdminDashboard />} />
-        <Route path="UserManagement" element={<UserManagement />} />
+        <Route path="ManageStaff" element={<ManageStaff/>} />
 
         <Route path="CaregiverDashboard" element={<CaregiverDashboard />} />
         <Route path="CaregiverProfile" element={<CaregiverProfile />} />
@@ -55,7 +54,6 @@ function App() {
         <Route path="Report" element={<Report />} />
 
         <Route path="ManagerDashboard" element={<ManagerDashboard />} />
-        <Route path="ManageStaff" element={<ManageStaff/>} />
 
         {/* Pass userType to Sidebar */}
         <Route path="*" element={<Sidebar userType={userType} />} />
