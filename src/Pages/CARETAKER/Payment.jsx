@@ -1,5 +1,5 @@
 import React from 'react';
-import Sidebar from '../../Components/Sidebar2';
+import Sidebar from '../../Components/Sidebar';
 import { Container, Form, Button } from 'react-bootstrap';
 
 function Payment() {
