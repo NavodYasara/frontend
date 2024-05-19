@@ -1,81 +1,88 @@
-import React from 'react';
-import Sidebar from '../../Components/Sidebar';
-import { Container, Form, Button } from 'react-bootstrap';
+import React from "react";
+import Sidebar from "../../Components/Sidebar";
+import Navbar from "../../Components/Navbar/Navbar";
+import {
+  Container,
+  Grid,
+  Paper,
+  Typography,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+} from "@mui/material";
 
-function Payment() {
-    // Dummy payment data for demonstration
-    const paymentData = {
-        amount: 100,
-        currency: 'USD',
-        recipient: 'John Doe',
-        paymentMethod: 'Credit Card',
-        transactionDate: '2024-05-10',
-        status: 'Successful',
-        reference: 'TRX123456789'
-    };
+const PaymentPage = () => {
+  // Sample data for the caregiver details, service period, and price
+  const caregiverDetails = {
+    name: "John Doe",
+    age: 45,
+    experience: "10 years",
+  };
 
-    return (
-        <div style={{ display: 'flex' }}>
-            <div>
-                <Sidebar />
-            </div>
+  const servicePeriod = "01/06/2024 - 30/06/2024";
+  const price = "$1500";
 
-            <div style={{ marginLeft: '280px' }}>
-                <Container fluid className="vh-100 d-flex " style={{ width: '100%' }}>
-                    <div className="flex-grow-2">
-                        <div className="d-flex justify-content-center align-items-center h-100 ">
-                            <div className="text-center p-4 shadow rounded" style={{ width: '50vw' }}>
-                                <h2>Payment Section</h2>
-                                <hr />
-                                <h4>Make a Payment</h4>
-                                <Form>
-                                    <Form.Group className="mb-3" controlId="formPaymentAmount">
-                                        <Form.Label>Amount</Form.Label>
-                                        <Form.Control type="number" placeholder="Enter amount" />
-                                    </Form.Group>
-
-                                    <Form.Group className="mb-3" controlId="formPaymentMethod">
-                                        <Form.Label>Payment Method</Form.Label>
-                                        <Form.Control as="select">
-                                            <option>Credit Card</option>
-                                            <option>Debit Card</option>
-                                            <option>Bank Transfer</option>
-                                        </Form.Control>
-                                    </Form.Group>
-
-                                    <Button variant="primary" type="submit">
-                                        Submit Payment
-                                    </Button>
-                                </Form>
-                                <hr />
-                                <h4>Recent Payments</h4>
-                                <ul>
-                                    <li>
-                                        <strong>Amount:</strong> {paymentData.amount} {paymentData.currency}
-                                    </li>
-                                    <li>
-                                        <strong>Recipient:</strong> {paymentData.recipient}
-                                    </li>
-                                    <li>
-                                        <strong>Payment Method:</strong> {paymentData.paymentMethod}
-                                    </li>
-                                    <li>
-                                        <strong>Date:</strong> {paymentData.transactionDate}
-                                    </li>
-                                    <li>
-                                        <strong>Status:</strong> {paymentData.status}
-                                    </li>
-                                    <li>
-                                        <strong>Reference:</strong> {paymentData.reference}
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </Container>
-            </div>
+  return (
+    <div style={{ display: "flex" }}>
+      <Sidebar />
+      <div style={{ flex: 1 }}>
+        <Navbar />
+        <div className="mgd-main" style={{ padding: "20px" }}>
+          <Container fluid maxWidth="md">
+            <Paper elevation={3} style={{ padding: "20px", marginTop: "20px" }}>
+              <Typography variant="h4" gutterBottom>
+                Payment Details
+              </Typography>
+              <Grid container spacing={3}>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="h6">Caregiver Details</Typography>
+                  <List>
+                    <ListItem>
+                      <ListItemText
+                        primary="Name"
+                        secondary={caregiverDetails.name}
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText
+                        primary="Age"
+                        secondary={caregiverDetails.age}
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemText
+                        primary="Experience"
+                        secondary={caregiverDetails.experience}
+                      />
+                    </ListItem>
+                  </List>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="h6">Service Period</Typography>
+                  <Typography variant="body1">{servicePeriod}</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="h6">Price</Typography>
+                  <Typography variant="body1">{price}</Typography>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Button variant="contained" color="primary" fullWidth>
+                    Proceed to Pay
+                  </Button>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Button variant="outlined" color="primary" fullWidth>
+                    Select Payment Option
+                  </Button>
+                </Grid>
+              </Grid>
+            </Paper>
+          </Container>
         </div>
-    );
-}
+      </div>
+    </div>
+  );
+};
 
-export default Payment;
+export default PaymentPage;
