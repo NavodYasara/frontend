@@ -258,13 +258,13 @@ function ProfileAndFeedbackPage() {
                     </td>
                   </tr>
                   <tr>
-                    <td className="fw-bold">User Type:</td>
+                    <td className="fw-bold">Caretaker Category:</td>
                     <td>
                       {profileEditMode ? (
                         <TextField
                           type="text"
                           name="userType"
-                          value={profileData.userType}
+                          value={profileData.category}
                           onChange={handleChange}
                           className="form-control"
                         />
@@ -363,3 +363,7 @@ function ProfileAndFeedbackPage() {
 }
 
 export default ProfileAndFeedbackPage;
+
+
+
+
