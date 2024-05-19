@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Form, Table, Dropdown, Card } from "react-bootstrap";
-import Sidebar from "../../Components/Sidebar";
-import Navbar from "../../Components/Navbar/Navbar"; 
+import { Container } from "react-bootstrap";
+import Sidebar from "../Components/Sidebar";
+import Navbar from "../Components/Navbar/Navbar";
 
 const Layout2 = () => {
   

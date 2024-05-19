@@ -7,7 +7,7 @@ import Home from "./Pages/Home";
 import Register from "./Pages/Register";
 import Login from "./Pages/Login";
 
-import Layout from "./Layouts/Layout";
+import Layout2 from "./Layouts/Layout2";
 
 import AccDashboard from "./Pages/ACCOUNTANT/AccDashboard";
 
@@ -20,6 +20,7 @@ import CaregiverProfile from "./Pages/CAREGIVER/CaregiverProfile";
 import CaretakerDashboard from "./Pages/CARETAKER/CaretakerDashboard";
 import Report from "./Pages/CARETAKER/Report";
 import CtRequirement from "./Pages/CARETAKER/CtRequirement";
+import Payment from "./Pages/CARETAKER/Payment";
 
 import ManagerDashboard from "./Pages/MANAGER/ManagerDashboard";
 import Careplan from "./Pages/MANAGER/Careplan";
@@ -38,7 +39,7 @@ function App() {
         <Route path="Register" element={<Register />} />
         <Route path="Login" element={<Login />} />
 
-        <Route path="Layout" element={<Layout/>} />
+        <Route path="Layout2" element={<Layout2/>} />
 
         <Route path="AccDashboard" element={<AccDashboard />} />
 
@@ -52,6 +53,7 @@ function App() {
         <Route path="Careplan" element={<Careplan />} />
         <Route path="CaretakerDashboard" element={<CaretakerDashboard />} />
         <Route path="Report" element={<Report />} />
+        <Route path="Payment" element={<Payment />} />
 
         <Route path="ManagerDashboard" element={<ManagerDashboard />} />
 
