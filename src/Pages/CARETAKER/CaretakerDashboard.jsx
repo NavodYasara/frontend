@@ -124,7 +124,7 @@ function ProfileAndFeedbackPage() {
                   {/* Profile Section */}
                   <Grid item xs={12} md={6}>
                     <div className="profile section-1 p-3 shadow rounded">
-                      <h2 className="mb-4">Profile</h2>
+                      <h2 className="mb-4" style={{textAlign:"center"}}>Patient's Profile</h2>
                       <Table bordered>
                         <tbody>
                           <tr>
