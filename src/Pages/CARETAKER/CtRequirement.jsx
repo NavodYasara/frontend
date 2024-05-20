@@ -4,17 +4,14 @@ import Navbar from "../../Components/Navbar/Navbar";
 import {
   Container,
   Table,
-  Menu,
-  MenuItem,
-  Button,
+  Button as MuiButton,
   Grid,
   TextField,
 } from "@mui/material";
 import axios from "axios";
-import { Modal, Form, Row, Col } from "react-bootstrap";
+import { Modal, Form, Row, Col, Button, DropdownButton, Dropdown } from "react-bootstrap";
 
 function RequirementsAndCaregiversPage() {
-  // ... the state and useEffect logic related to Requirements and Caregivers from CaretakerDashboard
   const [requirementsEditMode, setRequirementsEditMode] = useState(false);
   const [caregivers, setCaregivers] = useState([]);
   const [originalProfileData, setOriginalProfileData] = useState({});
@@ -28,7 +25,22 @@ function RequirementsAndCaregiversPage() {
     requirements: "",
     gender: "",
     selectedCategory: "",
+    preferredGender: ""
   });
+
+  useEffect(() => {
+    // Fetch caregivers data
+    const fetchCaregivers = async () => {
+      try {
+        const response = await axios.get("/api/caregivers");
+        setCaregivers(response.data);
+      } catch (error) {
+        console.error("Error fetching caregivers:", error);
+      }
+    };
+
+    fetchCaregivers();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,18 +50,34 @@ function RequirementsAndCaregiversPage() {
     }));
   };
 
+  const handleGenderSelect = (gender) => {
+    setProfileData((prevState) => ({
+      ...prevState,
+      preferredGender: gender,
+    }));
+  };
+
   const handleRequirementsSave = async () => {
-    // Handle saving requirements
+    try {
+      // Send updated requirements to backend
+      await axios.put(`/api/profile/${profileData.id}`, { requirements: profileData.requirements });
+      setRequirementsEditMode(false);
+    } catch (error) {
+      console.error("Error saving requirements:", error);
+    }
   };
 
   const handleRequirementsCancel = () => {
     setRequirementsEditMode(false);
+    setProfileData((prevState) => ({
+      ...prevState,
+      requirements: originalProfileData.requirements,
+    }));
   };
 
   const handleEditRequirements = () => {
     setRequirementsEditMode(true);
   };
-  
 
   return (
     <div style={{ display: "flex" }}>
@@ -58,58 +86,88 @@ function RequirementsAndCaregiversPage() {
         <Container className="mt-5">
           {/* Requirements Section */}
           <Grid item xs={12} md={6}>
-              <div className="requirement section-2 p-3 shadow rounded">
-                <h2 className="mb-4" style={{ textAlign: "center" }}>
-                  Your Requirements
-                </h2>
+            <div className="requirement section-2 p-3 shadow rounded">
+              <h2 className="mb-4" style={{ textAlign: "center" }}>
+                Your Requirements
+              </h2>
+              {requirementsEditMode ? (
+                <TextField
+                  name="requirements"
+                  value={profileData.requirements}
+                  onChange={handleChange}
+                  className="form-control mb-3"
+                  multiline
+                  rows={5}
+                />
+              ) : (
+                <p className="mb-3" style={{ textAlign: "center" }}>
+                  {profileData.requirements}
+                </p>
+              )}
+              <div className="text-center">
                 {requirementsEditMode ? (
-                  <TextField
-                    name="requirements"
-                    value={profileData.requirements}
-                    onChange={handleChange}
-                    className="form-control mb-3"
-                    multiline
-                    rows={5}
-                  />
-                ) : (
-                  <p className="mb-3">{profileData.requirements}</p>
-                )}
-                <div className="text-center">
-                  {requirementsEditMode ? (
-                    <>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        className="me-2"
-                        onClick={handleRequirementsSave}
-                      >
-                        Save
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={handleRequirementsCancel}
-                      >
-                        Cancel
-                      </Button>
-                    </>
-                  ) : (
-                    <Button
+                  <>
+                    <MuiButton
                       variant="contained"
                       color="primary"
-                      onClick={handleEditRequirements}
+                      className="me-2"
+                      onClick={handleRequirementsSave}
                     >
-                      Edit Information
-                    </Button>
-                  )}
-                </div>
+                      Save
+                    </MuiButton>
+                    <MuiButton
+                      variant="contained"
+                      color="secondary"
+                      onClick={handleRequirementsCancel}
+                    >
+                      Cancel
+                    </MuiButton>
+                  </>
+                ) : (
+                  <MuiButton
+                    variant="contained"
+                    color="primary"
+                    onClick={handleEditRequirements}
+                  >
+                    Edit Information
+                  </MuiButton>
+                )}
               </div>
-            </Grid>
+            </div>
+          </Grid>
+        </Container>
+
+        <Container className="mt-5">
+          {/* Preferred Gender Section */}
+          <Grid item xs={12} md={6}>
+            <div className="section-2 p-3 shadow rounded">
+              <Row>
+                <Col>
+                  <h2 className="mb-4" style={{ textAlign: "center" }}>
+                    Your Preferred Gender
+                  </h2>
+                  <div style={{ textAlign: "center" }}>
+                    <DropdownButton
+                      id="gender-dropdown"
+                      title={profileData.preferredGender || "Select Gender"}
+                      onSelect={handleGenderSelect}
+                    >
+                      <Dropdown.Item eventKey="Select">Select</Dropdown.Item>
+                      <Dropdown.Item eventKey="Male">Male</Dropdown.Item>
+                      <Dropdown.Item eventKey="Female">Female</Dropdown.Item>
+                    </DropdownButton>
+                  </div>
+                </Col>
+              </Row>
+            </div>
+          </Grid>
         </Container>
 
         <Container className="mt-5">
           <div className="p-3 shadow rounded">
-            <h2 className="mb-4">Allocated Caregivers</h2>
+            <h2 className="mb-4" style={{ textAlign: "center" }}>
+              Allocated Caregivers
+            </h2>
             <Table striped bordered hover>
               <thead>
                 <tr>
@@ -123,9 +181,9 @@ function RequirementsAndCaregiversPage() {
                 {caregivers.map((caregiver, index) => (
                   <tr key={index}>
                     <td>{caregiver.name}</td>
-                    <td>{caregiver.specialization}</td>
+                    <td>{caregiver.gender}</td>
                     <td>{caregiver.experience}</td>
-                    <td>{caregiver.availability}</td>
+                    <td>{caregiver.contact}</td>
                   </tr>
                 ))}
               </tbody>

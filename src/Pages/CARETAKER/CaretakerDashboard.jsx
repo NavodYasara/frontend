@@ -52,9 +52,7 @@ function ProfileAndFeedbackPage() {
 
   const fetchCaregivers = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/caregivers"
-      );
+      const response = await axios.get("http://localhost:5000/api/caregivers");
       setCaregivers(response.data);
     } catch (error) {
       console.error(error);
@@ -124,7 +122,9 @@ function ProfileAndFeedbackPage() {
                   {/* Profile Section */}
                   <Grid item xs={12} md={6}>
                     <div className="profile section-1 p-3 shadow rounded">
-                      <h2 className="mb-4" style={{textAlign:"center"}}>Patient's Profile</h2>
+                      <h2 className="mb-4" style={{ textAlign: "center" }}>
+                        Patient's Profile
+                      </h2>
                       <Table bordered>
                         <tbody>
                           <tr>
@@ -188,70 +188,6 @@ function ProfileAndFeedbackPage() {
                                 />
                               ) : (
                                 profileData.dob
-                              )}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className="fw-bold">Gender:</td>
-                            <td>
-                              {profileEditMode ? (
-                                <>
-                                  <Button
-                                    aria-controls="simple-menu"
-                                    aria-haspopup="true"
-                                    onClick={handleClick}
-                                  >
-                                    {profileData.gender
-                                      ? profileData.gender
-                                      : "Select Gender"}
-                                  </Button>
-                                  <Menu
-                                    id="simple-menu"
-                                    anchorEl={anchorEl}
-                                    keepMounted
-                                    open={Boolean(anchorEl)}
-                                    onClose={handleClose}
-                                  >
-                                    <MenuItem
-                                      onClick={() =>
-                                        handleChange({
-                                          target: {
-                                            name: "gender",
-                                            value: "Male",
-                                          },
-                                        })
-                                      }
-                                    >
-                                      Male
-                                    </MenuItem>
-                                    <MenuItem
-                                      onClick={() =>
-                                        handleChange({
-                                          target: {
-                                            name: "gender",
-                                            value: "Female",
-                                          },
-                                        })
-                                      }
-                                    >
-                                      Female
-                                    </MenuItem>
-                                    <MenuItem
-                                      onClick={() =>
-                                        handleChange({
-                                          target: {
-                                            name: "gender",
-                                            value: "Other",
-                                          },
-                                        })
-                                      }
-                                    >
-                                      Other
-                                    </MenuItem>
-                                  </Menu>
-                                </>
-                              ) : (
-                                profileData.gender
                               )}
                             </td>
                           </tr>

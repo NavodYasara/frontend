@@ -155,15 +155,7 @@ const Register = () => {
                       onChange={handleChange}
                     />
                   </Form.Group>
-                  <Form.Group className="mb-4">
-                    <Form.Label>Gender</Form.Label>
-                    <Form.Control as="select" name="gender" onChange={handleChange}>
-                      <option value="">Select</option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                      <option value="other">Other</option>
-                    </Form.Control>
-                  </Form.Group>
+
                   <Form.Group className="mb-4">
                     <Form.Label>Address</Form.Label>
                     <Form.Control
