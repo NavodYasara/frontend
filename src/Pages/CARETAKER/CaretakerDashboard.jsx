@@ -42,7 +42,7 @@ function ProfileAndFeedbackPage() {
   const fetchCaretakerProfile = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/server/caretakerprofile"
+        "http://localhost:5000/api/caretakerprofile"
       );
       setProfileData(response.data);
     } catch (error) {
@@ -53,7 +53,7 @@ function ProfileAndFeedbackPage() {
   const fetchCaregivers = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5000/server/caregivers"
+        "http://localhost:5000/api/caregivers"
       );
       setCaregivers(response.data);
     } catch (error) {
@@ -75,7 +75,7 @@ function ProfileAndFeedbackPage() {
       setProfileEditMode(false);
       setOriginalProfileData({ ...profileData });
       const response = await axios.put(
-        "http://localhost:5000/server/updatecaretakerprofile",
+        "http://localhost:5000/api/updatecaretakerprofile",
         profileData
       );
       console.log(response.data);
