@@ -14,7 +14,7 @@ function Login() {
     event.preventDefault();
 
     try {
-      const response = await axios.post("/server/login", {
+      const response = await axios.post("/api/login", {
         username,
         password,
       });
@@ -116,7 +116,7 @@ export default Login;
 //   event.preventDefault();
 
 //   try {
-//     const response = await axios.post("/server/login", {
+//     const response = await axios.post("/api/login", {
 //       username,
 //       password,
 //     });
