@@ -33,15 +33,16 @@ const ManagerDashboard = () => {
   };
 
   // Remove the declaration and assignment of the filteredCaretakers variable
-  caretakers.filter((caretaker) =>
-    caretaker.firstName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // caretakers.filter((caretaker) =>
+  //   caretaker.firstName.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
   // Sample data for demonstration
   const sampleCaretakers = [
     {
       caretakerid: 1,
       firstName: "Alice",
+      lastName: "Smith",
       startDate: "2023-01-01",
       endDate: "2023-12-31",
       gender: "Female",
@@ -55,6 +56,7 @@ const ManagerDashboard = () => {
     {
       caretakerid: 2,
       firstName: "Bob",
+      lastName: "Johnson",
       startDate: "2023-02-01",
       endDate: "2023-11-30",
       gender: "Male",
@@ -114,9 +116,11 @@ const ManagerDashboard = () => {
                   <thead>
                     <tr>
                       <th>Caretaker ID</th>
-                      <th>Caretaker's Name</th>
+                      <th> First Name</th>
+                      <th> Last Name</th>
                       <th>Start Date</th>
                       <th>End Date</th>
+                      <th>conditions</th>
                       <th>Preferred Gender</th>
                       <th>Caregiver</th>
                       <th>Gender</th>
@@ -130,10 +134,12 @@ const ManagerDashboard = () => {
                       >
                         <td>{caretaker.caretakerid}</td>
                         <td>{caretaker.firstName}</td>
+                        <td>{caretaker.lastName}</td>
                         <td>
                           {dayjs(caretaker.startDate).format("YYYY-MM-DD")}
                         </td>
                         <td>{dayjs(caretaker.endDate).format("YYYY-MM-DD")}</td>
+                         <td>{caretaker.mediCondition}</td>
                         <td>{caretaker.gender}</td>
                         <td>
                           <Dropdown>
