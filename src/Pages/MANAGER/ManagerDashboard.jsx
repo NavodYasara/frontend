@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Form, Table, Dropdown, Card } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Table,
+  Dropdown,
+  Card,
+} from "react-bootstrap";
 import dayjs from "dayjs";
 import Sidebar from "../../Components/Sidebar";
-import Navbar from "../../Components/Navbar/Navbar"; 
+import Navbar from "../../Components/Navbar/Navbar";
 
 const ManagerDashboard = () => {
   const [caretakers, setCaretakers] = useState([]);
@@ -10,7 +18,7 @@ const ManagerDashboard = () => {
   const [selectedCaretaker, setSelectedCaretaker] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/caretakerDetails")
+    fetch("http://localhost:5000/api/caretakerDetails")
       .then((response) => response.json())
       .then((data) => setCaretakers(data))
       .catch((error) => console.error("Error:", error));
@@ -24,7 +32,8 @@ const ManagerDashboard = () => {
     setSelectedCaretaker(caretaker);
   };
 
-  const filteredCaretakers = caretakers.filter((caretaker) =>
+  // Remove the declaration and assignment of the filteredCaretakers variable
+  caretakers.filter((caretaker) =>
     caretaker.firstName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -115,15 +124,23 @@ const ManagerDashboard = () => {
                   </thead>
                   <tbody>
                     {sampleCaretakers.map((caretaker) => (
-                      <tr key={caretaker.caretakerid} onClick={() => handleRowClick(caretaker)}>
+                      <tr
+                        key={caretaker.caretakerid}
+                        onClick={() => handleRowClick(caretaker)}
+                      >
                         <td>{caretaker.caretakerid}</td>
                         <td>{caretaker.firstName}</td>
-                        <td>{dayjs(caretaker.startDate).format("YYYY-MM-DD")}</td>
+                        <td>
+                          {dayjs(caretaker.startDate).format("YYYY-MM-DD")}
+                        </td>
                         <td>{dayjs(caretaker.endDate).format("YYYY-MM-DD")}</td>
                         <td>{caretaker.gender}</td>
                         <td>
                           <Dropdown>
-                            <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                            <Dropdown.Toggle
+                              variant="secondary"
+                              id="dropdown-basic"
+                            >
                               {caretaker.caregiver}
                             </Dropdown.Toggle>
 
@@ -148,9 +165,15 @@ const ManagerDashboard = () => {
                     <Card.Body>
                       <Card.Title>Caretaker Information</Card.Title>
                       <Card.Text>
-                        <p>Name: {selectedCaretaker.firstName}</p>
-                        <p>Medical Conditions: {selectedCaretaker.medicalConditions}</p>
-                        <p>Emergency Contact: {selectedCaretaker.emergencyContact}</p>
+                        <p>Name: {selectedCaretaker.userName}</p>
+                        <p>
+                          Medical Conditions:{" "}
+                          {selectedCaretaker.medicalConditions}
+                        </p>
+                        <p>
+                          Emergency Contact:{" "}
+                          {selectedCaretaker.emergencyContact}
+                        </p>
                         <p>Address: {selectedCaretaker.address}</p>
                         <p>Requirement: {selectedCaretaker.requirement}</p>
                         <p>Age: {selectedCaretaker.age}</p>
@@ -168,7 +191,10 @@ const ManagerDashboard = () => {
                           <p>Age: {selectedCaregiver.age}</p>
                           <p>Category: {selectedCaregiver.category}</p>
                           <p>Gender: {selectedCaregiver.gender}</p>
-                          <p>Unavailable Dates: {selectedCaregiver.unavailableDates.join(", ")}</p>
+                          <p>
+                            Unavailable Dates:{" "}
+                            {selectedCaregiver.unavailableDates.join(", ")}
+                          </p>
                         </Card.Text>
                       </Card.Body>
                     </Card>
@@ -178,7 +204,6 @@ const ManagerDashboard = () => {
             )}
           </Container>
         </div>
-        
       </div>
     </div>
   );
