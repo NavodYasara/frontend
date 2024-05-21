@@ -8,7 +8,14 @@ import {
   Button,
   Grid,
   TextField,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
+  Paper,
+  Select,
 } from "@mui/material";
+import {} from "@mui/material";
 import axios from "axios";
 import Navbar from "../../Components/Navbar/Navbar";
 import { Modal, Form, Row, Col } from "react-bootstrap";
@@ -121,141 +128,204 @@ function ProfileAndFeedbackPage() {
                 <Container className="mt-5">
                   {/* Profile Section */}
                   <Grid item xs={12} md={6}>
-                    <div className="profile section-1 p-3 shadow rounded">
-                      <h2 className="mb-4" style={{ textAlign: "center" }}>
-                        Patient's Profile
-                      </h2>
-                      <Table bordered>
-                        <tbody>
-                          <tr>
-                            <td className="fw-bold">First Name:</td>
-                            <td>
-                              {profileEditMode ? (
-                                <TextField
-                                  type="text"
-                                  name="firstName"
-                                  value={profileData.firstName}
-                                  onChange={handleChange}
-                                  className="form-control"
-                                />
-                              ) : (
-                                profileData.firstName
-                              )}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className="fw-bold">Last Name:</td>
-                            <td>
-                              {profileEditMode ? (
-                                <TextField
-                                  type="text"
-                                  name="lastName"
-                                  value={profileData.lastName}
-                                  onChange={handleChange}
-                                  className="form-control"
-                                />
-                              ) : (
-                                profileData.lastName
-                              )}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className="fw-bold">Contact Number:</td>
-                            <td>
-                              {profileEditMode ? (
-                                <TextField
-                                  type="text"
-                                  name="contactNumber"
-                                  value={profileData.contactNumber}
-                                  onChange={handleChange}
-                                  className="form-control"
-                                />
-                              ) : (
-                                profileData.contactNumber
-                              )}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className="fw-bold">Date of Birth:</td>
-                            <td>
-                              {profileEditMode ? (
-                                <TextField
-                                  type="text"
-                                  name="dob"
-                                  value={profileData.dob}
-                                  onChange={handleChange}
-                                  className="form-control"
-                                />
-                              ) : (
-                                profileData.dob
-                              )}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className="fw-bold">Address:</td>
-                            <td>
-                              {profileEditMode ? (
-                                <TextField
-                                  type="text"
-                                  name="address"
-                                  value={profileData.address}
-                                  onChange={handleChange}
-                                  className="form-control"
-                                />
-                              ) : (
-                                profileData.address
-                              )}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className="fw-bold">Caretaker Category:</td>
-                            <td>
-                              {profileEditMode ? (
-                                <TextField
-                                  type="text"
-                                  name="userType"
-                                  value={profileData.category}
-                                  onChange={handleChange}
-                                  className="form-control"
-                                />
-                              ) : (
-                                profileData.userType
-                              )}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </Table>
+                    <Container className="mt-5">
+                      {/* Profile Section */}
+                      <Grid container justifyContent="center">
+                        <Grid item xs={12} md={8} className="center-content">
+                          <div className="profile section-1 p-3 shadow rounded">
+                            <h2
+                              className="mb-4"
+                              style={{ textAlign: "center" }}
+                            >
+                              Patient's Profile
+                            </h2>
+                            <TableContainer
+                              component={Paper}
+                              className="table-container"
+                            >
+                              <Table>
+                                <TableBody>
+                                  <TableRow>
+                                    <TableCell
+                                      component="th"
+                                      scope="row"
+                                      className="table-cell-bold"
+                                    >
+                                      First Name:
+                                    </TableCell>
+                                    <TableCell className="table-cell">
+                                      {profileEditMode ? (
+                                        <TextField
+                                          type="text"
+                                          name="firstName"
+                                          value={profileData.firstName}
+                                          onChange={handleChange}
+                                          fullWidth
+                                        />
+                                      ) : (
+                                        profileData.firstName
+                                      )}
+                                    </TableCell>
+                                  </TableRow>
+                                  <TableRow>
+                                    <TableCell
+                                      component="th"
+                                      scope="row"
+                                      className="table-cell-bold"
+                                    >
+                                      Last Name:
+                                    </TableCell>
+                                    <TableCell className="table-cell">
+                                      {profileEditMode ? (
+                                        <TextField
+                                          type="text"
+                                          name="lastName"
+                                          value={profileData.lastName}
+                                          onChange={handleChange}
+                                          fullWidth
+                                        />
+                                      ) : (
+                                        profileData.lastName
+                                      )}
+                                    </TableCell>
+                                  </TableRow>
+                                  <TableRow>
+                                    <TableCell
+                                      component="th"
+                                      scope="row"
+                                      className="table-cell-bold"
+                                    >
+                                      Contact Number:
+                                    </TableCell>
+                                    <TableCell className="table-cell">
+                                      {profileEditMode ? (
+                                        <TextField
+                                          type="text"
+                                          name="contactNumber"
+                                          value={profileData.contactNumber}
+                                          onChange={handleChange}
+                                          fullWidth
+                                        />
+                                      ) : (
+                                        profileData.contactNumber
+                                      )}
+                                    </TableCell>
+                                  </TableRow>
+                                  <TableRow>
+                                    <TableCell
+                                      component="th"
+                                      scope="row"
+                                      className="table-cell-bold"
+                                    >
+                                      Date of Birth:
+                                    </TableCell>
+                                    <TableCell className="table-cell">
+                                      {profileEditMode ? (
+                                        <TextField
+                                          type="date"
+                                          name="dob"
+                                          value={profileData.dob}
+                                          onChange={handleChange}
+                                          fullWidth
+                                          InputLabelProps={{
+                                            shrink: true,
+                                          }}
+                                        />
+                                      ) : (
+                                        profileData.dob
+                                      )}
+                                    </TableCell>
+                                  </TableRow>
+                                  <TableRow>
+                                    <TableCell
+                                      component="th"
+                                      scope="row"
+                                      className="table-cell-bold"
+                                    >
+                                      Address:
+                                    </TableCell>
+                                    <TableCell className="table-cell">
+                                      {profileEditMode ? (
+                                        <TextField
+                                          type="text"
+                                          name="address"
+                                          value={profileData.address}
+                                          onChange={handleChange}
+                                          fullWidth
+                                        />
+                                      ) : (
+                                        profileData.address
+                                      )}
+                                    </TableCell>
+                                  </TableRow>
+                                  <TableRow>
+                                    <TableCell
+                                      component="th"
+                                      scope="row"
+                                      className="table-cell-bold"
+                                    >
+                                      Caretaker Category:
+                                    </TableCell>
+                                    <TableCell className="table-cell">
+                                      {profileEditMode ? (
+                                        <Select
+                                          name="category"
+                                          value={profileData.category}
+                                          onChange={handleChange}
+                                          fullWidth
+                                        >
+                                          <MenuItem value={"Mental"}>
+                                            Mental
+                                          </MenuItem>
+                                          <MenuItem value={"Disabled"}>
+                                            Disabled
+                                          </MenuItem>
+                                          <MenuItem value={"Eldering"}>
+                                            Eldering
+                                          </MenuItem>
+                                        </Select>
+                                      ) : (
+                                        profileData.category
+                                      )}
+                                    </TableCell>
+                                  </TableRow>
+                                </TableBody>
+                              </Table>
+                            </TableContainer>
 
-                      <div className="text-center">
-                        {profileEditMode ? (
-                          <>
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              className="me-2"
-                              onClick={handleProfileSave}
-                            >
-                              Save
-                            </Button>
-                            <Button
-                              variant="contained"
-                              color="secondary"
-                              onClick={handleProfileCancel}
-                            >
-                              Cancel
-                            </Button>
-                          </>
-                        ) : (
-                          <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleEditProfile}
-                          >
-                            Edit Profile
-                          </Button>
-                        )}
-                      </div>
-                    </div>
+                            <div className="text-center">
+                              {profileEditMode ? (
+                                <>
+                                  <Button
+                                    variant="contained"
+                                    color="primary"
+                                    className="me-2"
+                                    onClick={handleProfileSave}
+                                  >
+                                    Save
+                                  </Button>
+                                  <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={handleProfileCancel}
+                                  >
+                                    Cancel
+                                  </Button>
+                                </>
+                              ) : (
+                                <Button
+                                  variant="contained"
+                                  color="primary"
+                                  onClick={handleEditProfile}
+                                >
+                                  Edit Profile
+                                </Button>
+                              )}
+                            </div>
+                          </div>
+                        </Grid>
+                      </Grid>
+                    </Container>
                   </Grid>
                 </Container>
 
