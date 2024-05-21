@@ -167,9 +167,11 @@ function RequirementsAndCaregiversPage() {
             <div className="section-2 p-3 shadow rounded">
               <Row>
                 <Col>
-                  <h2 className="mb-4" style={{ textAlign: "center" }}>
+                  <h4 className="mb-4" style={{ textAlign: "center" }}>
                     Your Preferred Gender
-                  </h2>
+                  </h4>
+                </Col>
+                <Col>
                   <div style={{ textAlign: "center" }}>
                     <DropdownButton
                       id="gender-dropdown"
