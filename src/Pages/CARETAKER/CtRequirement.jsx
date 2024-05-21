@@ -8,7 +8,6 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
-import { DatePicker } from "@mui/lab";
 import axios from "axios";
 import {
   Modal,
@@ -52,7 +51,7 @@ function RequirementsAndCaregiversPage() {
   }, []);
 
   //#######################################################
-  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProfileData((prevState) => ({
@@ -230,16 +229,16 @@ function RequirementsAndCaregiversPage() {
                 <tr>
                   <th>Name</th>
                   <th>Gender</th>
-                  <th>Experience (years)</th>
+                  <th>Category</th>
                   <th>Contact</th>
                 </tr>
               </thead>
               <tbody>
                 {caregivers.map((caregiver, index) => (
                   <tr key={index}>
-                    <td>{caregiver.name}</td>
+                    <td>{caregiver.userName}</td>
                     <td>{caregiver.gender}</td>
-                    <td>{caregiver.experience}</td>
+                    <td>{caregiver.category}</td>
                     <td>{caregiver.contact}</td>
                   </tr>
                 ))}
