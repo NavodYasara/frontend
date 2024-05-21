@@ -153,8 +153,8 @@ function RequirementsAndCaregiversPage() {
                       onSelect={handleGenderSelect}
                     >
                       <Dropdown.Item eventKey="Select">Select</Dropdown.Item>
-                      <Dropdown.Item eventKey="Male">Male</Dropdown.Item>
-                      <Dropdown.Item eventKey="Female">Female</Dropdown.Item>
+                      <Dropdown.Item eventKey="male">Male</Dropdown.Item>
+                      <Dropdown.Item eventKey="female">Female</Dropdown.Item>
                     </DropdownButton>
                   </div>
                 </Col>
