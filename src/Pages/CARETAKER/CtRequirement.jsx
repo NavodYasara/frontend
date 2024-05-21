@@ -8,8 +8,17 @@ import {
   Grid,
   TextField,
 } from "@mui/material";
+import { DatePicker } from "@mui/lab";
 import axios from "axios";
-import { Modal, Form, Row, Col, Button, DropdownButton, Dropdown } from "react-bootstrap";
+import {
+  Modal,
+  Form,
+  Row,
+  Col,
+  Button,
+  DropdownButton,
+  Dropdown,
+} from "react-bootstrap";
 
 function RequirementsAndCaregiversPage() {
   const [requirementsEditMode, setRequirementsEditMode] = useState(false);
@@ -25,7 +34,7 @@ function RequirementsAndCaregiversPage() {
     requirements: "",
     gender: "",
     selectedCategory: "",
-    preferredGender: ""
+    preferredGender: "",
   });
 
   useEffect(() => {
@@ -42,6 +51,8 @@ function RequirementsAndCaregiversPage() {
     fetchCaregivers();
   }, []);
 
+  //#######################################################
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProfileData((prevState) => ({
@@ -60,7 +71,9 @@ function RequirementsAndCaregiversPage() {
   const handleRequirementsSave = async () => {
     try {
       // Send updated requirements to backend
-      await axios.put(`/api/profile/${profileData.id}`, { requirements: profileData.requirements });
+      await axios.put(`/api/profile/${profileData.id}`, {
+        requirements: profileData.requirements,
+      });
       setRequirementsEditMode(false);
     } catch (error) {
       console.error("Error saving requirements:", error);
@@ -79,6 +92,18 @@ function RequirementsAndCaregiversPage() {
     setRequirementsEditMode(true);
   };
 
+  //############ Date Picker ##############################
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+
+  const handleStartDateChange = (date) => {
+    setStartDate(date);
+  };
+
+  const handleEndDateChange = (date) => {
+    setEndDate(date);
+  };
+  //#######################################################
   return (
     <div style={{ display: "flex" }}>
       <Sidebar />
@@ -159,6 +184,38 @@ function RequirementsAndCaregiversPage() {
                   </div>
                 </Col>
               </Row>
+            </div>
+          </Grid>
+        </Container>
+
+        <Container className="request-schedule mt-5">
+          {/* reqest Preferred service period  */}
+          <Grid item xs={12} md={6}>
+            <div className="section-2 p-3 shadow rounded">
+              <Container className="request-schedule">
+                <Row>
+                  <Col>
+                    <Form.Group>
+                      <Form.Label>Start Date</Form.Label>
+                      <Form.Control
+                        type="date"
+                        value={startDate}
+                        onChange={(e) => handleStartDateChange(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col>
+                    <Form.Group>
+                      <Form.Label>End Date</Form.Label>
+                      <Form.Control
+                        type="date"
+                        value={endDate}
+                        onChange={(e) => handleEndDateChange(e.target.value)}
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+              </Container>
             </div>
           </Grid>
         </Container>
