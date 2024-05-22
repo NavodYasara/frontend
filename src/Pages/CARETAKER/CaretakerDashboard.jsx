@@ -78,7 +78,7 @@ function ProfileAndFeedbackPage() {
 
   const handleProfileSave = async () => {
     try {
-      await axios.put("http://localhost:5000/api/updatecaretakerprofile", profileData);
+      await axios.put("http://localhost:5000/api/user/registerPatient", profileData);
       setOriginalProfileData({ ...profileData });
       setProfileEditMode(false);
     } catch (error) {
