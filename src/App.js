@@ -8,6 +8,7 @@ import Register from "./Pages/Register";
 import Login from "./Pages/Login";
 
 import Layout2 from "./Layouts/Layout2";
+import MUI from "./Layouts/MUI";
 
 import AccDashboard from "./Pages/ACCOUNTANT/AccDashboard";
 
@@ -34,13 +35,14 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-
+        
         <Route path="/" element={<Home />} />
         <Route path="Home" element={<Home />} />
         <Route path="Register" element={<Register />} />
         <Route path="Login" element={<Login />} />
 
         <Route path="Layout2" element={<Layout2/>} />
+        <Route path="MUI" element={<MUI/>} />
 
         <Route path="AccDashboard" element={<AccDashboard />} />
 
