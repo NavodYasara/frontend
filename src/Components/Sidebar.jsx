@@ -9,6 +9,8 @@ import {
 } from "cdbreact";
 import { NavLink } from "react-router-dom";
 
+
+
 const Sidebar = ({ userType }) => {
   
   const getSidebarMenu = (userType) => {
@@ -19,8 +21,8 @@ const Sidebar = ({ userType }) => {
             <NavLink exact to="/AdminDashboard" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink exact to="/UserManagement" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="table"> User Management </CDBSidebarMenuItem>
+            <NavLink exact to="/ManageStaff" activeClassName="activeClicked">
+              <CDBSidebarMenuItem icon="table"> Manage Staff </CDBSidebarMenuItem>
             </NavLink>
           </>
         );

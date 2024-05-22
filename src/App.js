@@ -21,6 +21,7 @@ import CaretakerDashboard from "./Pages/CARETAKER/CaretakerDashboard";
 import Report from "./Pages/CARETAKER/Report";
 import CtRequirement from "./Pages/CARETAKER/CtRequirement";
 import Payment from "./Pages/CARETAKER/Payment";
+import Feedback from "./Pages/CARETAKER/Feedback";
 
 import ManagerDashboard from "./Pages/MANAGER/ManagerDashboard";
 import Careplan from "./Pages/MANAGER/Careplan";
@@ -54,6 +55,7 @@ function App() {
         <Route path="CaretakerDashboard" element={<CaretakerDashboard />} />
         <Route path="Report" element={<Report />} />
         <Route path="Payment" element={<Payment />} />
+        <Route path="Feedback" element={<Feedback />} />
 
         <Route path="ManagerDashboard" element={<ManagerDashboard />} />
 
