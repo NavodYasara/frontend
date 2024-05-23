@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   CDBSidebar,
   CDBSidebarContent,
@@ -11,9 +11,9 @@ import { NavLink } from "react-router-dom";
 
 
 const Sidebar = ({ userType }) => {
-  
+ 
   const getSidebarMenu = (userType) => {
-    switch (userType= "userType") {
+    switch (userType) {
       case "admin":
         return (
           <>
@@ -61,10 +61,7 @@ const Sidebar = ({ userType }) => {
             </NavLink>
             <NavLink exact to="/Careplan" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="table"> Create CarePlan </CDBSidebarMenuItem>
-            </NavLink>
-            <NavLink exact to="/Layout" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="table"> Layout </CDBSidebarMenuItem>
-            </NavLink>  
+            </NavLink> 
 
           </>
         );

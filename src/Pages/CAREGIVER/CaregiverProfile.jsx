@@ -5,9 +5,14 @@ import Navbar from '../../Components/Navbar/Navbar';
 import './CaregiverStyles.css';
 
 function CaregiverProfile() {
+
+  const getUserfromLocalStorage = localStorage.getItem("userDetails")
+    ? JSON.parse(localStorage.getItem("userDetails"))
+    : null;
+
   return (
     <div style={{display: "flex"}}>
-    <Sidebar />
+    <Sidebar userType={getUserfromLocalStorage.userType} />
     <div className="caregiver-profile" style={{flex: 1 }}>
       <Navbar />
       <div className="parent">

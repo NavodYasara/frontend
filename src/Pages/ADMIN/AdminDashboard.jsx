@@ -22,80 +22,74 @@ function AdminDashboard() {
     { id: 3, title: "System performance analysis", date: "2024-05-10" },
   ];
 
+  const getUserfromLocalStorage = localStorage.getItem("userDetails")
+    ? JSON.parse(localStorage.getItem("userDetails"))
+    : null;
+
   return (
-    
-      <div style={{ display: "flex" }}>
-      <Sidebar />
+    <div style={{ display: "flex" }}>
+      <Sidebar userType={getUserfromLocalStorage.userType} />
       <div style={{ flex: 1 }}>
         <Navbar />
         <div className="mgd-main" style={{ padding: "20px" }}>
           <Container fluid>
+            <Container>
+              <Typography variant="h4" gutterBottom>
+                Admin Dashboard
+              </Typography>
+              <Grid container spacing={3}>
+                {/* System Status */}
+                <Grid item xs={12} md={4}>
+                  <Paper elevation={3} style={{ padding: "20px" }}>
+                    <Typography variant="h5" gutterBottom>
+                      System Status
+                    </Typography>
+                    <Typography variant="body1">
+                      Server Uptime: {systemStatus.serverUptime}
+                    </Typography>
+                    <Typography variant="body1">
+                      Active Users: {systemStatus.activeUsers}
+                    </Typography>
+                  </Paper>
+                </Grid>
 
-                  <Container>
-          <Typography variant="h4" gutterBottom>
-            Admin Dashboard
-          </Typography>
-          <Grid container spacing={3}>
-            {/* System Status */}
-            <Grid item xs={12} md={4}>
-              <Paper elevation={3} style={{ padding: "20px" }}>
-                <Typography variant="h5" gutterBottom>
-                  System Status
-                </Typography>
-                <Typography variant="body1">
-                  Server Uptime: {systemStatus.serverUptime}
-                </Typography>
-                <Typography variant="body1">
-                  Active Users: {systemStatus.activeUsers}
-                </Typography>
-              </Paper>
-            </Grid>
+                {/* Pending Tasks */}
+                <Grid item xs={12} md={4}>
+                  <Paper elevation={3} style={{ padding: "20px" }}>
+                    <Typography variant="h5" gutterBottom>
+                      Pending Tasks
+                    </Typography>
+                    <ul>
+                      {pendingTasks.map((task) => (
+                        <li key={task.id}>
+                          {task.title} - Deadline: {task.deadline}
+                        </li>
+                      ))}
+                    </ul>
+                  </Paper>
+                </Grid>
 
-            {/* Pending Tasks */}
-            <Grid item xs={12} md={4}>
-              <Paper elevation={3} style={{ padding: "20px" }}>
-                <Typography variant="h5" gutterBottom>
-                  Pending Tasks
-                </Typography>
-                <ul>
-                  {pendingTasks.map((task) => (
-                    <li key={task.id}>
-                      {task.title} - Deadline: {task.deadline}
-                    </li>
-                  ))}
-                </ul>
-              </Paper>
-            </Grid>
-
-            {/* Reports */}
-            <Grid item xs={12} md={4}>
-              <Paper elevation={3} style={{ padding: "20px" }}>
-                <Typography variant="h5" gutterBottom>
-                  Reports
-                </Typography>
-                <ul>
-                  {reports.map((report) => (
-                    <li key={report.id}>
-                      {report.title} - Date: {report.date}
-                    </li>
-                  ))}
-                </ul>
-              </Paper>
-            </Grid>
-          </Grid>
-        </Container>
-
+                {/* Reports */}
+                <Grid item xs={12} md={4}>
+                  <Paper elevation={3} style={{ padding: "20px" }}>
+                    <Typography variant="h5" gutterBottom>
+                      Reports
+                    </Typography>
+                    <ul>
+                      {reports.map((report) => (
+                        <li key={report.id}>
+                          {report.title} - Date: {report.date}
+                        </li>
+                      ))}
+                    </ul>
+                  </Paper>
+                </Grid>
+              </Grid>
+            </Container>
           </Container>
         </div>
-        
       </div>
     </div>
-        
-        
-        
-
-      
-
   );
 }
 

@@ -23,6 +23,7 @@ function ProfileAndFeedbackPage() {
     id: "",
     firstName: "",
     lastName: "",
+    nationalId: "",
     dob: "",
     address: "",
     contactNumber: "",
@@ -34,6 +35,7 @@ function ProfileAndFeedbackPage() {
     id: "",
     firstName: "",
     lastName: "",
+    nationalId: "",
     dob: "",
     address: "",
     contactNumber: "",
@@ -139,7 +141,7 @@ function ProfileAndFeedbackPage() {
                                   fullWidth
                                 />
                               ) : (
-                                profileData.firstName
+                                profileData.firstName   
                               )}
                             </TableCell>
                           </TableRow>
@@ -153,6 +155,24 @@ function ProfileAndFeedbackPage() {
                                   type="text"
                                   name="lastName"
                                   value={profileData.lastName}
+                                  onChange={handleChange}
+                                  fullWidth
+                                />
+                              ) : (
+                                profileData.lastName
+                              )}
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell className="table-cell-bold">
+                              National ID:
+                            </TableCell>
+                            <TableCell className="table-cell">
+                              {profileEditMode ? (
+                                <TextField
+                                  type="text"
+                                  name="nationalId"
+                                  value={profileData.nationalId}
                                   onChange={handleChange}
                                   fullWidth
                                 />
