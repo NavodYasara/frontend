@@ -103,6 +103,19 @@ function RequirementsAndCaregiversPage() {
     setEndDate(date);
   };
   //#######################################################
+  
+  const handleRequest = async () => {
+    try {
+      // Send updated requirements to backend
+      await axios.post(`/api/request`, {
+        startDate: startDate,
+        endDate: endDate,
+      });
+    } catch (error) {
+      console.error("Error saving requirements:", error);
+    }
+  }
+
   return (
     <div style={{ display: "flex" }}>
       <Sidebar />
@@ -216,6 +229,24 @@ function RequirementsAndCaregiversPage() {
                     </Form.Group>
                   </Col>
                 </Row>
+              </Container>
+            </div>
+          </Grid>
+        </Container>
+        <Container className="request-schedule mt-5">
+          {/* reqest Preferred service period  */}
+          <Grid item xs={12} md={6}>
+            <div className="section-2 p-3 shadow rounded">
+              <Container className="request-schedule">
+                <div className="text-center">
+                 <MuiButton
+                    variant="contained"
+                    color="primary"
+                    onClick={handleRequest}
+                  >
+                    request Caregiver
+                  </MuiButton>
+                </div>
               </Container>
             </div>
           </Grid>
