@@ -31,8 +31,8 @@ const Sidebar = ({ userType }) => {
             <NavLink exact to="/CaregiverDashboard" activeClassName="activeClicked"> 
               <CDBSidebarMenuItem icon="columns">Caregiver Dashboard</CDBSidebarMenuItem>
             </NavLink>
-            <NavLink exactto="/CaregiverProfile" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="user">Profile</CDBSidebarMenuItem>
+            <NavLink exact to="/CaregiverProfile" activeClassName="activeClicked">
+              <CDBSidebarMenuItem icon="user">Caregiver Profile</CDBSidebarMenuItem>
             </NavLink>
           </div>
         );
