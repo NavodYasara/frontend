@@ -53,7 +53,7 @@ const Register = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/registercaretaker",
+        "http://localhost:5000/api/user/registercaretaker",
         form
       );
       console.log(response.data);

@@ -14,7 +14,7 @@ import { NavLink } from "react-router-dom";
 const Sidebar = ({ userType }) => {
   
   const getSidebarMenu = (userType) => {
-    switch (userType = 'userType') {
+    switch (userType) {
       case "admin":
         return (
           <>
@@ -28,14 +28,14 @@ const Sidebar = ({ userType }) => {
         );
       case "caregiver":
         return (
-          <>
+          <div>
             <NavLink exact to="/CaregiverDashboard" activeClassName="activeClicked"> 
               <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
             </NavLink>
             <NavLink exactto="/CaregiverProfile" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="user">Profile</CDBSidebarMenuItem>
             </NavLink>
-          </>
+          </div>
         );
       case "caretaker":
         return (

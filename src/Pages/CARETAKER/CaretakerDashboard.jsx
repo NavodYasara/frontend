@@ -43,6 +43,13 @@ function ProfileAndFeedbackPage() {
   });
   const [caregivers, setCaregivers] = useState([]);
 
+  //const id = localStorage.getItem.JSON.stringyfy("userDetails");
+  const getUserfromLocalStorage = localStorage.getItem("userDetails")
+  ? JSON.parse(localStorage.getItem("userDetails"))
+  : null;
+
+
+
   useEffect(() => {
     fetchCaretakerProfile();
     fetchCaregivers();
@@ -78,6 +85,9 @@ function ProfileAndFeedbackPage() {
 
   const handleProfileSave = async () => {
     try {
+      //const newData = {}
+      profileData.id = getUserfromLocalStorage.userId
+      console.log(profileData);
       await axios.put("http://localhost:5000/api/user/registerPatient", profileData);
       setOriginalProfileData({ ...profileData });
       setProfileEditMode(false);
@@ -97,7 +107,7 @@ function ProfileAndFeedbackPage() {
   return (
     <>
       <div style={{ display: "flex" }}>
-        <Sidebar />
+        <Sidebar userType={getUserfromLocalStorage.userType} />
         <div style={{ flex: 1 }}>
           <Navbar />
           <div className="mgd-main" style={{ padding: "20px" }}>

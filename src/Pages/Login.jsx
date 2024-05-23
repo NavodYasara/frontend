@@ -5,7 +5,7 @@ import axios from "axios";
 import Navbar from "../Components/Navbar/Navbar";
 
 function Login() {
-  const [username, setUsername] = useState("");
+  const [userName, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -14,14 +14,17 @@ function Login() {
     event.preventDefault();
 
     try {
-      const response = await axios.post("/api/login", {
-        username,
+      const response = await axios.post("/api/user/login", {
+        userName,
         password,
       });
 
       if (response.status === 200) {
-        const userType = response.data.userType; 
+        const userType = response.data.userType;
+        console.log(response.data.userDetails);
+        localStorage.setItem("userDetails", JSON.stringify(response.data.userDetails));
 
+        // const userType = "caregiver";
         switch (userType) {
           case "caretaker":
             navigate("/CaretakerDashboard");
@@ -64,7 +67,7 @@ function Login() {
                   <Form.Control
                     type="text"
                     placeholder="Enter your username"
-                    value={username}
+                    value={userName}
                     onChange={(e) => setUsername(e.target.value)}
                   />
                 </Form.Group>
@@ -97,13 +100,11 @@ function Login() {
 
 export default Login;
 
-
 // import React, { useState } from "react";
 // import { Container, Col, Card, Form, Button } from "react-bootstrap";
 // import { useNavigate } from "react-router-dom";
 // import axios from "axios";
 // import Navbar from "../Components/Navbar/Navbar";
-
 
 // function Login() {
 //   const [username, setUsername] = useState("");
@@ -146,7 +147,6 @@ export default Login;
 //     setError("An error occurred while logging in.");
 //   }
 // };
-
 
 //   return (
 //     <>
