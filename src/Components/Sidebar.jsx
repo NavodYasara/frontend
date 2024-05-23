@@ -40,14 +40,14 @@ const Sidebar = ({ userType }) => {
       case "caretaker":
         return (
           <>
-            <NavLink exact to="/CaregiverDetail" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="user"> Caregiver details </CDBSidebarMenuItem>
-            </NavLink>
-            <NavLink exact to="/Careplan" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="table"> View CarePlans </CDBSidebarMenuItem>
-            </NavLink>
             <NavLink exact to="/CaretakerDashboard" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="columns"> Your Profile </CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="user"> Dashboard </CDBSidebarMenuItem>
+            </NavLink>
+            <NavLink exact to="/CtRequirement" activeClassName="activeClicked">
+              <CDBSidebarMenuItem icon="table"> Requirments </CDBSidebarMenuItem>
+            </NavLink>
+            <NavLink exact to="/Feedback" activeClassName="activeClicked">
+              <CDBSidebarMenuItem icon="columns"> Feedbacks </CDBSidebarMenuItem>
             </NavLink>
             <NavLink exact to="/Report" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="chart-line">Reports</CDBSidebarMenuItem>

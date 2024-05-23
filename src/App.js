@@ -10,8 +10,6 @@ import Login from "./Pages/Login";
 import Layout2 from "./Layouts/Layout2";
 import MUI from "./Layouts/MUI";
 
-import AccDashboard from "./Pages/ACCOUNTANT/AccDashboard";
-
 import AdminDashboard from "./Pages/ADMIN/AdminDashboard";
 import ManageStaff from "./Pages/ADMIN/ManageStaff";
 
@@ -30,7 +28,7 @@ import Careplan from "./Pages/MANAGER/Careplan";
 
 function App() {
   // userType is obtained from some authentication mechanism
-  const [userType, setUserType] = useState("manager");
+  const [userType, setUserType] = useState("");
 
   return (
     <BrowserRouter>
@@ -43,8 +41,6 @@ function App() {
 
         <Route path="Layout2" element={<Layout2/>} />
         <Route path="MUI" element={<MUI/>} />
-
-        <Route path="AccDashboard" element={<AccDashboard />} />
 
         <Route path="AdminDashboard" element={<AdminDashboard />} />
         <Route path="ManageStaff" element={<ManageStaff/>} />
