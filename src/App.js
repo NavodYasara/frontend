@@ -28,17 +28,19 @@ import { useEffect } from "react";
 
 
 function App() {
-  // userType is obtained from local storage
-
   
+  
+  const [userType1, setUserType] = useState("");
+  // userType is obtained from local storage
   useEffect(() => {
-    const userTypeFromStorage = localStorage.getItem("userDetails.userType");
+    const userTypeFromStorage = localStorage.getItem("userDetails");
     if (userTypeFromStorage) {
-      setUserType(userTypeFromStorage);
+      setUserType(userTypeFromStorage.userType);
+      console.log(userType1);
     }
   }, []);
+
   
-  const [userType, setUserType] = useState("");
 
   return (
     <BrowserRouter>
@@ -70,7 +72,7 @@ function App() {
         
 
         {/* Pass userType to Sidebar */}
-        <Route path="*" element={<Sidebar userType={userType} />} />
+        <Route path="*" element={<Sidebar userType={userType1} />} />
         
       </Routes>
     </BrowserRouter>
