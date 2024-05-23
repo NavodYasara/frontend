@@ -1,6 +1,7 @@
 import React from "react";
 import Sidebar from "../../Components/Sidebar";
 import { Container, Grid, Typography, Paper } from "@mui/material";
+import Navbar from "../../Components/Navbar/Navbar"
 
 function CaregiverDashboard() {
   // Sample data for upcoming appointments
@@ -25,18 +26,14 @@ function CaregiverDashboard() {
   ];
 
   return (
-    <div style={{ display: "flex" }}>
-      <div>
-        <Sidebar />
-      </div>
-
-      <div
-        fluid
-        className="vh-100 d-flex "
-        style={{ width: "100%", marginTop: "100px" }}
-      >
-        <Container>
-          <Grid container spacing={3}>
+    
+      <div style={{ display: "flex" }}>
+      <Sidebar />
+      <div style={{ flex: 1 }}>
+        <Navbar />
+        <div className="mgd-main" style={{ padding: "20px" }}>
+          <Container fluid>
+             <Grid container spacing={3}>
             {/* Upcoming Appointments */}
             <Grid item xs={12}>
               <Paper elevation={3} style={{ padding: "20px" }}>
@@ -86,9 +83,22 @@ function CaregiverDashboard() {
               </Paper>
             </Grid>
           </Grid>
-        </Container>
+            
+
+
+          </Container>
+        </div>
+        
       </div>
     </div>
+
+
+
+
+
+
+        
+    
   );
 }
 

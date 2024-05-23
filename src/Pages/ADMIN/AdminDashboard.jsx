@@ -1,6 +1,7 @@
 import React from "react";
 import Sidebar from "../../Components/Sidebar";
 import { Container, Typography, Grid, Paper } from "@mui/material";
+import Navbar from "../../Components/Navbar/Navbar";
 
 function AdminDashboard() {
   // Example data for system status, pending tasks, and reports
@@ -22,17 +23,15 @@ function AdminDashboard() {
   ];
 
   return (
-    <div style={{ display: "flex" }}>
-      <div>
-        <Sidebar />
-      </div>
+    
+      <div style={{ display: "flex" }}>
+      <Sidebar />
+      <div style={{ flex: 1 }}>
+        <Navbar />
+        <div className="mgd-main" style={{ padding: "20px" }}>
+          <Container fluid>
 
-      <div
-        fluid
-        className="vh-100 d-flex "
-        style={{ width: "100%", marginTop: "100px" }}
-      >
-        <Container>
+                  <Container>
           <Typography variant="h4" gutterBottom>
             Admin Dashboard
           </Typography>
@@ -85,8 +84,18 @@ function AdminDashboard() {
             </Grid>
           </Grid>
         </Container>
+
+          </Container>
+        </div>
+        
       </div>
     </div>
+        
+        
+        
+
+      
+
   );
 }
 

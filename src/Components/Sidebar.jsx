@@ -14,7 +14,7 @@ import { NavLink } from "react-router-dom";
 const Sidebar = ({ userType }) => {
   
   const getSidebarMenu = (userType) => {
-    switch (userType) {
+    switch (userType= "manager") {
       case "admin":
         return (
           <>
@@ -57,16 +57,16 @@ const Sidebar = ({ userType }) => {
       case "manager":
         return (
           <>
-            <NavLink exact to="/Layout" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="table"> Layout </CDBSidebarMenuItem>
-            </NavLink>  
-            <NavLink exact to="/CreateCareplan" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="table"> Create CarePlan </CDBSidebarMenuItem>
-            </NavLink>
-
             <NavLink exact to="/ManagerDashboard" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
             </NavLink>
+            <NavLink exact to="/Careplan" activeClassName="activeClicked">
+              <CDBSidebarMenuItem icon="table"> Create CarePlan </CDBSidebarMenuItem>
+            </NavLink>
+            <NavLink exact to="/Layout" activeClassName="activeClicked">
+              <CDBSidebarMenuItem icon="table"> Layout </CDBSidebarMenuItem>
+            </NavLink>  
+
           </>
         );
       default:

@@ -26,6 +26,7 @@ import ManagerDashboard from "./Pages/MANAGER/ManagerDashboard";
 import Careplan from "./Pages/MANAGER/Careplan";
 
 
+
 function App() {
   // userType is obtained from some authentication mechanism
   const [userType, setUserType] = useState("");
@@ -56,6 +57,8 @@ function App() {
         <Route path="Feedback" element={<Feedback />} />
 
         <Route path="ManagerDashboard" element={<ManagerDashboard />} />
+        <Route path="Careplan" element={<Careplan />} />
+        
 
         {/* Pass userType to Sidebar */}
         <Route path="*" element={<Sidebar userType={userType} />} />
