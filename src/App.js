@@ -24,11 +24,20 @@ import Feedback from "./Pages/CARETAKER/Feedback";
 
 import ManagerDashboard from "./Pages/MANAGER/ManagerDashboard";
 import Careplan from "./Pages/MANAGER/Careplan";
-
+import { useEffect } from "react";
 
 
 function App() {
-  // userType is obtained from some authentication mechanism
+  // userType is obtained from local storage
+
+  
+  useEffect(() => {
+    const userTypeFromStorage = localStorage.getItem("userDetails.userType");
+    if (userTypeFromStorage) {
+      setUserType(userTypeFromStorage);
+    }
+  }, []);
+  
   const [userType, setUserType] = useState("");
 
   return (

@@ -10,11 +10,10 @@ import {
 import { NavLink } from "react-router-dom";
 
 
-
 const Sidebar = ({ userType }) => {
   
   const getSidebarMenu = (userType) => {
-    switch (userType= "manager") {
+    switch (userType= "userType") {
       case "admin":
         return (
           <>
@@ -30,7 +29,7 @@ const Sidebar = ({ userType }) => {
         return (
           <div>
             <NavLink exact to="/CaregiverDashboard" activeClassName="activeClicked"> 
-              <CDBSidebarMenuItem icon="columns">Dashboard</CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="columns">Caregiver Dashboard</CDBSidebarMenuItem>
             </NavLink>
             <NavLink exactto="/CaregiverProfile" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="user">Profile</CDBSidebarMenuItem>
@@ -41,7 +40,7 @@ const Sidebar = ({ userType }) => {
         return (
           <>
             <NavLink exact to="/CaretakerDashboard" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="user"> Dashboard </CDBSidebarMenuItem>
+              <CDBSidebarMenuItem icon="user">Caretaker Dashboard </CDBSidebarMenuItem>
             </NavLink>
             <NavLink exact to="/CtRequirement" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="table"> Requirments </CDBSidebarMenuItem>

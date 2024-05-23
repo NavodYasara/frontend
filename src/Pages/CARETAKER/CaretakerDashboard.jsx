@@ -45,10 +45,8 @@ function ProfileAndFeedbackPage() {
 
   //const id = localStorage.getItem.JSON.stringyfy("userDetails");
   const getUserfromLocalStorage = localStorage.getItem("userDetails")
-  ? JSON.parse(localStorage.getItem("userDetails"))
-  : null;
-
-
+    ? JSON.parse(localStorage.getItem("userDetails"))
+    : null;
 
   useEffect(() => {
     fetchCaretakerProfile();
@@ -57,7 +55,9 @@ function ProfileAndFeedbackPage() {
 
   const fetchCaretakerProfile = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/caretakerprofile");
+      const response = await axios.get(
+        "http://localhost:5000/api/caretakerprofile"
+      );
       setProfileData(response.data);
       setOriginalProfileData(response.data);
     } catch (error) {
@@ -86,9 +86,12 @@ function ProfileAndFeedbackPage() {
   const handleProfileSave = async () => {
     try {
       //const newData = {}
-      profileData.id = getUserfromLocalStorage.userId
+      profileData.id = getUserfromLocalStorage.userId;
       console.log(profileData);
-      await axios.put("http://localhost:5000/api/user/registerPatient", profileData);
+      await axios.post(
+        "http://localhost:5000/api/user/registerPatient",
+        profileData
+      );
       setOriginalProfileData({ ...profileData });
       setProfileEditMode(false);
     } catch (error) {
@@ -123,7 +126,9 @@ function ProfileAndFeedbackPage() {
                       <Table>
                         <TableBody>
                           <TableRow>
-                            <TableCell className="table-cell-bold">First Name:</TableCell>
+                            <TableCell className="table-cell-bold">
+                              First Name:
+                            </TableCell>
                             <TableCell className="table-cell">
                               {profileEditMode ? (
                                 <TextField
@@ -139,7 +144,9 @@ function ProfileAndFeedbackPage() {
                             </TableCell>
                           </TableRow>
                           <TableRow>
-                            <TableCell className="table-cell-bold">Last Name:</TableCell>
+                            <TableCell className="table-cell-bold">
+                              Last Name:
+                            </TableCell>
                             <TableCell className="table-cell">
                               {profileEditMode ? (
                                 <TextField
@@ -155,7 +162,9 @@ function ProfileAndFeedbackPage() {
                             </TableCell>
                           </TableRow>
                           <TableRow>
-                            <TableCell className="table-cell-bold">Contact Number:</TableCell>
+                            <TableCell className="table-cell-bold">
+                              Contact Number:
+                            </TableCell>
                             <TableCell className="table-cell">
                               {profileEditMode ? (
                                 <TextField
@@ -171,7 +180,9 @@ function ProfileAndFeedbackPage() {
                             </TableCell>
                           </TableRow>
                           <TableRow>
-                            <TableCell className="table-cell-bold">Date of Birth:</TableCell>
+                            <TableCell className="table-cell-bold">
+                              Date of Birth:
+                            </TableCell>
                             <TableCell className="table-cell">
                               {profileEditMode ? (
                                 <TextField
@@ -190,7 +201,9 @@ function ProfileAndFeedbackPage() {
                             </TableCell>
                           </TableRow>
                           <TableRow>
-                            <TableCell className="table-cell-bold">Address:</TableCell>
+                            <TableCell className="table-cell-bold">
+                              Address:
+                            </TableCell>
                             <TableCell className="table-cell">
                               {profileEditMode ? (
                                 <TextField
@@ -206,7 +219,9 @@ function ProfileAndFeedbackPage() {
                             </TableCell>
                           </TableRow>
                           <TableRow>
-                            <TableCell className="table-cell-bold">Medical Condition:</TableCell>
+                            <TableCell className="table-cell-bold">
+                              Medical Condition:
+                            </TableCell>
                             <TableCell className="table-cell">
                               {profileEditMode ? (
                                 <TextField
@@ -222,7 +237,9 @@ function ProfileAndFeedbackPage() {
                             </TableCell>
                           </TableRow>
                           <TableRow>
-                            <TableCell className="table-cell-bold">Emergency Contact:</TableCell>
+                            <TableCell className="table-cell-bold">
+                              Emergency Contact:
+                            </TableCell>
                             <TableCell className="table-cell">
                               {profileEditMode ? (
                                 <TextField
@@ -238,7 +255,9 @@ function ProfileAndFeedbackPage() {
                             </TableCell>
                           </TableRow>
                           <TableRow>
-                            <TableCell className="table-cell-bold">Caretaker Category:</TableCell>
+                            <TableCell className="table-cell-bold">
+                              Caretaker Category:
+                            </TableCell>
                             <TableCell className="table-cell">
                               {profileEditMode ? (
                                 <Select
@@ -253,8 +272,12 @@ function ProfileAndFeedbackPage() {
                                   fullWidth
                                 >
                                   <MenuItem value={"Mental"}>Mental</MenuItem>
-                                  <MenuItem value={"Disabled"}>Disabled</MenuItem>
-                                  <MenuItem value={"Eldering"}>Eldering</MenuItem>
+                                  <MenuItem value={"Disabled"}>
+                                    Disabled
+                                  </MenuItem>
+                                  <MenuItem value={"Eldering"}>
+                                    Eldering
+                                  </MenuItem>
                                 </Select>
                               ) : (
                                 profileData.category
