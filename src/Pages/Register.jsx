@@ -15,7 +15,6 @@ const Register = () => {
     dob: "",
     gender: "",
     address: "",
-    category: "",
     usertype: "caretaker",
   });
 
@@ -38,8 +37,7 @@ const Register = () => {
       form.confPassword === "" ||
       form.mobileNo === "" ||
       form.dob === "" ||
-      form.address === "" ||
-      form.category === ""
+      form.address === ""
     ) {
       setError("Please fill all the fields!");
       return;
@@ -165,15 +163,7 @@ const Register = () => {
                       onChange={handleChange}
                     />
                   </Form.Group>
-                  <Form.Group className="mb-4">
-                    <Form.Label>Care Category</Form.Label>
-                    <Form.Control as="select" name="category" onChange={handleChange}>
-                      <option value="">Select</option>
-                      <option value="mental">MENTAL</option>
-                      <option value="disable">DISABILITY</option>
-                      <option value="elder">ELDERING</option>
-                    </Form.Control>
-                  </Form.Group>
+
                   <Button className="w-100 mb-4" size="md" variant="primary" type="submit">
                     Sign Up
                   </Button>
