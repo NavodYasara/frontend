@@ -90,7 +90,7 @@ function ProfileAndFeedbackPage() {
     try {
       //const newData = {}
       profileData.id = getUserfromLocalStorage.userId;
-      console.log(profileData);
+      console.log("Frontand data", profileData);
       await axios.post(
         "http://localhost:5000/api/user/registerPatient",
         profileData
@@ -142,7 +142,7 @@ function ProfileAndFeedbackPage() {
                                   fullWidth
                                 />
                               ) : (
-                                profileData.firstName   
+                                profileData.firstName
                               )}
                             </TableCell>
                           </TableRow>
@@ -178,7 +178,7 @@ function ProfileAndFeedbackPage() {
                                   fullWidth
                                 />
                               ) : (
-                                profileData.lastName
+                                profileData.nationalId
                               )}
                             </TableCell>
                           </TableRow>
@@ -293,18 +293,16 @@ function ProfileAndFeedbackPage() {
                                   fullWidth
                                 >
                                   <MenuItem value={"mental"}>Mental</MenuItem>
-                                  <MenuItem value={"disabled"}>
-                                    Disabled
-                                  </MenuItem>
-                                  <MenuItem value={"Eldering"}>
-                                    Eldering
-                                  </MenuItem>
+                                  <MenuItem value={"disabled"}>Disabled</MenuItem>
+                                  <MenuItem value={"eldering"}>Eldering</MenuItem>
                                 </Select>
                               ) : (
                                 profileData.category
                               )}
                             </TableCell>
                           </TableRow>
+
+
                           <TableRow>
                             <TableCell className="table-cell-bold">
                               Select Preffer Caregiver
@@ -317,7 +315,7 @@ function ProfileAndFeedbackPage() {
                                   onChange={(e) =>
                                     setProfileData((prevState) => ({
                                       ...prevState,
-                                      category: e.target.value,
+                                      preffGender: e.target.value,
                                     }))
                                   }
                                   fullWidth
