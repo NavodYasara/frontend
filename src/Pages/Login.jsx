@@ -35,6 +35,9 @@ function Login() {
           case "manager":
             navigate("/ManagerDashboard");
             break;
+            case "admin":
+            navigate("/AdminDashboard");
+            break;
           default:
             setError("Invalid user type.");
             break;
