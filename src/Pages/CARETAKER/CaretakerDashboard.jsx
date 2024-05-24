@@ -27,7 +27,7 @@ function ProfileAndFeedbackPage() {
     address: "",
     mobileNo: "",
     category: "",
-    medicalCondition: "",
+    mediCondition: "",
     emergCont: "",
   });
   const [profileData, setProfileData] = useState({
@@ -38,7 +38,7 @@ function ProfileAndFeedbackPage() {
     address: "",
     mobileNo: "",
     category: "",
-    medicalCondition: "",
+    mediCondition: "",
     emergCont: "",
     preffGender: "",
   });
@@ -216,13 +216,13 @@ function ProfileAndFeedbackPage() {
                               {profileEditMode ? (
                                 <TextField
                                   type="text"
-                                  name="medicalCondition"
-                                  value={profileData.medicalCondition}
+                                  name="mediCondition"
+                                  value={profileData.mediCondition}
                                   onChange={handleChange}
                                   fullWidth
                                 />
                               ) : (
-                                profileData.medicalCondition
+                                profileData.mediCondition
                               )}
                             </TableCell>
                           </TableRow>
@@ -375,7 +375,7 @@ export default ProfileAndFeedbackPage;
 //     address: "",
 //     mobileNo: "",
 //     category: "",
-//     medicalCondition: "",
+//     mediCondition: "",
 //     emergCont: "",
 //   });
 //   const [profileData, setProfileData] = useState({
@@ -387,7 +387,7 @@ export default ProfileAndFeedbackPage;
 //     address: "",
 //     mobileNo: "",
 //     category: "",
-//     medicalCondition: "",
+//     mediCondition: "",
 //     emergCont: "",
 //     preffGender: "",
 //   });
@@ -594,13 +594,13 @@ export default ProfileAndFeedbackPage;
 //                               {profileEditMode ? (
 //                                 <TextField
 //                                   type="text"
-//                                   name="medicalCondition"
-//                                   value={profileData.medicalCondition}
+//                                   name="mediCondition"
+//                                   value={profileData.mediCondition}
 //                                   onChange={handleChange}
 //                                   fullWidth
 //                                 />
 //                               ) : (
-//                                 profileData.medicalCondition
+//                                 profileData.mediCondition
 //                               )}
 //                             </TableCell>
 //                           </TableRow>
