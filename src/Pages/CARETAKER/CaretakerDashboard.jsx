@@ -42,6 +42,7 @@ function ProfileAndFeedbackPage() {
     category: "",
     medicalCondition: "",
     emergencyContact: "",
+    preffGender: "",
   });
   const [caregivers, setCaregivers] = useState([]);
 
@@ -291,8 +292,8 @@ function ProfileAndFeedbackPage() {
                                   }
                                   fullWidth
                                 >
-                                  <MenuItem value={"Mental"}>Mental</MenuItem>
-                                  <MenuItem value={"Disabled"}>
+                                  <MenuItem value={"mental"}>Mental</MenuItem>
+                                  <MenuItem value={"disabled"}>
                                     Disabled
                                   </MenuItem>
                                   <MenuItem value={"Eldering"}>
@@ -301,6 +302,31 @@ function ProfileAndFeedbackPage() {
                                 </Select>
                               ) : (
                                 profileData.category
+                              )}
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell className="table-cell-bold">
+                              Select Preffer Caregiver
+                            </TableCell>
+                            <TableCell className="table-cell">
+                              {profileEditMode ? (
+                                <Select
+                                  name="preffGender"
+                                  value={profileData.preffGender}
+                                  onChange={(e) =>
+                                    setProfileData((prevState) => ({
+                                      ...prevState,
+                                      category: e.target.value,
+                                    }))
+                                  }
+                                  fullWidth
+                                >
+                                  <MenuItem value={"male"}>Male</MenuItem>
+                                  <MenuItem value={"female"}>Female</MenuItem>
+                                </Select>
+                              ) : (
+                                profileData.preffGender
                               )}
                             </TableCell>
                           </TableRow>
