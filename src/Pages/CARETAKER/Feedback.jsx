@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
+import { Container, Row, Col, Button, Modal, Form, Table } from "react-bootstrap";
 import Sidebar from "../../Components/Sidebar";
 import Navbar from "../../Components/Navbar/Navbar";
+
 
 const AddFeedbackPage = () => {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [feedback, setFeedback] = useState("");
+
+  const [caregivers, setCaregivers] = useState([]);
 
   const handleFeedbackChange = (event) => {
     setFeedback(event.target.value);
@@ -75,6 +78,41 @@ const AddFeedbackPage = () => {
                 </Modal>
               </div>
             </Container>
+            <Container className="mt-5">
+              <Row>
+                <div className="p-3 shadow rounded">
+                  <div className="row">
+                    <h2 className="mb-4" style={{ textAlign: "center" }}>
+                      Allocated Caregivers
+                    </h2>
+                    <Table striped bordered hover>
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Gender</th>
+                          <th>Category</th>
+                          <th>Contact</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {caregivers.map((caregiver, index) => (
+                          <tr key={index}>
+                            <td>{caregiver.userName}</td>
+                            <td>{caregiver.gender}</td>
+                            <td>{caregiver.category}</td>
+                            <td>{caregiver.contact}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                  </div>
+                  <div className="row">
+                    <Button variant="primary">Reject Caregiver</Button>
+                  </div>
+                </div>
+              </Row>
+              
+              </Container>
           </Container>
         </div>
       </div>
