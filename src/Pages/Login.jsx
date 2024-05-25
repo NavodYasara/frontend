@@ -14,11 +14,14 @@ function Login() {
     event.preventDefault();
 
     try {
+
+      console.log(userName);
+
       const response = await axios.post("/api/user/login", {
         userName,
         password,
       });
-
+      
       if (response.status === 200) {
         const userType = response.data.userType;
         console.log(response.data.userDetails);
