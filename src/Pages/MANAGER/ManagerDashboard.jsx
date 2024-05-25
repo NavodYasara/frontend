@@ -1,3 +1,4 @@
+// ManagerDashboard.jsx
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Table, Dropdown, Card } from "react-bootstrap";
 import dayjs from "dayjs";
@@ -9,19 +10,26 @@ const ManagerDashboard = () => {
   const [selectedCaretaker, setSelectedCaretaker] = useState(null);
   const [selectedCaregiver, setSelectedCaregiver] = useState(null);
   const [caretakerDetails, setCaretakerDetails] = useState(null);
-  const [caregiverDetails, setCaregiverDetails] = useState(null);
+  const [caregivers, setCaregivers] = useState([]); // State for caregivers
 
   useEffect(() => {
+    // Fetch caretakers
     fetch("http://localhost:5000/api/manager/caretakerInformation")
       .then((response) => response.json())
       .then((data) => setCaretakers(Array.isArray(data) ? data : []))
+      .catch((error) => console.error("Error:", error));
+
+    // Fetch caregivers
+    fetch("http://localhost:5000/api/manager/caregivers")
+      .then((response) => response.json())
+      .then((data) => setCaregivers(data))
       .catch((error) => console.error("Error:", error));
   }, []);
 
   const handleRowClick = (caretaker) => {
     setSelectedCaretaker(caretaker);
     // Fetch detailed information for selected caretaker
-    fetch(`http://localhost:5000/api/manager/caretakers/${caretaker.caretakerId}`)
+    fetch(`http://localhost:5000/api/manager/getCaretakers/${caretaker.caretakerId}`)
       .then((response) => response.json())
       .then((data) => setCaretakerDetails(data))
       .catch((error) => console.error("Error:", error));
@@ -34,6 +42,7 @@ const ManagerDashboard = () => {
       .then((data) => setSelectedCaregiver(data))
       .catch((error) => console.error("Error:", error));
   };
+
 
   const getUserfromLocalStorage = localStorage.getItem("userDetails")
     ? JSON.parse(localStorage.getItem("userDetails"))
@@ -81,16 +90,17 @@ const ManagerDashboard = () => {
                               variant="secondary"
                               id="dropdown-basic"
                             >
-                              {caretaker.caregiver}
+                              {caretaker.caregiver || "Select Caregiver"}
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
-                              {/* Add options for caregivers, 
-                                  populated from your data source. 
-                                  Use caretaker.caregiverId for each option value
-                              */}
-                              <Dropdown.Item eventKey="1">Caregiver 1</Dropdown.Item> 
-                              <Dropdown.Item eventKey="1">Caregiver 1</Dropdown.Item>    
-                             
+                              {caregivers.map((caregiver) => (
+                                <Dropdown.Item
+                                  key={caregiver.userId}
+                                  eventKey={caregiver.userId}
+                                >
+                                  {`${caregiver.firstName} ${caregiver.lastName}`}
+                                </Dropdown.Item>
+                              ))}
                             </Dropdown.Menu>
                           </Dropdown>
                         </td>
@@ -104,7 +114,7 @@ const ManagerDashboard = () => {
 
             {caretakerDetails && (
               <Row>
-                <Col>
+                <Col className="caretaker details section">
                   <Card>
                     <Card.Body>
                       <Card.Title>Caretaker Information</Card.Title>
@@ -160,4 +170,3 @@ const ManagerDashboard = () => {
 };
 
 export default ManagerDashboard;
-

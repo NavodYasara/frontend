@@ -72,16 +72,18 @@ function RequirementsAndCaregiversPage() {
   };
 
   const handleRequirementsSave = async () => {
-    try {
-      // Send updated requirements to backend
-      await axios.put(`/api/profile/${profileData.id}`, {
-        requirements: profileData.requirements,
-      });
-      setRequirementsEditMode(false);
-    } catch (error) {
-      console.error("Error saving requirements:", error);
-    }
-  };
+  try {
+    const requirementProfileData = { ...profileData, userId: getUserfromLocalStorage.userId };
+    console.log("Frontend data", requirementProfileData);
+    
+    // Send updated requirements to backend
+    await axios.post(`/api/requirement/insertRequirement`,requirementProfileData);
+    
+    setRequirementsEditMode(false);
+  } catch (error) {
+    console.error("Error saving requirements:", error);
+  }
+};
 
   const handleRequirementsCancel = () => {
     setRequirementsEditMode(false);
