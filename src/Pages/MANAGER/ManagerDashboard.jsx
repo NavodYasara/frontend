@@ -19,7 +19,6 @@ const ManagerDashboard = () => {
   const [caregivers, setCaregivers] = useState([]); // State for caregivers
 
   useEffect(() => {
-<<<<<<< HEAD
     // Fetch requirements
     fetch("http://localhost:5000/api/manager/getcaretakerInformation")
     
