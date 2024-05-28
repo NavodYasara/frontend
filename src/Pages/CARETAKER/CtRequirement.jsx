@@ -40,6 +40,14 @@ function RequirementsAndCaregiversPage() {
     ? JSON.parse(localStorage.getItem("userDetails"))
     : null;
 
+//   const [userInputs, setUserInputs] = useState({
+//   requirements: "",
+//   preferredGender: "",
+//   startDate: new Date(),
+//   endDate: new Date(),
+// });
+
+  
   useEffect(() => {
     // Fetch caregivers data
     const fetchCaregivers = async () => {
@@ -117,6 +125,7 @@ function RequirementsAndCaregiversPage() {
         endDate: endDate,
         preferredGender: profileData.preferredGender,
         userId: getUserfromLocalStorage.userId,
+        
       });
     } catch (error) {
       console.error("Error sending request:", error);

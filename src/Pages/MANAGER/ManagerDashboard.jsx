@@ -1,4 +1,10 @@
 // ManagerDashboard.jsx
+
+
+
+
+// ManagerDashboard.jsx
+
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Table, Dropdown, Card } from "react-bootstrap";
 import dayjs from "dayjs";
@@ -13,8 +19,9 @@ const ManagerDashboard = () => {
   const [caregivers, setCaregivers] = useState([]); // State for caregivers
 
   useEffect(() => {
+    
     // Fetch caretakers
-    fetch("http://localhost:5000/api/manager/caretakerInformation")
+    fetch("http://localhost:5000/api/manager/getCaretakerInformation")
       .then((response) => response.json())
       .then((data) => setCaretakers(Array.isArray(data) ? data : []))
       .catch((error) => console.error("Error:", error));
@@ -67,6 +74,7 @@ const ManagerDashboard = () => {
                       <th>End Date</th>
                       <th>Medical Conditions</th>
                       <th>Caregiver</th>
+                      <th>Caregiver's Gender</th>
                       <th>Preferred Gender</th>
                     </tr>
                   </thead>
@@ -104,6 +112,7 @@ const ManagerDashboard = () => {
                             </Dropdown.Menu>
                           </Dropdown>
                         </td>
+                        <td></td>
                         <td>{caretaker.preffGender}</td>
                       </tr>
                     ))}
