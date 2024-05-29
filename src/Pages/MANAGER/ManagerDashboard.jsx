@@ -122,7 +122,7 @@ const ManagerDashboard = () => {
                       <th>End Date</th>
                       <th>Medical Conditions</th>
                       <th>Caregiver</th>
-                      
+
                       <th>Preferred Gender</th>
                       <th>Status</th>
                     </tr>
@@ -144,7 +144,7 @@ const ManagerDashboard = () => {
                         <td>
                           <Dropdown onSelect={handleCaregiverChange}>
                             <Dropdown.Toggle
-                              variant="secondary"
+                              variant="primary"
                               id="dropdown-basic"
                             >
                               {caretaker.caregiver || "Select Caregiver"}
@@ -152,8 +152,8 @@ const ManagerDashboard = () => {
                             <Dropdown.Menu>
                               {caregivers.map((caregiver) => (
                                 <Dropdown.Item
-                                  key={caregiver.userId}
-                                  eventKey={caregiver.userId}
+                                  key={caregiver.caregiverId}
+                                  eventKey={caregiver.firstName + caregiver.gender}
                                 >
                                   {`${caregiver.firstName} ${
                                     "(" + caregiver.gender + ")"
@@ -180,7 +180,7 @@ const ManagerDashboard = () => {
                       <Card.Title>Caretaker Information</Card.Title>
                       <Card.Text>
                         <p>
-                          Name:{""}
+                          Name: {""}
                           {`${caretakerDetails.firstName} ${caretakerDetails.lastName}`}
                         </p>
                         <p>
