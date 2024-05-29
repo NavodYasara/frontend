@@ -16,8 +16,6 @@ const ManagerDashboard = () => {
   const [caregivers, setCaregivers] = useState([]); // State for caregivers
 
   useEffect(() => {
-
-
     // Fetch caretakers
     fetch("http://localhost:5000/api/manager/getCaretakerInformation")
       .then((response) => response.json())
@@ -43,13 +41,63 @@ const ManagerDashboard = () => {
   };
   console.log(caretakerDetails);
 
-  const handleCaregiverChange = (caregiverId) => {
+  const handleCaregiverChange = async (caregiverId) => {
     // Fetch detailed information for selected caregiver
     fetch(`http://localhost:5000/api/manager/caregivers/${caregiverId}`)
       .then((response) => response.json())
-      .then((data) => setSelectedCaregiver(data))
+      .then((data) => {
+        setSelectedCaregiver(data);
+
+        // Update the database with selected caregiver and status
+        fetch(`http://localhost:5000/api/manager/allocateCaregiver`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            caretakerId: selectedCaretaker.caretakerId,
+            caregiverId: caregiverId,
+            status: "Assigned", // Set status to "Assigned"
+          }),
+        })
+          .then((response) => {
+            if (response.ok) {
+              console.log("Caregiver allocated successfully!");
+              // You may want to update the caretakers state here to reflect the change.
+              // For example:
+              // setCaretakers(
+              //   caretakers.map((c) =>
+              //     c.caretakerId === selectedCaretaker.caretakerId
+              //       ? { ...c, caregiver: caregiverId, status: "Assigned" }
+              //       : c
+              //   )
+              // );
+            } else {
+              console.error("Error allocating caregiver:", response.status);
+            }
+          })
+          .catch((error) => console.error("Error:", error));
+      })
       .catch((error) => console.error("Error:", error));
   };
+
+  const calculateAge = (dobString) => {
+    if (!dobString) {
+      return "N/A";
+    }
+    const dob = dayjs(dobString);
+    const now = dayjs();
+    return now.diff(dob, "year"); // Calculate age in years
+  };
+
+  // const handleCaregiverChange = (caregiverId) => {
+  //   // Fetch detailed information for selected caregiver
+  //   fetch(`http://localhost:5000/api/manager/caregivers/${caregiverId}`)
+  //     .then((response) => response.json())
+  //     .then((data) => setSelectedCaregiver(data))
+
+  //     .catch((error) => console.error("Error:", error));
+  // };
 
   const getUserfromLocalStorage = localStorage.getItem("userDetails")
     ? JSON.parse(localStorage.getItem("userDetails"))
@@ -107,7 +155,9 @@ const ManagerDashboard = () => {
                                   key={caregiver.userId}
                                   eventKey={caregiver.userId}
                                 >
-                                  {`${caregiver.firstName} ${"("+caregiver.gender+")"}`}
+                                  {`${caregiver.firstName} ${
+                                    "(" + caregiver.gender + ")"
+                                  }`}
                                 </Dropdown.Item>
                               ))}
                             </Dropdown.Menu>
@@ -144,13 +194,7 @@ const ManagerDashboard = () => {
                         </p>
                         <p>Address: {caretakerDetails.address}</p>
                         <p>Requirement: {caretakerDetails.requirement}</p>
-                        <p>
-                          Age:{" "}
-                          {caretakerDetails.formattedDob
-                            ? dayjs().year() -
-                              dayjs(caretakerDetails.formattedDob).year()
-                            : "N/A"}
-                        </p>
+                        Age: {calculateAge(caretakerDetails.formattedDob)}
                       </Card.Text>
                     </Card.Body>
                   </Card>
