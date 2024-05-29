@@ -122,7 +122,7 @@ const ManagerDashboard = () => {
                       <th>End Date</th>
                       <th>Medical Conditions</th>
                       <th>Caregiver</th>
-                      <th>Caregiver's Gender</th>
+                      
                       <th>Preferred Gender</th>
                       <th>Status</th>
                     </tr>
@@ -163,7 +163,6 @@ const ManagerDashboard = () => {
                             </Dropdown.Menu>
                           </Dropdown>
                         </td>
-                        <td></td>
                         <td>{caretaker.preffGender}</td>
                         {/* <td>{careplan.status}</td> */}
                       </tr>
