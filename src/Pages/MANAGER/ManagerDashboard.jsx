@@ -1,8 +1,5 @@
 // ManagerDashboard.jsx
 
-
-
-
 // ManagerDashboard.jsx
 
 import React, { useState, useEffect } from "react";
@@ -19,9 +16,7 @@ const ManagerDashboard = () => {
   const [caregivers, setCaregivers] = useState([]); // State for caregivers
 
   useEffect(() => {
-    // Fetch requirements
-    fetch("http://localhost:5000/api/manager/getcaretakerInformation")
-    
+
 
     // Fetch caretakers
     fetch("http://localhost:5000/api/manager/getCaretakerInformation")
@@ -30,7 +25,7 @@ const ManagerDashboard = () => {
       .catch((error) => console.error("Error:", error));
 
     // Fetch caregivers
-    fetch("http://localhost:5000/api/manager/caregivers")
+    fetch("http://localhost:5000/api/manager/getCaregivers")
       .then((response) => response.json())
       .then((data) => setCaregivers(data))
       .catch((error) => console.error("Error:", error));
@@ -39,11 +34,14 @@ const ManagerDashboard = () => {
   const handleRowClick = (caretaker) => {
     setSelectedCaretaker(caretaker);
     // Fetch detailed information for selected caretaker
-    fetch(`http://localhost:5000/api/manager/getCaretakers/${caretaker.caretakerId}`)
+    fetch(
+      `http://localhost:5000/api/manager/getCaretakerById/${caretaker.caretakerId}`
+    )
       .then((response) => response.json())
       .then((data) => setCaretakerDetails(data))
       .catch((error) => console.error("Error:", error));
   };
+  console.log(caretakerDetails);
 
   const handleCaregiverChange = (caregiverId) => {
     // Fetch detailed information for selected caregiver
@@ -52,7 +50,6 @@ const ManagerDashboard = () => {
       .then((data) => setSelectedCaregiver(data))
       .catch((error) => console.error("Error:", error));
   };
-
 
   const getUserfromLocalStorage = localStorage.getItem("userDetails")
     ? JSON.parse(localStorage.getItem("userDetails"))
@@ -79,6 +76,7 @@ const ManagerDashboard = () => {
                       <th>Caregiver</th>
                       <th>Caregiver's Gender</th>
                       <th>Preferred Gender</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -109,7 +107,7 @@ const ManagerDashboard = () => {
                                   key={caregiver.userId}
                                   eventKey={caregiver.userId}
                                 >
-                                  {`${caregiver.firstName} ${caregiver.lastName}`}
+                                  {`${caregiver.firstName} ${"("+caregiver.gender+")"}`}
                                 </Dropdown.Item>
                               ))}
                             </Dropdown.Menu>
@@ -117,6 +115,7 @@ const ManagerDashboard = () => {
                         </td>
                         <td></td>
                         <td>{caretaker.preffGender}</td>
+                        {/* <td>{careplan.status}</td> */}
                       </tr>
                     ))}
                   </tbody>
@@ -147,7 +146,10 @@ const ManagerDashboard = () => {
                         <p>Requirement: {caretakerDetails.requirement}</p>
                         <p>
                           Age:{" "}
-                          {dayjs().year() - dayjs(caretakerDetails.dob).year()}
+                          {caretakerDetails.formattedDob
+                            ? dayjs().year() -
+                              dayjs(caretakerDetails.formattedDob).year()
+                            : "N/A"}
                         </p>
                       </Card.Text>
                     </Card.Body>
@@ -182,4 +184,3 @@ const ManagerDashboard = () => {
 };
 
 export default ManagerDashboard;
-
