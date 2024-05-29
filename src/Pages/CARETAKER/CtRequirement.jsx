@@ -1,634 +1,188 @@
 import React, { useState, useEffect } from "react";
+import { Container, Form, Button, Row, Col, Card, Dropdown } from "react-bootstrap";
 import Sidebar from "../../Components/Sidebar";
 import Navbar from "../../Components/Navbar/Navbar";
-import {
-  Container,
-  Table,
-  Button as MuiButton,
-  Grid,
-  TextField,
-} from "@mui/material";
 import axios from "axios";
-import {
-  Modal,
-  Form,
-  Row,
-  Col,
-  Button,
-  DropdownButton,
-  Dropdown,
-} from "react-bootstrap";
 
-function RequirementsAndCaregiversPage() {
-  const [requirementsEditMode, setRequirementsEditMode] = useState(false);
-  const [caregivers, setCaregivers] = useState([]);
-  const [originalProfileData, setOriginalProfileData] = useState({});
-  const [profileData, setProfileData] = useState({
-    id: "",
-    firstName: "",
-    lastName: "",
-    dob: "",
-    address: "",
-    contactNumber: "",
-    requirements: "",
-    gender: "",
-    selectedCategory: "",
-    preferredGender: "",
-  });
-
+const RequirementsAndCaregiversPage = () => {
   const getUserfromLocalStorage = localStorage.getItem("userDetails")
     ? JSON.parse(localStorage.getItem("userDetails"))
     : null;
 
-//   const [userInputs, setUserInputs] = useState({
-//   requirements: "",
-//   preferredGender: "",
-//   startDate: new Date(),
-//   endDate: new Date(),
-// });
+  const [profileData, setProfileData] = useState({
+    preffGender: "",
+    startDate: "",
+    endDate: "",
+    requirement: "",
+    caretakerId: "",
+  });
 
-  
-  useEffect(() => {
-    // Fetch caregivers data
-    const fetchCaregivers = async () => {
-      try {
-        const response = await axios.get("/api/caregivers");
-        setCaregivers(response.data);
-      } catch (error) {
-        console.error("Error fetching caregivers:", error);
-      }
-    };
+  const [caretakers, setCaretakers] = useState([]);
 
-    fetchCaregivers();
-  }, []);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setProfileData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleGenderSelect = (gender) => {
-    setProfileData((prevState) => ({
-      ...prevState,
-      preferredGender: gender,
-    }));
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setProfileData({ ...profileData, [name]: value });
   };
 
   const handleRequirementsSave = async () => {
+    console.log("Frontend data", profileData);
+
+    const requirementProfileData = {
+      ...profileData,
+      userId: getUserfromLocalStorage.userId,
+      status: "pending",
+    };
+
     try {
-      const requirementProfileData = { ...profileData, userId: getUserfromLocalStorage.userId };
-      console.log("Frontend data", requirementProfileData);
-      
-      
-      // Send updated requirements to backend
-      await axios.post(`/api/requirement/insertRequirement`, requirementProfileData);
-      
-      setRequirementsEditMode(false);
+      await axios.post(
+        "http://localhost:5000/api/requirement/insertRequirement",
+        requirementProfileData
+      );
+
+      setProfileData({
+        requirement: "",
+        preffGender: "",
+        startDate: "",
+        endDate: "",
+        caretakerId: "",
+      });
     } catch (error) {
       console.error("Error saving requirements:", error);
     }
   };
 
-  const handleRequirementsCancel = () => {
-    setRequirementsEditMode(false);
-    setProfileData((prevState) => ({
-      ...prevState,
-      requirements: originalProfileData.requirements,
-    }));
+  const handleSelectCaretaker = (caretakerId) => {
+    setProfileData({ ...profileData, caretakerId });
   };
 
-  const handleEditRequirements = () => {
-    setRequirementsEditMode(true);
-  };
+  useEffect(() => {
+    const fetchCaretakers = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/requirement/getAllcaretakers"
+        );
+        const allCaretakers = response.data;
 
-  // Date Picker
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+        const userId = getUserfromLocalStorage.userId;
+        const filteredCaretakers = allCaretakers.filter(
+          (caretaker) => caretaker.userId === userId
+        );
 
-  const handleStartDateChange = (date) => {
-    setStartDate(date);
-  };
+        setCaretakers(filteredCaretakers);
+      } catch (error) {
+        console.error("Error fetching caretakers:", error);
+      }
+    };
 
-  const handleEndDateChange = (date) => {
-    setEndDate(date);
-  };
-
-  const handleRequest = async () => {
-    try {
-
-      // Send request details to backend
-      await axios.post(`/api/request`, {
-        startDate: startDate,
-        endDate: endDate,
-        preferredGender: profileData.preferredGender,
-        userId: getUserfromLocalStorage.userId,
-        
-      });
-    } catch (error) {
-      console.error("Error sending request:", error);
-    }
-  };
+    fetchCaretakers();
+  }, [getUserfromLocalStorage.userId]);
 
   return (
     <div style={{ display: "flex" }}>
-      <Sidebar userType={getUserfromLocalStorage.userType}/>
+      <Sidebar userType={getUserfromLocalStorage.userType} />
       <div style={{ flex: 1 }}>
         <Navbar />
         <div className="mgd-main" style={{ padding: "20px" }}>
           <Container fluid>
-            <div className="caretaker-dashboard" style={{ flex: 1 }}>
-              <Container className="mt-5">
-                {/* Requirements Section */}
-                <Grid item xs={12} md={6}>
-                  <div className="requirement section-2 p-3 shadow rounded">
-                    <h2 className="mb-4" style={{ textAlign: "center" }}>
-                      Your Requirements
-                    </h2>
-                    {requirementsEditMode ? (
-                      <TextField
-                        name="requirements"
-                        value={profileData.requirements}
-                        onChange={handleChange}
-                        className="form-control mb-3"
-                        multiline
-                        rows={5}
-                      />
-                    ) : (
-                      <p className="mb-3" style={{ textAlign: "center" }}>
-                        {profileData.requirements}
-                      </p>
-                    )}
-                    <div className="text-center">
-                      {requirementsEditMode ? (
-                        <>
-                          <MuiButton
-                            variant="contained"
-                            color="primary"
-                            className="me-2"
-                            onClick={handleRequirementsSave}
-                          >
-                            Save
-                          </MuiButton>
-                          <MuiButton
-                            variant="contained"
-                            color="secondary"
-                            onClick={handleRequirementsCancel}
-                          >
-                            Cancel
-                          </MuiButton>
-                        </>
-                      ) : (
-                        <MuiButton
-                          variant="contained"
-                          color="primary"
-                          onClick={handleEditRequirements}
+            <Card className="mb-4">
+              <Card.Body>
+                <h2 className="mb-4">Submit Your Service Request</h2>
+                <Form>
+                  <Row>
+                    <Col>
+                      <Form.Group controlId="requirements">
+                        <Form.Label>Requirements</Form.Label>
+                        <Form.Control
+                          as="textarea"
+                          rows={3}
+                          name="requirement"
+                          value={profileData.requirement}
+                          onChange={handleInputChange}
+                          placeholder="Enter your service requirements..."
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col>
+                      <Form.Group controlId="preffGender">
+                        <Form.Label>Preferences</Form.Label>
+                        <Form.Select
+                          name="preffGender"
+                          value={profileData.preffGender}
+                          onChange={handleInputChange}
                         >
-                          Edit Information
-                        </MuiButton>
-                      )}
-                    </div>
-                  </div>
-                </Grid>
-              </Container>
+                          <option value="">Select Gender</option>
+                          <option value="male">Male</option>
+                          <option value="female">Female</option>
+                        </Form.Select>
+                      </Form.Group>
 
-              <Container className="mt-5">
-                {/* Preferred Gender Section */}
-                <Grid item xs={12} md={6}>
-                  <div className="section-2 p-3 shadow rounded">
-                    <Row>
-                      <Col>
-                        <h4 className="mb-4" style={{ textAlign: "center" }}>
-                          Your Preferred Gender
-                        </h4>
-                      </Col>
-                      <Col>
-                        <div style={{ textAlign: "center" }}>
-                          <DropdownButton
-                            id="gender-dropdown"
-                            title={
-                              profileData.preferredGender || "Select Gender"
-                            }
-                            onSelect={handleGenderSelect}
-                          >
-                            <Dropdown.Item eventKey="Select">
-                              Select
-                            </Dropdown.Item>
-                            <Dropdown.Item eventKey="male">Male</Dropdown.Item>
-                            <Dropdown.Item eventKey="female">
-                              Female
-                            </Dropdown.Item>
-                          </DropdownButton>
-                        </div>
-                      </Col>
-                    </Row>
-                  </div>
-                </Grid>
-              </Container>
-
-              <Container className="request-schedule mt-5">
-                {/* Request Preferred Service Period */}
-                <Grid item xs={12} md={6}>
-                  <div className="section-2 p-3 shadow rounded">
-                    <Container className="request-schedule">
-                      <Row>
-                        <Col>
-                          <Form.Group>
-                            <Form.Label>Start Date</Form.Label>
-                            <Form.Control
-                              type="date"
-                              value={startDate}
-                              onChange={(e) =>
-                                handleStartDateChange(e.target.value)
-                              }
-                            />
-                          </Form.Group>
-                        </Col>
-                        <Col>
-                          <Form.Group>
-                            <Form.Label>End Date</Form.Label>
-                            <Form.Control
-                              type="date"
-                              value={endDate}
-                              onChange={(e) =>
-                                handleEndDateChange(e.target.value)
-                              }
-                            />
-                          </Form.Group>
-                        </Col>
-                      </Row>
-                    </Container>
-                  </div>
-                </Grid>
-              </Container>
-              <Container className="request-schedule mt-5">
-                {/* Request Caregiver Button */}
-                <Grid item xs={12} md={6}>
-                  <div className="section-2 p-3 shadow rounded">
-                    <Container className="request-schedule">
-                      <div className="text-center">
-                        <MuiButton
-                          variant="contained"
-                          color="primary"
-                          onClick={handleRequest}
+                      <Dropdown onSelect={handleSelectCaretaker}>
+                        <Dropdown.Toggle
+                          variant="secondary"
+                          id="dropdown-basic"
                         >
-                          Request Caregiver
-                        </MuiButton>
-                      </div>
-                    </Container>
-                  </div>
-                </Grid>
-              </Container>
+                          Select caretaker
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                          {caretakers.map((caretaker) => (
+                            <Dropdown.Item
+                              key={caretaker.caretakerId}
+                              eventKey={caretaker.caretakerId}
+                            >
+                              {`${caretaker.firstName} (${caretaker.caretakerId})`}
+                            </Dropdown.Item>
+                          ))}
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </Col>
+                  </Row>
 
-              {/* <Container className="mt-5">
-                <div className="p-3 shadow rounded">
-                  <h2 className="mb-4" style={{ textAlign: "center" }}>
-                    Allocated Caregivers
-                  </h2>
-                  <Table striped bordered hover>
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Gender</th>
-                        <th>Category</th>
-                        <th>Contact</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {caregivers.map((caregiver, index) => (
-                        <tr key={index}>
-                          <td>{caregiver.userName}</td>
-                          <td>{caregiver.gender}</td>
-                          <td>{caregiver.category}</td>
-                          <td>{caregiver.contact}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                </div>
-              </Container> */}
-              
-            </div>
+                  <Row>
+                    <Col>
+                      <Form.Group controlId="startDate">
+                        <Form.Label>Start Date</Form.Label>
+                        <Form.Control
+                          type="date"
+                          name="startDate"
+                          value={profileData.startDate}
+                          onChange={handleInputChange}
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col>
+                      <Form.Group controlId="endDate">
+                        <Form.Label>End Date</Form.Label>
+                        <Form.Control
+                          type="date"
+                          name="endDate"
+                          value={profileData.endDate}
+                          onChange={handleInputChange}
+                        />
+                      </Form.Group>
+                    </Col>
+                  </Row>
+
+                  <Button
+                    variant="primary"
+                    type="button"
+                    onClick={handleRequirementsSave}
+                    style={{
+                      display: "block",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      marginTop: "20px",
+                    }}
+                  >
+                    Submit Request
+                  </Button>
+                </Form>
+              </Card.Body>
+            </Card>
           </Container>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default RequirementsAndCaregiversPage;
-
-
-// import React, { useState, useEffect } from "react";
-// import Sidebar from "../../Components/Sidebar";
-// import Navbar from "../../Components/Navbar/Navbar";
-// import {
-//   Container,
-//   Table,
-//   Button as MuiButton,
-//   Grid,
-//   TextField,
-// } from "@mui/material";
-// import axios from "axios";
-// import {
-//   Modal,
-//   Form,
-//   Row,
-//   Col,
-//   Button,
-//   DropdownButton,
-//   Dropdown,
-// } from "react-bootstrap";
-
-// function RequirementsAndCaregiversPage() {
-//   const [requirementsEditMode, setRequirementsEditMode] = useState(false);
-//   const [caregivers, setCaregivers] = useState([]);
-//   const [originalProfileData, setOriginalProfileData] = useState({});
-//   const [profileData, setProfileData] = useState({
-//     id: "",
-//     firstName: "",
-//     lastName: "",
-//     dob: "",
-//     address: "",
-//     contactNumber: "",
-//     requirements: "",
-//     gender: "",
-//     selectedCategory: "",
-//     preferredGender: "",
-//   });
-
-//    const getUserfromLocalStorage = localStorage.getItem("userDetails")
-//     ? JSON.parse(localStorage.getItem("userDetails"))
-//     : null;
-
-//   useEffect(() => {
-//     // Fetch caregivers data
-//     const fetchCaregivers = async () => {
-//       try {
-//         const response = await axios.get("/api/caregivers");
-//         setCaregivers(response.data);
-//       } catch (error) {
-//         console.error("Error fetching caregivers:", error);
-//       }
-//     };
-
-//     fetchCaregivers();
-//   }, []);
-
-//   //#######################################################
-
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setProfileData((prevState) => ({
-//       ...prevState,
-//       [name]: value,
-//     }));
-//   };
-
-//   const handleGenderSelect = (gender) => {
-//     setProfileData((prevState) => ({
-//       ...prevState,
-//       preferredGender: gender,
-//     }));
-//   };
-
-//   const handleRequirementsSave = async () => {
-//   try {
-//     const requirementProfileData = { ...profileData, userId: getUserfromLocalStorage.userId };
-//     console.log("Frontend data", requirementProfileData);
-    
-//     // Send updated requirements to backend
-//     await axios.post(`/api/requirement/insertRequirement`,requirementProfileData);
-    
-//     setRequirementsEditMode(false);
-//   } catch (error) {
-//     console.error("Error saving requirements:", error);
-//   }
-// };
-
-//   const handleRequirementsCancel = () => {
-//     setRequirementsEditMode(false);
-//     setProfileData((prevState) => ({
-//       ...prevState,
-//       requirements: originalProfileData.requirements,
-//     }));
-//   };
-
-//   const handleEditRequirements = () => {
-//     setRequirementsEditMode(true);
-//   };
-
-//   //############ Date Picker ##############################
-//   const [startDate, setStartDate] = useState(new Date());
-//   const [endDate, setEndDate] = useState(new Date());
-
-//   const handleStartDateChange = (date) => {
-//     setStartDate(date);
-//   };
-
-//   const handleEndDateChange = (date) => {
-//     setEndDate(date);
-//   };
-//   //#######################################################
-
-//   const handleRequest = async () => {
-//     try {
-//       // Send updated requirements to backend
-//       await axios.post(`/api/request`, {
-//         startDate: startDate,
-//         endDate: endDate,
-//       });
-//     } catch (error) {
-//       console.error("Error saving requirements:", error);
-//     }
-//   };
-
-//   return (
-    
-//     <div style={{ display: "flex" }}>
-//       <Sidebar userType={getUserfromLocalStorage.userType}/>
-//       <div style={{ flex: 1 }}>
-//         <Navbar />
-//         <div className="mgd-main" style={{ padding: "20px" }}>
-//           <Container fluid>
-//             <div className="caretaker-dashboard" style={{ flex: 1 }}>
-//               <Container className="mt-5">
-//                 {/* Requirements Section */}
-//                 <Grid item xs={12} md={6}>
-//                   <div className="requirement section-2 p-3 shadow rounded">
-//                     <h2 className="mb-4" style={{ textAlign: "center" }}>
-//                       Your Requirements
-//                     </h2>
-//                     {requirementsEditMode ? (
-//                       <TextField
-//                         name="requirements"
-//                         value={profileData.requirements}
-//                         onChange={handleChange}
-//                         className="form-control mb-3"
-//                         multiline
-//                         rows={5}
-//                       />
-//                     ) : (
-//                       <p className="mb-3" style={{ textAlign: "center" }}>
-//                         {profileData.requirements}
-//                       </p>
-//                     )}
-//                     <div className="text-center">
-//                       {requirementsEditMode ? (
-//                         <>
-//                           <MuiButton
-//                             variant="contained"
-//                             color="primary"
-//                             className="me-2"
-//                             onClick={handleRequirementsSave}
-//                           >
-//                             Save
-//                           </MuiButton>
-//                           <MuiButton
-//                             variant="contained"
-//                             color="secondary"
-//                             onClick={handleRequirementsCancel}
-//                           >
-//                             Cancel
-//                           </MuiButton>
-//                         </>
-//                       ) : (
-//                         <MuiButton
-//                           variant="contained"
-//                           color="primary"
-//                           onClick={handleEditRequirements}
-//                         >
-//                           Edit Information
-//                         </MuiButton>
-//                       )}
-//                     </div>
-//                   </div>
-//                 </Grid>
-//               </Container>
-
-//               <Container className="mt-5">
-//                 {/* Preferred Gender Section */}
-//                 <Grid item xs={12} md={6}>
-//                   <div className="section-2 p-3 shadow rounded">
-//                     <Row>
-//                       <Col>
-//                         <h4 className="mb-4" style={{ textAlign: "center" }}>
-//                           Your Preferred Gender
-//                         </h4>
-//                       </Col>
-//                       <Col>
-//                         <div style={{ textAlign: "center" }}>
-//                           <DropdownButton
-//                             id="gender-dropdown"
-//                             title={
-//                               profileData.preferredGender || "Select Gender"
-//                             }
-//                             onSelect={handleGenderSelect}
-//                           >
-//                             <Dropdown.Item eventKey="Select">
-//                               Select
-//                             </Dropdown.Item>
-//                             <Dropdown.Item eventKey="male">Male</Dropdown.Item>
-//                             <Dropdown.Item eventKey="female">
-//                               Female
-//                             </Dropdown.Item>
-//                           </DropdownButton>
-//                         </div>
-//                       </Col>
-//                     </Row>
-//                   </div>
-//                 </Grid>
-//               </Container>
-
-//               <Container className="request-schedule mt-5">
-//                 {/* reqest Preferred service period  */}
-//                 <Grid item xs={12} md={6}>
-//                   <div className="section-2 p-3 shadow rounded">
-//                     <Container className="request-schedule">
-//                       <Row>
-//                         <Col>
-//                           <Form.Group>
-//                             <Form.Label>Start Date</Form.Label>
-//                             <Form.Control
-//                               type="date"
-//                               value={startDate}
-//                               onChange={(e) =>
-//                                 handleStartDateChange(e.target.value)
-//                               }
-//                             />
-//                           </Form.Group>
-//                         </Col>
-//                         <Col>
-//                           <Form.Group>
-//                             <Form.Label>End Date</Form.Label>
-//                             <Form.Control
-//                               type="date"
-//                               value={endDate}
-//                               onChange={(e) =>
-//                                 handleEndDateChange(e.target.value)
-//                               }
-//                             />
-//                           </Form.Group>
-//                         </Col>
-//                       </Row>
-//                     </Container>
-//                   </div>
-//                 </Grid>
-//               </Container>
-//               <Container className="request-schedule mt-5">
-//                 {/* reqest Preferred service period  */}
-//                 <Grid item xs={12} md={6}>
-//                   <div className="section-2 p-3 shadow rounded">
-//                     <Container className="request-schedule">
-//                       <div className="text-center">
-//                         <MuiButton
-//                           variant="contained"
-//                           color="primary"
-//                           onClick={handleRequest}
-//                         >
-//                           request Caregiver
-//                         </MuiButton>
-//                       </div>
-//                     </Container>
-//                   </div>
-//                 </Grid>
-//               </Container>
-
-//               <Container className="mt-5">
-//                 <div className="p-3 shadow rounded">
-//                   <h2 className="mb-4" style={{ textAlign: "center" }}>
-//                     Allocated Caregivers
-//                   </h2>
-//                   <Table striped bordered hover>
-//                     <thead>
-//                       <tr>
-//                         <th>Name</th>
-//                         <th>Gender</th>
-//                         <th>Category</th>
-//                         <th>Contact</th>
-//                       </tr>
-//                     </thead>
-//                     <tbody>
-//                       {caregivers.map((caregiver, index) => (
-//                         <tr key={index}>
-//                           <td>{caregiver.userName}</td>
-//                           <td>{caregiver.gender}</td>
-//                           <td>{caregiver.category}</td>
-//                           <td>{caregiver.contact}</td>
-//                         </tr>
-//                       ))}
-//                     </tbody>
-//                   </Table>
-//                 </div>
-//               </Container>
-//             </div>
-//           </Container>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default RequirementsAndCaregiversPage;
