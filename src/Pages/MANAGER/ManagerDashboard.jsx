@@ -266,10 +266,6 @@ const ManagerDashboard = () => {
   console.log(caretakerDetails);
 
   const handleCaregiverChange = async (eventKey) => {
-
-    // const caregiverId = eventKey;
-
-
     // Extract the caregiver ID from the eventKey (which is the firstName + gender)
     const selectedCaregiver = caregivers.find(
       (caregiver) => caregiver.firstName + caregiver.gender === eventKey
@@ -381,7 +377,9 @@ const ManagerDashboard = () => {
                               {caregivers.map((caregiver) => (
                                 <Dropdown.Item
                                   key={caregiver.caregiverId}
-                                  eventKey={caregiver.caregiverId}
+                                  eventKey={
+                                    caregiver.firstName + caregiver.gender
+                                  }
                                 >
                                   {`${caregiver.firstName} ${
                                     "(" + caregiver.gender + ")"
