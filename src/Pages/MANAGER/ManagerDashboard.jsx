@@ -122,7 +122,6 @@ const ManagerDashboard = () => {
                       <th>End Date</th>
                       <th>Medical Conditions</th>
                       <th>Caregiver</th>
-
                       <th>Preferred Gender</th>
                       <th>Status</th>
                     </tr>
