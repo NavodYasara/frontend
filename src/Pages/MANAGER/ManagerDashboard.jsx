@@ -11,7 +11,8 @@ const ManagerDashboard = () => {
   const [selectedCaregiver, setSelectedCaregiver] = useState(null);
   const [caretakerDetails, setCaretakerDetails] = useState(null);
   const [caregivers, setCaregivers] = useState([]);
-  const [selectedCaregiverDetails, setSelectedCaregiverDetails] = useState(null);
+  const [selectedCaregiverDetails, setSelectedCaregiverDetails] =
+    useState(null);
   const [selectedCaregivers, setSelectedCaregivers] = useState({});
 
   // Fetch caretakers and caregivers data when the component mounts
@@ -26,6 +27,7 @@ const ManagerDashboard = () => {
     fetch("http://localhost:5000/api/manager/getCaregivers")
       .then((response) => response.json())
       .then((data) => setCaregivers(data))
+
       .catch((error) => console.error("Error:", error));
   }, []);
 
@@ -40,49 +42,25 @@ const ManagerDashboard = () => {
       .catch((error) => console.error("Error:", error));
   };
 
-  // const handleViewCaregiver = (caregiverId) => {
-  //   console.log("caregiverId is " + caregiverId);
-  //   fetch(`http://localhost:5000/api/manager/getCaregiverById/${caregiverId}`)
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         // Handle errors like 404 Not Found
-  //         if (response.status === 404) {
-  //           console.error("Caregiver not found:", response.status);
-  //           setSelectedCaregiverDetails(null); // Clear state if caregiver is not found
-  //           return; // Exit the function
-  //         }
-  //         throw new Error("Network response was not ok");
-  //       }
-  //       return response.json(); // Parse the response as JSON
-  //     })
-  //     .then((data) => {
-  //       // Now data is an object
-  //       if (data) {
-  //         setSelectedCaregiverDetails(data);
-  //       } else {
-  //         console.log("No data returned from server");
-  //       }
-  //     })
-  //     .catch((error) => console.error("Error:", error));
-  // };
-
-  // Handle caregiver selection and allocate the caregiver to the caretaker
+  // Handle click on a caregiver dropdown item to fetch and display caregiver details
 
   const handleViewCaregiver = (eventKey) => {
-  const selectedCaregiver = caregivers.find(
-    (caregiver) => caregiver.caregiverId.toString() === eventKey
-  );
+    const selectedCaregiver = caregivers.find(
+      (caregiver) => caregiver.caregiverId.toString() === eventKey
+    );
 
-  if (selectedCaregiver) {
-    fetch(`http://localhost:5000/api/manager/caregivers/${selectedCaregiver.caregiverId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setSelectedCaregiverDetails(data);
-      })
-      .catch((error) => console.error("Error:", error));
-  }
-};
-
+    if (selectedCaregiver) {
+      fetch(
+        `http://localhost:5000/api/manager/getCaregiverById/${selectedCaregiver.caregiverId}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setSelectedCaregiverDetails(data);
+          console.log(data);
+        })
+        .catch((error) => console.error("Error:", error));
+    }
+  };
 
   const handleAllocateCaregiver = async (caretaker, eventKey) => {
     const selectedCaregiver = caregivers.find(
@@ -91,9 +69,24 @@ const ManagerDashboard = () => {
 
     if (selectedCaregiver) {
       const caregiverId = selectedCaregiver.caregiverId;
+      const caretakerId = caretaker.caretakerId;
+      const requirementId = caretaker.requirementId;
+      const instruction = "Placeholder Instruction";
+
+      // Validate the input
+      if (
+        typeof caregiverId !== "number" ||
+        typeof caretakerId !== "number" ||
+        typeof requirementId !== "number" ||
+        typeof instruction !== "string"
+      ) {
+        console.error("Invalid input types");
+        return;
+      }
+
       setSelectedCaregivers({
         ...selectedCaregivers,
-        [caretaker.caretakerId]: {
+        [caretakerId]: {
           name: `${selectedCaregiver.firstName} (${selectedCaregiver.gender})`,
           id: caregiverId,
         },
@@ -161,7 +154,7 @@ const ManagerDashboard = () => {
                 <Table striped bordered hover>
                   <thead>
                     <tr>
-                      <th>Caretaker ID</th>
+                      <th> ID </th>
                       <th>First Name</th>
                       <th>Last Name</th>
                       <th>Start Date</th>
