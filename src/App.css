@@ -1,0 +1,54 @@
+/* Home.css */
+
+.home-container {
+  background-color: #f0f0f0;
+  padding: 20px 0;
+}
+
+.carousel-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.carousel-caption h3 {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.carousel-caption p {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.offer-section {
+  padding: 40px 0;
+}
+
+.what-we-offer h2 {
+  margin-bottom: 30px;
+  font-weight: bold;
+  color: #333;
+}
+
+.service-card {
+  width: 18rem;
+  margin: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+  transition: transform 0.3s;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+}
+
+.service-card .btn-primary {
+  background-color: #007bff;
+  border: none;
+}
+
+.service-card .btn-primary:hover {
+  background-color: #0056b3;
+}
