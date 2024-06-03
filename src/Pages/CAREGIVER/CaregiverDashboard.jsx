@@ -35,6 +35,7 @@ const DateCalendarValue = () => {
         const response = await axios.get(
           "http://localhost:5000/api/caregiver/getrequestedcaretakers"
         );
+        console.log("Fetched requested caretakers:", response.data);
         setCaretakers(response.data);
       } catch (error) {
         console.error("Error fetching requested caretakers:", error);
@@ -44,9 +45,54 @@ const DateCalendarValue = () => {
     fetchCaretakers();
   }, []);
 
-  const handleAcceptRequest = (caretakerId) => {
-    console.log(`Accepted request for caretaker with ID ${caretakerId}`);
-    // You can implement logic to update caretaker status here
+  const handleAcceptRequest = async (caretakerId) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/caregiver/acceptrequest/${caretakerId}`
+      );
+      if (response.status === 200) {
+        // Update the caretakers state to reflect the accepted status
+        setCaretakers((prevCaretakers) =>
+          prevCaretakers.map((caretaker) =>
+            caretaker.caretakerId === caretakerId
+              ? { ...caretaker, status: "Accepted" }
+              : caretaker
+          )
+        );
+        console.log(`Accepted request for caretaker with ID ${caretakerId}`);
+      } else {
+        console.error(
+          `Error accepting request for caretaker with ID ${caretakerId}`
+        );
+      }
+    } catch (error) {
+      console.error("Error accepting caretaker request:", error);
+    }
+  };
+
+  const handleRejectRequest = async (caretakerId) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:5000/api/caregiver/rejectrequest/${caretakerId}`
+      );
+      if (response.status === 200) {
+        // Update the caretakers state to reflect the rejected status
+        setCaretakers((prevCaretakers) =>
+          prevCaretakers.map((caretaker) =>
+            caretaker.caretakerId === caretakerId
+              ? { ...caretaker, status: "Rejected" }
+              : caretaker
+          )
+        );
+        console.log(`Rejected request for caretaker with ID ${caretakerId}`);
+      } else {
+        console.error(
+          `Error rejecting request for caretaker with ID ${caretakerId}`
+        );
+      }
+    } catch (error) {
+      console.error("Error rejecting caretaker request:", error);
+    }
   };
 
   const handleDateClick = (date) => {
@@ -103,7 +149,7 @@ const DateCalendarValue = () => {
                             {caretaker.caretakerName}
                           </Typography>
                           <Typography variant="body2">
-                            Category: {caretaker.caretakerCategory}
+                            Category: {caretaker.category}
                           </Typography>
                         </Grid>
                         <Grid item xs={3}>
@@ -122,17 +168,39 @@ const DateCalendarValue = () => {
                           </Typography>
                         </Grid>
                         <Grid item xs={3}>
-                          {caretaker.status === "Pending" && (
-                            <Button
-                              variant="contained"
-                              color="primary"
-                              onClick={() =>
-                                handleAcceptRequest(caretaker.caretakerId)
-                              }
-                              sx={{ mt: 1 }}
-                            >
-                              Accept Request
-                            </Button>
+                          {caretaker.status === "pending" && (
+                            <>
+                              <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={() =>
+                                  handleAcceptRequest(caretaker.caretakerId)
+                                }
+                                sx={{ mt: 1, mr: 1 }}
+                              >
+                                Accept
+                              </Button>
+                              <Button
+                                variant="contained"
+                                color="secondary"
+                                onClick={() =>
+                                  handleRejectRequest(caretaker.caretakerId)
+                                }
+                                sx={{ mt: 1 }}
+                              >
+                                Reject 
+                              </Button>
+                            </>
+                          )}
+                          {caretaker.status === "Accepted" && (
+                            <Typography variant="body2">
+                              Request Accepted
+                            </Typography>
+                          )}
+                          {caretaker.status === "Rejected" && (
+                            <Typography variant="body2">
+                              Request Rejected
+                            </Typography>
                           )}
                         </Grid>
                       </Grid>
@@ -142,7 +210,12 @@ const DateCalendarValue = () => {
               </Grid>
             </Grid>
 
-            <Grid container spacing={2} alignItems="center" justifyContent="center">
+            <Grid
+              container
+              spacing={2}
+              alignItems="center"
+              justifyContent="center"
+            >
               <Grid item xs={12}>
                 <Card>
                   <CardContent>
@@ -231,6 +304,8 @@ const DateCalendarValue = () => {
 };
 
 export default DateCalendarValue;
+
+
 
 
 // import React, { useState, useEffect } from "react";

@@ -231,6 +231,7 @@ const ManagerDashboard = () => {
   // };
 
   // Calculate age from date of birth
+  
   const calculateAge = (dobString) => {
     if (!dobString) {
       return "N/A";
