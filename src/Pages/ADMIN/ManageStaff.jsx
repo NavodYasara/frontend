@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Button, Table } from "react-bootstrap";
 import Sidebar from "../../Components/Sidebar";
 import Navbar from "../../Components/Navbar/Navbar";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const ManageStaff = () => {
 
