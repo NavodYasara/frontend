@@ -13,7 +13,9 @@ const ManagerDashboard = () => {
   const [caregivers, setCaregivers] = useState([]);
   const [selectedCaregiverDetails, setSelectedCaregiverDetails] =
     useState(null);
-  const [selectedCaregivers, setSelectedCaregivers] = useState({});
+  const [selectedCaregivers, setSelectedCaregivers] = useState(
+    JSON.parse(localStorage.getItem("selectedCaregivers")) || {}
+  );
   const [caretakerStatuses, setCaretakerStatuses] = useState({});
 
   useEffect(() => {
@@ -83,12 +85,19 @@ const ManagerDashboard = () => {
         .then((response) => response.json())
         .then((data) => {
           if (!data.caregiverId || data.caregiverId !== caregiverId) {
-            setSelectedCaregivers({
-              ...selectedCaregivers,
-              [caretakerId]: {
-                name: `${selectedCaregiver.firstName} (${selectedCaregiver.gender})`,
-                id: caregiverId,
-              },
+            setSelectedCaregivers((prevCaregivers) => {
+              const updatedCaregivers = {
+                ...prevCaregivers,
+                [caretakerId]: {
+                  name: `${selectedCaregiver.firstName} (${selectedCaregiver.gender})`,
+                  id: caregiverId,
+                },
+              };
+              localStorage.setItem(
+                "selectedCaregivers",
+                JSON.stringify(updatedCaregivers)
+              );
+              return updatedCaregivers;
             });
 
             fetch(
@@ -98,7 +107,7 @@ const ManagerDashboard = () => {
               .then((data) => {
                 setSelectedCaregiver(data);
 
-                (`http://localhost:5000/api/manager/allocateCaregiver`, {
+                fetch(`http://localhost:5000/api/manager/allocateCaregiver`, {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
@@ -124,12 +133,19 @@ const ManagerDashboard = () => {
               })
               .catch((error) => console.error("Error:", error));
           } else {
-            setSelectedCaregivers({
-              ...selectedCaregivers,
-              [caretakerId]: {
-                name: `${selectedCaregiver.firstName} (${selectedCaregiver.gender})`,
-                id: caregiverId,
-              },
+            setSelectedCaregivers((prevCaregivers) => {
+              const updatedCaregivers = {
+                ...prevCaregivers,
+                [caretakerId]: {
+                  name: `${selectedCaregiver.firstName} (${selectedCaregiver.gender})`,
+                  id: caregiverId,
+                },
+              };
+              localStorage.setItem(
+                "selectedCaregivers",
+                JSON.stringify(updatedCaregivers)
+              );
+              return updatedCaregivers;
             });
 
             fetch(`http://localhost:5000/api/manager/allocateCaregiver`, {
@@ -365,3 +381,4 @@ const ManagerDashboard = () => {
 };
 
 export default ManagerDashboard;
+

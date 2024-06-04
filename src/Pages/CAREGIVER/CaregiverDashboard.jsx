@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import {
@@ -24,6 +22,7 @@ import axios from "axios";
 const DateCalendarValue = () => {
   const [selectedDates, setSelectedDates] = useState([]);
   const [caretakers, setCaretakers] = useState([]);
+  const [requirements, setRequirements] = useState([]);
   const [open, setOpen] = useState(false);
 
   const getUserFromLocalStorage = () => {
@@ -35,19 +34,37 @@ const DateCalendarValue = () => {
     const fetchCaretakers = async () => {
       try {
         const userID = JSON.parse(localStorage.getItem("userDetails"))?.userId;
-        console.log("care giver id ",userID);
         const response = await axios.get(
           `http://localhost:5000/api/caregiver/assignedcaretakers?caregiverId=${userID}`
         );
-        console.log("care givwer tasks ",response.data)
-        console.log("Fetched requested caretakers:", response.data);
         setCaretakers(response.data);
       } catch (error) {
         console.error("Error fetching requested caretakers:", error);
         setCaretakers([]);
       }
     };
+
+    const fetchRequirements = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/requirement/getrequirements"
+        );
+        setRequirements(response.data);
+      } catch (error) {
+        console.error("Error fetching requirements:", error);
+        setRequirements([]);
+      }
+    };
+
     fetchCaretakers();
+    fetchRequirements();
+
+    const interval = setInterval(() => {
+      fetchCaretakers();
+      fetchRequirements();
+    }, 30000); // Fetch data every 30 seconds
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
   }, []);
 
   const handleAcceptRequest = async (caretakerId) => {
@@ -56,7 +73,6 @@ const DateCalendarValue = () => {
         `http://localhost:5000/api/caregiver/acceptrequest/${caretakerId}`
       );
       if (response.status === 200) {
-        // Update the caretakers state to reflect the accepted status
         setCaretakers((prevCaretakers) =>
           prevCaretakers.map((caretaker) =>
             caretaker.caretakerId === caretakerId
@@ -64,7 +80,6 @@ const DateCalendarValue = () => {
               : caretaker
           )
         );
-        console.log(`Accepted request for caretaker with ID ${caretakerId}`);
       } else {
         console.error(
           `Error accepting request for caretaker with ID ${caretakerId}`
@@ -81,7 +96,6 @@ const DateCalendarValue = () => {
         `http://localhost:5000/api/caregiver/rejectrequest/${caretakerId}`
       );
       if (response.status === 200) {
-        // Update the caretakers state to reflect the rejected status
         setCaretakers((prevCaretakers) =>
           prevCaretakers.map((caretaker) =>
             caretaker.caretakerId === caretakerId
@@ -89,7 +103,6 @@ const DateCalendarValue = () => {
               : caretaker
           )
         );
-        console.log(`Rejected request for caretaker with ID ${caretakerId}`);
       } else {
         console.error(
           `Error rejecting request for caretaker with ID ${caretakerId}`
@@ -124,7 +137,6 @@ const DateCalendarValue = () => {
   };
 
   const localUser = getUserFromLocalStorage();
-  const filteredCaretakers = caretakers;
 
   return (
     <div style={{ display: "flex" }}>
@@ -135,7 +147,7 @@ const DateCalendarValue = () => {
           <Container>
             <Grid container spacing={2} sx={{ mb: 2 }}>
               <Grid item xs={12} id="caretaker-section">
-                {filteredCaretakers.length > 0 ? (
+                {caretakers.length > 0 ? (
                   <Typography variant="h6" gutterBottom>
                     Caretaker Requests
                   </Typography>
@@ -144,77 +156,83 @@ const DateCalendarValue = () => {
                     No caretaker requests found.
                   </Typography>
                 )}
-                {filteredCaretakers.map((caretaker) => (
-                  <Card key={caretaker.requirementId} sx={{ mb: 2 }}>
-                    <CardContent>
-                      <Grid
-                        container
-                        spacing={2}
-                        className={`caretaker-row-${caretaker.requirementId}`}
-                      >
-                        <Grid item xs={3}>
-                          <Typography variant="subtitle1">
-                            {caretaker.caretakerName}
-                          </Typography>
-                          <Typography variant="body2">
-                            Category: {caretaker.category}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={3}>
-                          <Typography variant="body2">
-                            Start Date:{" "}
-                            {dayjs(caretaker.startDate).format("YYYY-MM-DD")}
-                          </Typography>
-                          <Typography variant="body2">
-                            End Date:{" "}
-                            {dayjs(caretaker.endDate).format("YYYY-MM-DD")}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={3}>
-                          <Typography variant="body2">
-                            Requirement: {caretaker.requirement}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={3}>
-                          {caretaker.status === "PENDING" && (
-                            <>
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={() =>
-                                  handleAcceptRequest(caretaker.caretakerId)
-                                }
-                                sx={{ mt: 1, mr: 1 }}
-                              >
-                                Accept
-                              </Button>
-                              <Button
-                                variant="contained"
-                                color="secondary"
-                                onClick={() =>
-                                  handleRejectRequest(caretaker.caretakerId)
-                                }
-                                sx={{ mt: 1 }}
-                              >
-                                Reject
-                              </Button>
-                            </>
-                          )}
-                          {caretaker.status === "Accepted" && (
-                            <Typography variant="body2">
-                              Request Accepted
+                {caretakers.map((caretaker) => {
+                  const requirement = requirements.find(
+                    (req) => req.caretakerId === caretaker.caretakerId
+                  );
+                  return (
+                    <Card key={caretaker.requirementId} sx={{ mb: 2 }}>
+                      <CardContent>
+                        <Grid
+                          container
+                          spacing={2}
+                          className={`caretaker-row-${caretaker.requirementId}`}
+                        >
+                          <Grid item xs={3}>
+                            <Typography variant="subtitle1">
+                              {caretaker.caretakerName}
                             </Typography>
-                          )}
-                          {caretaker.status === "Rejected" && (
                             <Typography variant="body2">
-                              Request Rejected
+                              Category: {caretaker.category}
                             </Typography>
-                          )}
+                          </Grid>
+                          <Grid item xs={3}>
+                            <Typography variant="body2">
+                              Start Date:{" "}
+                              {dayjs(caretaker.startDate).format("YYYY-MM-DD")}
+                            </Typography>
+                            <Typography variant="body2">
+                              End Date:{" "}
+                              {dayjs(caretaker.endDate).format("YYYY-MM-DD")}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={3}>
+                            <Typography variant="body2">
+                              Requirement: {caretaker.requirement}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={3}>
+                            {requirement &&
+                              requirement.status === "pending" && (
+                                <>
+                                  <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() =>
+                                      handleAcceptRequest(caretaker.caretakerId)
+                                    }
+                                    sx={{ mt: 1, mr: 1 }}
+                                  >
+                                    Accept
+                                  </Button>
+                                  <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={() =>
+                                      handleRejectRequest(caretaker.caretakerId)
+                                    }
+                                    sx={{ mt: 1 }}
+                                  >
+                                    Reject
+                                  </Button>
+                                </>
+                              )}
+                            {caretaker.status === "Accepted" && (
+                              <Typography variant="body2">
+                                Request Accepted
+                              </Typography>
+                            )}
+                            {caretaker.status === "Rejected" && (
+                              <Typography variant="body2">
+                                Request Rejected
+                              </Typography>
+                            )}
+                          </Grid>
                         </Grid>
-                      </Grid>
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </Grid>
             </Grid>
 
