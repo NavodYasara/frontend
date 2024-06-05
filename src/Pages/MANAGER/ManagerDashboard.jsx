@@ -9,6 +9,7 @@ const ManagerDashboard = () => {
   const [caretakers, setCaretakers] = useState([]);
   const [selectedCaretaker, setSelectedCaretaker] = useState(null);
   const [selectedCaregiver, setSelectedCaregiver] = useState(null);
+  
   const [caretakerDetails, setCaretakerDetails] = useState(null);
   const [caregivers, setCaregivers] = useState([]);
   const [selectedCaregiverDetails, setSelectedCaregiverDetails] =
@@ -63,11 +64,12 @@ const ManagerDashboard = () => {
   };
 
   const handleAllocateCaregiver = async (caretaker, eventKey) => {
+    console.log("selected event key ", eventKey);
     const selectedCaregiver = caregivers.find(
       (caregiver) => caregiver.caregiverId.toString() === eventKey
     );
 
-    if (selectedCaregiver) {
+    if (eventKey) {
       const caregiverId = selectedCaregiver.caregiverId;
       const caretakerId = caretaker.caretakerId;
       const requirementId = caretaker.requirementId;
@@ -105,6 +107,7 @@ const ManagerDashboard = () => {
             )
               .then((response) => response.json())
               .then((data) => {
+                console.log("came gere ", data);
                 setSelectedCaregiver(data);
 
                 fetch(`http://localhost:5000/api/manager/allocateCaregiver`, {
@@ -115,7 +118,7 @@ const ManagerDashboard = () => {
                   body: JSON.stringify({
                     category: caretaker.category,
                     caretakerId: caretaker.caretakerId,
-                    caregiverId: caregiverId,
+                    caregiverId: eventKey,
                     requirementId: caretaker.requirementId,
                   }),
                 })
@@ -148,6 +151,8 @@ const ManagerDashboard = () => {
               return updatedCaregivers;
             });
 
+
+            console.log("fetch even came here ", eventKey);
             fetch(`http://localhost:5000/api/manager/allocateCaregiver`, {
               method: "PUT",
               headers: {
@@ -155,13 +160,13 @@ const ManagerDashboard = () => {
               },
               body: JSON.stringify({
                 caretakerId: caretaker.caretakerId,
-                caregiverId: caregiverId,
+                caregiverId: eventKey,
                 requirementId: caretaker.requirementId,
               }),
             })
               .then((response) => {
                 if (response.ok) {
-                  console.log("Caregiver updated successfully!");
+                  console.log("Caregiver updated fgsfdg successfully!");
                 } else {
                   console.error("Error updating caregiver:", response.status);
                 }
@@ -193,12 +198,12 @@ const ManagerDashboard = () => {
 
       if (caretaker) {
         let status;
-        if (caretaker.status === "ACTIVE") {
-          status = "Active";
-        } else if (caretaker.status === "COMPLETED") {
-          status = "Completed";
+        if (caretaker.status === "available") {
+          status = "abailable";
+        } else if (caretaker.status === "onprocess") {
+          status = "onprocess";
         } else {
-          status = "Pending";
+          status = "pending";
         }
         setCaretakerStatuses((prevStatuses) => ({
           ...prevStatuses,
