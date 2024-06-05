@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Container, Row, Col, Table, Dropdown, Card } from "react-bootstrap";
+import { Box, Typography, TextField, Paper, Button } from "@mui/material";
+import SendIcon from "@mui/icons-material/Send"; // Corrected import
+
 import dayjs from "dayjs";
 import Sidebar from "../../Components/Sidebar";
 import Navbar from "../../Components/Navbar/Navbar";
+import Modal from "@mui/material/Modal";
 
 const ManagerDashboard = () => {
   const [caretakers, setCaretakers] = useState([]);
   const [selectedCaretaker, setSelectedCaretaker] = useState(null);
   const [selectedCaregiver, setSelectedCaregiver] = useState(null);
-  
+  const [openModel, setOpenModel] = useState(false);
+  const [instruction, setInstruction] = useState("");
+
   const [caretakerDetails, setCaretakerDetails] = useState(null);
   const [caregivers, setCaregivers] = useState([]);
   const [selectedCaregiverDetails, setSelectedCaregiverDetails] =
@@ -18,6 +24,14 @@ const ManagerDashboard = () => {
     JSON.parse(localStorage.getItem("selectedCaregivers")) || {}
   );
   const [caretakerStatuses, setCaretakerStatuses] = useState({});
+
+  const handleCloseModel = () => {
+    setOpenModel(false);
+  };
+
+  const handleInstructionChange = (event) => {
+    setInstruction(event.target.value);
+  };
 
   useEffect(() => {
     fetch("http://localhost:5000/api/manager/getCaretakerInformation")
@@ -151,7 +165,6 @@ const ManagerDashboard = () => {
               return updatedCaregivers;
             });
 
-
             console.log("fetch even came here ", eventKey);
             fetch(`http://localhost:5000/api/manager/allocateCaregiver`, {
               method: "PUT",
@@ -166,7 +179,7 @@ const ManagerDashboard = () => {
             })
               .then((response) => {
                 if (response.ok) {
-                  console.log("Caregiver updated fgsfdg successfully!");
+                  console.log("Caregiver updated successfully!");
                 } else {
                   console.error("Error updating caregiver:", response.status);
                 }
@@ -199,7 +212,7 @@ const ManagerDashboard = () => {
       if (caretaker) {
         let status;
         if (caretaker.status === "available") {
-          status = "abailable";
+          status = "available";
         } else if (caretaker.status === "onprocess") {
           status = "onprocess";
         } else {
@@ -222,6 +235,24 @@ const ManagerDashboard = () => {
         [caretakerId]: "Error fetching caretaker information",
       }));
     }
+  };
+
+  const styleModel = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+
+  const handleOpenModel = (careTakerData) => {
+    setOpenModel(true);
+    console.log("careTakerData", careTakerData);
+    setInstruction(careTakerData.requirement);
   };
 
   const getUserfromLocalStorage = localStorage.getItem("userDetails")
@@ -248,6 +279,7 @@ const ManagerDashboard = () => {
                       <th>Category</th>
                       <th>Caregiver</th>
                       <th>Preferred Gender</th>
+                      <th>Requirement</th>
                       <th>Status</th>
                     </tr>
                   </thead>
@@ -291,6 +323,11 @@ const ManagerDashboard = () => {
                           </Dropdown>
                         </td>
                         <td>{caretaker.preffGender}</td>
+                        <td>
+                          <button onClick={() => handleOpenModel(caretaker)}>
+                            Instructions
+                          </button>
+                        </td>
                         <td id="status-column">
                           {caretakerStatuses[caretaker.caretakerId] ||
                             "Loading..."}
@@ -379,6 +416,38 @@ const ManagerDashboard = () => {
               )}
             </Row>
           </Container>
+          <Modal
+            open={openModel}
+            onClose={handleCloseModel}
+            aria-labelledby="Requirement Description"
+            aria-describedby="modal-modal-description"
+          >
+            <Paper elevation={3} sx={styleModel}>
+              <Box p={2}>
+                <Typography variant="h4" gutterBottom>
+                  Requirement
+                </Typography>
+                <Typography variant="body1" gutterBottom>
+                  Requirement Description
+                </Typography>
+                <TextField
+                  multiline
+                  rows={4}
+                  variant="outlined"
+                  fullWidth
+                  value={instruction}
+                  onChange={handleInstructionChange}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  startIcon={<SendIcon />}
+                >
+                  Send
+                </Button>
+              </Box>
+            </Paper>
+          </Modal>
         </div>
       </div>
     </div>
@@ -386,4 +455,3 @@ const ManagerDashboard = () => {
 };
 
 export default ManagerDashboard;
-
