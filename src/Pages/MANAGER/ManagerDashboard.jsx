@@ -237,6 +237,24 @@ const ManagerDashboard = () => {
     }
   };
 
+
+  const handleSend = async () => {
+    try {
+      // Ensure instruction and requirementId are correctly set
+      const instructionToSend = instruction; // Ensure instruction is correctly defined
+      const requirementIdToSend = selectedCaretaker?.requirementId; // Ensure requirementId is correctly fetched or passed
+
+      const response = await axios.put(
+        "http://localhost:5000/api/manager/handleinstruction",
+        { instruction: instructionToSend, requirementId: requirementIdToSend }
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
   const styleModel = {
     position: "absolute",
     top: "50%",
@@ -251,7 +269,7 @@ const ManagerDashboard = () => {
 
   const handleOpenModel = (careTakerData) => {
     setOpenModel(true);
-    console.log("careTakerData", careTakerData);
+    console.log("careTakerData", careTakerData);  
     setInstruction(careTakerData.requirement);
   };
 
@@ -442,6 +460,7 @@ const ManagerDashboard = () => {
                   variant="contained"
                   color="primary"
                   startIcon={<SendIcon />}
+                  onClick={handleSend}
                 >
                   Send
                 </Button>
