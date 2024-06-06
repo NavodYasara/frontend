@@ -262,8 +262,15 @@ function ProfileAndFeedbackPage() {
                                   fullWidth
                                 >
                                   <MenuItem value={"mental"}>Mental</MenuItem>
-                                  <MenuItem value={"disabled"}>Disabled</MenuItem>
-                                  <MenuItem value={"eldering"}>Eldering</MenuItem>
+                                  <MenuItem value={"disabled"}>
+                                    Disabled
+                                  </MenuItem>
+                                  <MenuItem value={"eldering"}>
+                                    Eldering
+                                  </MenuItem>
+                                  <MenuItem value={"others"}>
+                                    Other needs
+                                  </MenuItem>
                                 </Select>
                               ) : (
                                 profileData.category
