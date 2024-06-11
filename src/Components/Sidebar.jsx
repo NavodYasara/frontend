@@ -35,10 +35,10 @@ const Sidebar = ({ userType }) => {
               activeClassName="activeClicked"
             >
               <CDBSidebarMenuItem icon="columns">
-                Caregiver Dashboard
+                Your Caretakers 
               </CDBSidebarMenuItem>
             </NavLink>
-            <NavLink
+            {/* <NavLink
               exact
               to="/CaregiverProfile"
               activeClassName="activeClicked"
@@ -46,7 +46,7 @@ const Sidebar = ({ userType }) => {
               <CDBSidebarMenuItem icon="user">
                 Caregiver Profile
               </CDBSidebarMenuItem>
-            </NavLink>
+            </NavLink> */}
           </div>
         );
       case "caretaker":
@@ -61,18 +61,21 @@ const Sidebar = ({ userType }) => {
                 Caretaker Dashboard{" "}
               </CDBSidebarMenuItem>
             </NavLink>
+
             <NavLink exact to="/CtRequirement" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="table">
                 {" "}
                 Requirments{" "}
               </CDBSidebarMenuItem>
             </NavLink>
+
             <NavLink exact to="/Feedback" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="columns">
                 {" "}
                 Feedbacks{" "}
               </CDBSidebarMenuItem>
             </NavLink>
+
             <NavLink exact to="/Report" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="chart-line">Reports</CDBSidebarMenuItem>
             </NavLink>
