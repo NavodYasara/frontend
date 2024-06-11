@@ -1,91 +1,239 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Container, Table, Typography, Paper, Box } from "@mui/material";
 import Sidebar from "../../Components/Sidebar";
-import { Container, Table } from "react-bootstrap";
-import Dropdown from "react-bootstrap/Dropdown";
-import { useState } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
 
 function Careplan() {
-  const [selectedCategory, setSelectedCategory] = useState(""); // Define setSelectedCategory using useState hook
-
+  const [careplans, setCareplans] = useState([]);
+  const [caretakerStatuses, setCaretakerStatuses] = useState({});
   const getUserfromLocalStorage = localStorage.getItem("userDetails")
     ? JSON.parse(localStorage.getItem("userDetails"))
     : null;
-  
+
+  useEffect(() => {
+    async function fetchCareplans() {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/careplan/getCareplans"
+        );
+        setCareplans(response.data);
+      } catch (error) {
+        console.error("Error fetching care plans:", error);
+      }
+    }
+
+    fetchCareplans();
+  }, []);
+
+  const getCaretakerStatus = async (caretakerId) => {
+    try {
+      const response = await axios.get(`/api/caretakers/${caretakerId}`);
+      const caretaker = response.data;
+
+      let status =
+        caretaker.status === "available"
+          ? "available"
+          : caretaker.status === "onprocess"
+          ? "onprocess"
+          : "pending";
+
+      setCaretakerStatuses((prevStatuses) => ({
+        ...prevStatuses,
+        [caretakerId]: status,
+      }));
+    } catch (error) {
+      console.error(error.message);
+      setCaretakerStatuses((prevStatuses) => ({
+        ...prevStatuses,
+        [caretakerId]: "Error fetching caretaker information",
+      }));
+    }
+  };
+
+  useEffect(() => {
+    careplans.forEach((careplan) => {
+      getCaretakerStatus(careplan.caretakerId);
+    });
+  }, [careplans]);
+
   return (
     <div style={{ display: "flex" }}>
       <Sidebar userType={getUserfromLocalStorage.userType} />
       <div style={{ flex: 1 }}>
         <Navbar />
-        <div className="mgd-main" style={{ padding: "20px" }}>
-          <Container fluid>
-            <Container
-              fluid
-              className="vh-100 d-flex"
-              style={{ width: "100%" }}
+        <Container style={{ padding: "20px" }}>
+          <Typography variant="h4" gutterBottom>
+            Current Care Plans
+          </Typography>
+          {careplans.map((careplan) => (
+            <Paper
+              key={careplan.careplanId}
+              style={{ padding: "20px", marginBottom: "20px" }}
             >
-              <div className="flex-grow-2">
-                <div className="d-flex justify-content-center align-items-center h-100 ">
-                  <div
-                    className="text-center p-4 shadow rounded"
-                    style={{ width: "80vw" }}
-                  >
-                    {" "}
-                    {/* Increased width to accommodate content */}
-                    {/* Client Information Section */}
-                    <h5 className="mb-3">Client Information</h5>
-                    <Table borderless className="invisible-table">
-                      <tbody>
-                        <tr>
-                          <td>Name:</td>
-                          <td>[Client's Name]</td>
-                        </tr>
-                        <tr>
-                          <td>Age:</td>
-                          <td>[Client's Age]</td>
-                        </tr>
-                        <tr>
-                          <td>Diagnosis:</td>
-                          <td>[Type of Mental Disability]</td>
-                        </tr>
-                        <tr>
-                          <td>Date of Assessment:</td>
-                          <td>[Date]</td>
-                        </tr>
-                      </tbody>
-                    </Table>
-                    {/* Goals and Objectives Section */}
-                    <h5 className="mt-4 mb-3">Goals and Objectives</h5>
-                    <p>
-                      - Improve daily living skills and independence.
-                      <br />
-                      - Manage symptoms and behaviors associated with the mental
-                      disability.
-                      <br />
-                      - Enhance socialization and community integration.
-                      <br />- Ensure safety and well-being in the home
-                      environment.
-                    </p>
-                    {/* Other Sections (similar structure as Goals and Objectives) */}
-                    <h5 className="mt-4 mb-3">Personal Care</h5>
-                    <p>
-                      - Assist with bathing, grooming, and dressing as needed.
-                      <br />
-                      - Provide support with toileting and personal hygiene
-                      routines.
-                      <br />- Encourage independence in self-care tasks whenever
-                      possible.
-                    </p>
-                    {/* ... Add similar sections for Medication Management, Behavioral Support, Socialization and Activities, Nutrition and Meal Planning, Safety and Environment, Communication and Collaboration, Documentation and Reporting, Training and Support, Regular Reviews and Updates */}
-                  </div>
-                </div>
-              </div>
-            </Container>
-          </Container>
-        </div>
+              <Box>
+                <Typography variant="h6">
+                  Care Plan ID: {careplan.careplanId}
+                </Typography>
+                <Table>
+                  <tbody>
+                    <tr>
+                      <td>Caregiver:</td>
+                      <td>
+                        {careplan.caregiverFirstName}{" "}
+                        {careplan.caregiverLastName}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Caretaker:</td>
+                      <td>
+                        {careplan.caretakerFirstName}{" "}
+                        {careplan.caretakerLastName}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Started On:</td>
+                      <td>
+                        {new Date(careplan.startDate).toLocaleDateString()}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Requirement:</td>
+                      <td>{careplan.instruction}</td>
+                    </tr>
+                    <tr>
+                      <td>Caretaker Status:</td>
+                      <td>{caretakerStatuses[careplan.caretakerId]}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </Box>
+            </Paper>
+          ))}
+        </Container>
       </div>
     </div>
   );
 }
 
 export default Careplan;
+
+// import React, { useState, useEffect } from "react";
+// import axios from "axios";
+// import { Container, Table, Typography, Paper, Box } from "@mui/material";
+// import Sidebar from "../../Components/Sidebar";
+// import Navbar from "../../Components/Navbar/Navbar";
+
+// function Careplan() {
+//   const [careplans, setCareplans] = useState([]);
+//   const [caretakerStatuses, setCaretakerStatuses] = useState({});
+//   const getUserfromLocalStorage = localStorage.getItem("userDetails")
+//     ? JSON.parse(localStorage.getItem("userDetails"))
+//     : null;
+
+//   useEffect(() => {
+//     async function fetchCareplans() {
+//       try {
+//         const response = await axios.get(
+//           "http://localhost:5000/api/careplan/getCareplans"
+//         );
+//         setCareplans(response.data);
+//       } catch (error) {
+//         console.error("Error fetching care plans:", error);
+//       }
+//     }
+
+//     fetchCareplans();
+//   }, []);
+
+//  const getCaretakerStatus = async (caretakerId) => {
+//     try {
+//       const response = await axios.get(`/api/caretakers/${caretakerId}`);
+//       const caretaker = response.data;
+
+//       let status =
+//         caretaker.status === "Accepted"
+//           ? "Accepted"
+//           : caretaker.status === "Started"
+//           ? "Started"
+//           : "not assigned";
+
+//       setCaretakerStatuses((prevStatuses) => ({
+//         ...prevStatuses,
+//         [caretakerId]: status,
+//       }));
+//     } catch (error) {
+//       console.error(error.message);
+//       setCaretakerStatuses((prevStatuses) => ({
+//         ...prevStatuses,
+//         [caretakerId]: "Error fetching caretaker information",
+//       }));
+//     }
+//   };
+
+//   useEffect(() => {
+//     careplans.forEach((careplan) => {
+//       getCaretakerStatus(careplan.caretakerId);
+//     });
+//   }, [careplans]);
+
+//   return (
+//     <div style={{ display: "flex" }}>
+//       <Sidebar userType={getUserfromLocalStorage.userType} />
+//       <div style={{ flex: 1 }}>
+//         <Navbar />
+//         <Container style={{ padding: "20px" }}>
+//           <Typography variant="h4" gutterBottom>
+//             Current Care Plans
+//           </Typography>
+//           {careplans.map((careplan) => (
+//             <Paper
+//               key={careplan.careplanId}
+//               style={{ padding: "20px", marginBottom: "20px" }}
+//             >
+//               <Box>
+//                 <Typography variant="h6">
+//                   Care Plan ID: {careplan.careplanId}
+//                 </Typography>
+//                 <Table>
+//                   <tbody>
+//                     <tr>
+//                       <td>Caregiver:</td>
+//                       <td>
+//                         {careplan.caregiverFirstName}{" "}
+//                         {careplan.caregiverLastName}
+//                       </td>
+//                     </tr>
+//                     <tr>
+//                       <td>Caretaker:</td>
+//                       <td>
+//                         {careplan.caretakerFirstName}{" "}
+//                         {careplan.caretakerLastName}
+//                       </td>
+//                     </tr>
+//                     <tr>
+//                       <td>Started On:</td>
+//                       <td>
+//                         {new Date(careplan.startDate).toLocaleDateString()}
+//                       </td>
+//                     </tr>
+//                     <tr>
+//                       <td>Requirement:</td>
+//                       <td>{careplan.instruction}</td>
+//                     </tr>
+//                     <tr>
+//                       <td>Caretaker Status:</td>
+//                       <td>{caretakerStatuses[careplan.caretakerId]}</td>
+//                     </tr>
+//                   </tbody>
+//                 </Table>
+//               </Box>
+//             </Paper>
+//           ))}
+//         </Container>
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default Careplan;

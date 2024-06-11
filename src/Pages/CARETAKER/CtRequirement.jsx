@@ -46,6 +46,7 @@ const RequirementsAndCaregiversPage = () => {
         endDate: "",
         caretakerId: "",
       });
+      window.location.reload();
     } catch (error) {
       console.error("Error saving requirements:", error);
     }
@@ -75,6 +76,7 @@ const RequirementsAndCaregiversPage = () => {
     };
 
     fetchCaretakers();
+    
   }, [getUserfromLocalStorage.userId]);
 
   return (

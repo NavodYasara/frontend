@@ -24,6 +24,9 @@ import Feedback from "./Pages/CARETAKER/Feedback";
 
 import ManagerDashboard from "./Pages/MANAGER/ManagerDashboard";
 import Careplan from "./Pages/MANAGER/Careplan";
+import NewPlan from "./Pages/MANAGER/NewPlan";
+import WaitingPlan from "./Pages/MANAGER/WaitingPlan";
+import AcceptedPlan from "./Pages/MANAGER/AcceptedPlan";
 import { useEffect } from "react";
 
 
@@ -40,22 +43,20 @@ function App() {
     }
   }, []);
 
-  
 
   return (
     <BrowserRouter>
       <Routes>
-        
         <Route path="/" element={<Home />} />
         <Route path="Home" element={<Home />} />
         <Route path="Register" element={<Register />} />
         <Route path="Login" element={<Login />} />
 
-        <Route path="Layout2" element={<Layout2/>} />
-        <Route path="MUI" element={<MUI/>} />
+        <Route path="Layout2" element={<Layout2 />} />
+        <Route path="MUI" element={<MUI />} />
 
         <Route path="AdminDashboard" element={<AdminDashboard />} />
-        <Route path="ManageStaff" element={<ManageStaff/>} />
+        <Route path="ManageStaff" element={<ManageStaff />} />
 
         <Route path="CaregiverDashboard" element={<CaregiverDashboard />} />
         <Route path="CaregiverProfile" element={<CaregiverProfile />} />
@@ -70,10 +71,12 @@ function App() {
         <Route path="ManagerDashboard" element={<ManagerDashboard />} />
         <Route path="Careplan" element={<Careplan />} />
         
+        <Route path="newTask" element={<NewPlan />} />
+        <Route path="waitingPlan" element={<WaitingPlan />} />
+        <Route path="Finalized" element={<AcceptedPlan />} />
 
         {/* Pass userType to Sidebar */}
         <Route path="*" element={<Sidebar userType={userType1} />} />
-        
       </Routes>
     </BrowserRouter>
   );

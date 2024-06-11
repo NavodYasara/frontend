@@ -200,48 +200,48 @@ const DateCalendarValue = () => {
                               </Button>
                             </>
                           )}
+                          {requirement?.status === "Accepted" && (
+                            <Typography variant="body2">
+                              {dayjs(caretaker.startDate).isAfter(dayjs()) ? (
+                                "Upcomming Task"
+                              ) : requirement?.status === "Started" ? (
+                                <button
+                                  onClick={() =>
+                                    handleAcceptRequest(
+                                      requirement?.requirementId,
+                                      "Finished"
+                                    )
+                                  }
+                                >
+                                  End Task
+                                </button>
+                              ) : requirement?.status === "Accepted" ? (
+                                <button
+                                  onClick={() =>
+                                    handleAcceptRequest(
+                                      requirement?.requirementId,
+                                      "Started"
+                                    )
+                                  }
+                                >
+                                  Start Task
+                                </button>
+                              ) : (
+                                <button
+                                  onClick={() =>
+                                    handleAcceptRequest(
+                                      requirement?.requirementId,
+                                      "Finished"
+                                    )
+                                  }
+                                >
+                                  Ended
+                                </button>
+                              )}
+                            </Typography>
+                          )}
 
-                          <Typography variant="body2">
-                            { dayjs(caretaker.startDate).isAfter(dayjs()) ? (
-                              "Upcomming Task"
-                            ) : requirement?.status === "Started" ? (
-                              <button
-                                onClick={() =>
-                                  handleAcceptRequest(
-                                    requirement?.requirementId,
-                                    "Finished"
-                                  )
-                                }
-                              >
-                                End Task
-                              </button>
-                            ) : requirement?.status === "Accepted" ? (
-                              <button
-                                onClick={() =>
-                                  handleAcceptRequest(
-                                    requirement?.requirementId,
-                                    "Started"
-                                  )
-                                }
-                              >
-                                Start Task
-                              </button>
-                            ) : (
-                              <button
-                                onClick={() =>
-                                  handleAcceptRequest(
-                                    requirement?.requirementId,
-                                    "Finished"
-                                  )
-                                }
-                              >
-                                Ended
-                              </button>
-                            )}
-                            {/* Request Accepted */}
-                          </Typography>
-
-                          {requirement?.status === "Rejected" && (
+                          {requirement.status === "Rejected" && (
                             <Typography variant="body2">
                               Request Rejected
                             </Typography>

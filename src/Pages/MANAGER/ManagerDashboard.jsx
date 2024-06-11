@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Container, Row, Col, Table, Dropdown, Card } from "react-bootstrap";
 import { Box, Typography, TextField, Paper, Button } from "@mui/material";
-import SendIcon from "@mui/icons-material/Send"; // Corrected import
+import SendIcon from "@mui/icons-material/Send";
 
 import dayjs from "dayjs";
 import Sidebar from "../../Components/Sidebar";
@@ -46,7 +46,7 @@ const ManagerDashboard = () => {
 
     fetch("http://localhost:5000/api/manager/getCaregivers")
       .then((response) => response.json())
-      .then((data) => setCaregivers(data))
+      .then((data) => console.log("caregivers", data) || setCaregivers(data))
       .catch((error) => console.error("Error:", error));
   }, []);
 
@@ -79,12 +79,12 @@ const ManagerDashboard = () => {
 
   const handleAllocateCaregiver = async (caretaker, eventKey) => {
     console.log("selected event key ", eventKey);
-    const selectedCaregiver = caregivers.find(
-      (caregiver) => caregiver.caregiverId.toString() === eventKey
-    );
+    // const selectedCaregiver = caregivers.find(
+    //   (caregiver) => caregiver.caregiverId.toString() === eventKey
+    // );
 
     if (eventKey) {
-      const caregiverId = selectedCaregiver.caregiverId;
+      const caregiverId = eventKey;
       const caretakerId = caretaker.caretakerId;
       const requirementId = caretaker.requirementId;
 
@@ -237,7 +237,6 @@ const ManagerDashboard = () => {
     }
   };
 
-
   const handleSend = async () => {
     try {
       // Ensure instruction and requirementId are correctly set
@@ -254,7 +253,6 @@ const ManagerDashboard = () => {
     }
   };
 
-
   const styleModel = {
     position: "absolute",
     top: "50%",
@@ -269,9 +267,34 @@ const ManagerDashboard = () => {
 
   const handleOpenModel = (careTakerData) => {
     setOpenModel(true);
-    console.log("careTakerData", careTakerData);  
+    console.log("careTakerData", careTakerData);
     setInstruction(careTakerData.requirement);
   };
+
+  const fetchCareGivers = async (startDate, endDate, preffGender) => {
+    try {
+      fetch("http://localhost:5000/api/manager/getCaregivers")
+        .then((response) => response.json())
+        .then((data) => console.log("caregivers", data) || setCaregivers(data))
+        .catch((error) => console.error("Error:", error));
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  // const fetchCareGivers = async (startDate, endDate, preffGender) => {
+  //   try {
+  //     const response = await axios.get(
+  //       `http://localhost:5000/api/manager/getCaregivers?startDate=${startDate}&endDate=${endDate}&preffGender=${preffGender}`
+  //     );
+
+  //     console.log(response);
+
+  //     setCaregivers(response.data);
+  //   } catch (error) {
+  //     console.error(error.message);
+  //   }
+  // };
 
   const getUserfromLocalStorage = localStorage.getItem("userDetails")
     ? JSON.parse(localStorage.getItem("userDetails"))
@@ -289,7 +312,7 @@ const ManagerDashboard = () => {
                 <Table striped bordered hover>
                   <thead>
                     <tr>
-                      <th>ID</th>
+                      <th>caretaker ID</th>
                       <th>First Name</th>
                       <th>Last Name</th>
                       <th>Start Date</th>
@@ -302,56 +325,68 @@ const ManagerDashboard = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {caretakers.map((caretaker) => (
-                      <tr
-                        key={caretaker.caretakerId}
-                        onClick={() => handleRowClick(caretaker)}
-                      >
-                        <td>{caretaker.caretakerId}</td>
-                        <td>{caretaker.firstName}</td>
-                        <td>{caretaker.lastName}</td>
-                        <td>
-                          {dayjs(caretaker.startDate).format("DD/MM/YYYY")}
-                        </td>
-                        <td>{dayjs(caretaker.endDate).format("DD/MM/YYYY")}</td>
-                        <td>{caretaker.category}</td>
-                        <td>
-                          <Dropdown
-                            onSelect={(eventKey) =>
-                              handleAllocateCaregiver(caretaker, eventKey)
-                            }
-                          >
-                            <Dropdown.Toggle
-                              variant="primary"
-                              id="dropdown-basic"
+                    {caretakers &&
+                      caretakers?.map((caretaker) => (
+                        <tr
+                          key={caretaker.caretakerId}
+                          onClick={() => handleRowClick(caretaker)}
+                        >
+                          <td>{caretaker.caretakerId}</td>
+                          <td>{caretaker.firstName}</td>
+                          <td>{caretaker.lastName}</td>
+                          <td>
+                            {dayjs(caretaker.startDate).format("DD/MM/YYYY")}
+                          </td>
+                          <td>
+                            {dayjs(caretaker.endDate).format("DD/MM/YYYY")}
+                          </td>
+                          <td>{caretaker.category}</td>
+                          <td>
+                            <Dropdown
+                              onSelect={(eventKey) =>
+                                handleAllocateCaregiver(caretaker, eventKey)
+                              }
+                              onClick={() => {
+                                fetchCareGivers(
+                                  caretaker.startDate,
+                                  caretaker.endDate,
+                                  caretaker.preffGender
+                                );
+                              }}
                             >
-                              {selectedCaregivers[caretaker.caretakerId]
-                                ?.name || "Allocate Caregiver"}
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                              {caregivers.map((caregiver) => (
-                                <Dropdown.Item
-                                  key={caregiver.caregiverId}
-                                  eventKey={caregiver.caregiverId.toString()}
-                                >
-                                  {`${caregiver.firstName} ${caregiver.lastName}`}
-                                </Dropdown.Item>
-                              ))}
-                            </Dropdown.Menu>
-                          </Dropdown>
-                        </td>
-                        <td>{caretaker.preffGender}</td>
-                        <td>
-                          <button onClick={() => handleOpenModel(caretaker)}>
-                            Instructions
-                          </button>
-                        </td>
-                        <td id="status-column">
-                          {caretakerStatuses[caretaker.caretakerId] ||
-                            "Loading..."}
-                        </td>
-                      </tr>
-                    ))}
+                              <Dropdown.Toggle
+                                variant="primary"
+                                id="dropdown-basic"
+                              >
+                                {selectedCaregivers[caretaker.caretakerId]
+                                  ?.name || "Allocate Caregiver"}
+                              </Dropdown.Toggle>
+                              <Dropdown.Menu>
+                                {caregivers[caretaker.requirementId]?.map(
+                                  (caregiver) => (
+                                    <Dropdown.Item
+                                      key={caregiver?.caregiverId}
+                                      eventKey={caregiver?.caregiverId?.toString()}
+                                    >
+                                      {`${caregiver?.caregiverId} ${caregiver?.lastName}`}
+                                    </Dropdown.Item>
+                                  )
+                                )}
+                              </Dropdown.Menu>
+                            </Dropdown>
+                          </td>
+                          <td>{caretaker.preffGender}</td>
+                          <td>
+                            <button onClick={() => handleOpenModel(caretaker)}>
+                              Instructions
+                            </button>
+                          </td>
+                          <td id="status-column">
+                            {caretakerStatuses[caretaker.caretakerId] ||
+                              "Loading..."}
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </Table>
               </Col>
@@ -364,7 +399,7 @@ const ManagerDashboard = () => {
                   <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                     Watch caregivers
                   </Dropdown.Toggle>
-                  <Dropdown.Menu>
+                  {/* <Dropdown.Menu>
                     {caregivers.map((caregiver) => (
                       <Dropdown.Item
                         key={caregiver.caregiverId}
@@ -373,7 +408,7 @@ const ManagerDashboard = () => {
                         {`${caregiver.firstName} (${caregiver.gender})`}
                       </Dropdown.Item>
                     ))}
-                  </Dropdown.Menu>
+                  </Dropdown.Menu> */}
                 </Dropdown>
               </Col>
             </Row>
