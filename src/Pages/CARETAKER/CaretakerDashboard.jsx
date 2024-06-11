@@ -29,6 +29,7 @@ const ProfileAndFeedbackPage = () => {
   const [open, setOpen] = useState(false);
 
   const user = JSON.parse(localStorage.getItem("userDetails"));
+  console.log("User:", user);
 
   useEffect(() => {
     const fetchCaretakerData = async () => {
@@ -59,16 +60,45 @@ const ProfileAndFeedbackPage = () => {
     setOpen(false);
   };
 
+  // const handleProfileSave = async () => {
+  //   console.log("Profile data:", profileData);
+  //   try {
+  //     const updatedProfileData = {
+  //       ...profileData,
+  //       userId: user.userId,
+  //     };
+  //     await axios.post(
+  //       "http://localhost:5000/api/user/registerPatient",
+  //       updatedProfileData
+  //     );
+      
+  //     setOriginalProfileData({ ...profileData });
+  //     setProfileEditMode(false);
+  //     setOpen(false);
+
+  //     // Save the profile data to local storage
+  //     localStorage.setItem("profileData", JSON.stringify(updatedProfileData));
+  //   } catch (error) {
+  //     console.error("Error saving profile data:", error);
+  //   }
+  // };
+
   const handleProfileSave = async () => {
+    console.log("Profile data:", profileData);
     try {
+      if (!user || !user.userId) {
+        throw new Error("User or user ID is not defined");
+      }
+
       const updatedProfileData = {
         ...profileData,
         userId: user.userId,
       };
       await axios.post(
-        "http://localhost:5000/api/user/registerCaretaker",
+        "http://localhost:5000/api/user/registerPatient",
         updatedProfileData
       );
+      
       setOriginalProfileData({ ...profileData });
       setProfileEditMode(false);
       setOpen(false);
@@ -120,7 +150,7 @@ const ProfileAndFeedbackPage = () => {
                           <TableCell style={{ fontWeight: "bold" }}>
                             Medicare Number:
                           </TableCell>
-                          <TableCell>{profileData.nationalId}</TableCell>
+                          <TableCell>{profileData.medicareNumber}</TableCell>
                         </TableRow>
                         <TableRow>
                           <TableCell style={{ fontWeight: "bold" }}>
@@ -205,8 +235,8 @@ const ProfileAndFeedbackPage = () => {
               <TextField
                 label="Medicare Number"
                 type="text"
-                name="nationalId"
-                value={profileData.nationalId}
+                name="medicareNumber"
+                value={profileData.medicareNumber}
                 onChange={handleChange}
                 fullWidth
               />
@@ -330,7 +360,7 @@ export default ProfileAndFeedbackPage;
 //   const [originalProfileData, setOriginalProfileData] = useState({
 //     firstName: "",
 //     lastName: "",
-//     nationalId: "",
+//     medicareNumber: "",
 //     dob: "",
 //     address: "",
 //     mobileNo: "",
@@ -341,7 +371,7 @@ export default ProfileAndFeedbackPage;
 //   const [profileData, setProfileData] = useState({
 //     firstName: "",
 //     lastName: "",
-//     nationalId: "",
+//     medicareNumber: "",
 //     dob: "",
 //     address: "",
 //     mobileNo: "",
@@ -429,7 +459,7 @@ export default ProfileAndFeedbackPage;
 //                             <TableCell style={{ fontWeight: "bold" }}>
 //                               Medicare Number:
 //                             </TableCell>
-//                             <TableCell>{profileData.nationalId}</TableCell>
+//                             <TableCell>{profileData.medicareNumber}</TableCell>
 //                           </TableRow>
 //                           <TableRow>
 //                             <TableCell style={{ fontWeight: "bold" }}>
@@ -515,8 +545,8 @@ export default ProfileAndFeedbackPage;
 //               <TextField
 //                 label="National ID"
 //                 type="text"
-//                 name="nationalId"
-//                 value={profileData.nationalId}
+//                 name="medicareNumber"
+//                 value={profileData.medicareNumber}
 //                 onChange={handleChange}
 //                 fullWidth
 //               />
@@ -637,7 +667,7 @@ export default ProfileAndFeedbackPage;
 //   const [originalProfileData, setOriginalProfileData] = useState({
 //     firstName: "",
 //     lastName: "",
-//     nationalId: "",
+//     medicareNumber: "",
 //     dob: "",
 //     address: "",
 //     mobileNo: "",
@@ -648,7 +678,7 @@ export default ProfileAndFeedbackPage;
 //   const [profileData, setProfileData] = useState({
 //     firstName: "",
 //     lastName: "",
-//     nationalId: "",
+//     medicareNumber: "",
 //     dob: "",
 //     address: "",
 //     mobileNo: "",
@@ -762,13 +792,13 @@ export default ProfileAndFeedbackPage;
 //                               {profileEditMode ? (
 //                                 <TextField
 //                                   type="text"
-//                                   name="nationalId"
-//                                   value={profileData.nationalId}
+//                                   name="medicareNumber"
+//                                   value={profileData.medicareNumber}
 //                                   onChange={handleChange}
 //                                   fullWidth
 //                                 />
 //                               ) : (
-//                                 profileData.nationalId
+//                                 profileData.medicareNumber
 //                               )}
 //                             </TableCell>
 //                           </TableRow>

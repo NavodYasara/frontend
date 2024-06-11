@@ -101,12 +101,12 @@ const Sidebar = ({ userType }) => {
                 Finalized Plan
               </CDBSidebarMenuItem>
             </NavLink>
-            <NavLink exact to="/Careplan" activeClassName="activeClicked">
-              <CDBSidebarMenuItem icon="table">
-                {" "}
-                Create CarePlan{" "}
+            <NavLink exact to="/MReports" activeClassName="activeClicked">
+              <CDBSidebarMenuItem icon="columns">
+                Reports
               </CDBSidebarMenuItem>
             </NavLink>
+            
           </>
         );
       default:

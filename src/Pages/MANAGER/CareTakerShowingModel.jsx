@@ -64,7 +64,7 @@ const CareTakerShowingModel = ({ careTakerShowingModelOpen, setCareTakerShowingM
             </Col>
             <Col span={12}>
               <Text strong><IdcardOutlined /> National ID: </Text>
-              <Text>{careTakerDetails.nationalId}</Text>
+              <Text>{careTakerDetails.medicareNumber}</Text>
             </Col>
           </Row>
           <Row gutter={[16, 16]} className="mb-2">
