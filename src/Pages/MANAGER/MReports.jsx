@@ -274,7 +274,7 @@ const ReportPage = () => {
             <Typography variant="h4" gutterBottom>
               Monthly Care Plan Report
             </Typography>
-            <Paper elevation={4} style={{ padding: "20px", marginTop: "20px" }}>
+            <div elevation={4} style={{ padding: "20px", marginTop: "20px" }}>
               <Grid container spacing={3}>
                 <Grid item xs={12} sm={6} md={4}>
                   <Paper elevation={3} style={{ padding: "10px" }}>
@@ -325,7 +325,7 @@ const ReportPage = () => {
                     </Typography>
                     {completedRequirements.map((item, index) => (
                       <Typography key={index} variant="body1">
-                        Caregiver ID: {item.caregiverId}, Completed:{" "}
+                        {item.caregiver_name}, Completed:{" "}
                         {item.completed_requirements}
                       </Typography>
                     ))}
@@ -348,7 +348,7 @@ const ReportPage = () => {
                   </Paper>
                 </Grid>
               </Grid>
-            </Paper>
+            </div>
           </Container>
         </div>
       </div>

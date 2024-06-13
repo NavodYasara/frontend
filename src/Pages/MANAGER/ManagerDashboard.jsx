@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -21,10 +22,9 @@ const ManagerDashboard = () => {
   const [rejectedCount, setRejectedCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
-    const getUserfromLocalStorage = localStorage.getItem("userDetails")
-      ? JSON.parse(localStorage.getItem("userDetails"))
-      : null;
-  
+  const getUserfromLocalStorage = localStorage.getItem("userDetails")
+    ? JSON.parse(localStorage.getItem("userDetails"))
+    : null;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,7 +49,6 @@ const ManagerDashboard = () => {
         setWaitingCount(waiting);
         setServiceCount(ongoing);
         setRejectedCount(rejected);
-
       } catch (error) {
         console.error("Error fetching data:", error);
         setLoading(false);
@@ -75,11 +74,11 @@ const ManagerDashboard = () => {
   }
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <div style={{ display: "flex" }}>
       <Sidebar userType={getUserfromLocalStorage?.userType} />
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <div style={{ flex: 1 }}>
         <Navbar />
-        <Container>
+        <Container className="p-3">
           <Grid container spacing={3}>
             <Grid item xs={12} md={4}>
               <Card>
@@ -129,8 +128,8 @@ const ManagerDashboard = () => {
             </Grid>
           </Grid>
         </Container>
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 

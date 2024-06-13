@@ -39,8 +39,8 @@ const AcceptedPlan = () => {
     <div style={{ display: "flex" }}>
       <Sidebar userType={getUserfromLocalStorage?.userType} />
       <div style={{ flex: 1 }}>
+    
        <AcceptedTable fetchPendingTasks={fetchFinalizedPlans} reservationResult={finalizedRequirments}/>
-        {/* <NavbarComponent /> */}
         
       </div>
     </div>

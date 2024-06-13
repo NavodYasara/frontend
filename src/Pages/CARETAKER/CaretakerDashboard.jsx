@@ -32,6 +32,7 @@ const ProfileAndFeedbackPage = () => {
   console.log("User:", user);
 
   useEffect(() => {
+
     const fetchCaretakerData = async () => {
       try {
         const response = await axios.get(
@@ -340,5 +341,4 @@ const ProfileAndFeedbackPage = () => {
 };
 
 export default ProfileAndFeedbackPage;
-
 

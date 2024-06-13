@@ -135,7 +135,7 @@ const Sidebar = ({ userType }) => {
               className="text-decoration-none"
               style={{ color: "inherit" }}
             >
-              Sidebar({userType})
+              {userType}
             </a>
           </CDBSidebarHeader>
 
@@ -143,9 +143,6 @@ const Sidebar = ({ userType }) => {
             <CDBSidebarMenu>{getSidebarMenu(userType)}</CDBSidebarMenu>
           </CDBSidebarContent>
 
-          <CDBSidebarFooter style={{ textAlign: "center" }}>
-            <div style={{ padding: "20px 5px" }}>Sidebar Footer</div>
-          </CDBSidebarFooter>
         </CDBSidebar>
       </div>
     </div>
@@ -153,3 +150,4 @@ const Sidebar = ({ userType }) => {
 };
 
 export default Sidebar;
+
