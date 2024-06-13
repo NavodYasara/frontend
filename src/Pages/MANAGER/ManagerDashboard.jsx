@@ -1,511 +1,172 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Container, Row, Col, Table, Dropdown, Card } from "react-bootstrap";
-import { Box, Typography, TextField, Paper, Button } from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
-
-import dayjs from "dayjs";
+import {
+  Box,
+  Container,
+  Grid,
+  Paper,
+  Typography,
+  CircularProgress,
+  Card,
+  CardContent,
+  Button,
+} from "@mui/material";
 import Sidebar from "../../Components/Sidebar";
 import Navbar from "../../Components/Navbar/Navbar";
-import Modal from "@mui/material/Modal";
 
 const ManagerDashboard = () => {
   const [caretakers, setCaretakers] = useState([]);
-  const [selectedCaretaker, setSelectedCaretaker] = useState(null);
-  const [selectedCaregiver, setSelectedCaregiver] = useState(null);
-  const [openModel, setOpenModel] = useState(false);
-  const [instruction, setInstruction] = useState("");
+  const [serviceCount, setServiceCount] = useState(0);
+  const [waitingCount, setWaitingCount] = useState(0);
+  const [rejectedCount, setRejectedCount] = useState(0);
+  const [loading, setLoading] = useState(true);
 
-  const [caretakerDetails, setCaretakerDetails] = useState(null);
-  const [caregivers, setCaregivers] = useState([]);
-  const [selectedCaregiverDetails, setSelectedCaregiverDetails] =
-    useState(null);
-  const [selectedCaregivers, setSelectedCaregivers] = useState(
-    JSON.parse(localStorage.getItem("selectedCaregivers")) || {}
-  );
-  const [caretakerStatuses, setCaretakerStatuses] = useState({});
-
-  const handleCloseModel = () => {
-    setOpenModel(false);
-  };
-
-  const handleInstructionChange = (event) => {
-    setInstruction(event.target.value);
-  };
+    const getUserfromLocalStorage = localStorage.getItem("userDetails")
+      ? JSON.parse(localStorage.getItem("userDetails"))
+      : null;
+  
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/manager/getCaretakerInformation")
-      .then((response) => response.json())
-      .then((data) => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/manager/getCaretakerInformation"
+        );
+        const data = response.data;
         setCaretakers(Array.isArray(data) ? data : []);
-        data.forEach((caretaker) => {
-          getCaretakerStatus(caretaker.caretakerId);
-        });
-      })
-      .catch((error) => console.error("Error:", error));
+        setLoading(false);
 
-    fetch("http://localhost:5000/api/manager/getCaregivers")
-      .then((response) => response.json())
-      .then((data) => console.log("caregivers", data) || setCaregivers(data))
-      .catch((error) => console.error("Error:", error));
+        // Calculate service and waiting counts
+        const waiting = data.filter(
+          (caretaker) => caretaker.status === "pending"
+        ).length;
+        const ongoing = data.filter(
+          (caretaker) => caretaker.status === "accepted"
+        ).length;
+        const rejected = data.filter(
+          (caretaker) => caretaker.upcoming === "rejected"
+        ).length;
+        setWaitingCount(waiting);
+        setServiceCount(ongoing);
+        setRejectedCount(rejected);
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  const handleRowClick = (caretaker) => {
-    setSelectedCaretaker(caretaker);
-    fetch(
-      `http://localhost:5000/api/manager/getCaretakerById/${caretaker.caretakerId}`
-    )
-      .then((response) => response.json())
-      .then((data) => setCaretakerDetails(data))
-      .catch((error) => console.error("Error:", error));
-  };
-
-  const handleViewCaregiver = (eventKey) => {
-    const selectedCaregiver = caregivers.find(
-      (caregiver) => caregiver.caregiverId.toString() === eventKey
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </Box>
     );
-
-    if (selectedCaregiver) {
-      fetch(
-        `http://localhost:5000/api/manager/getCaregiverById/${selectedCaregiver.caregiverId}`
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          setSelectedCaregiverDetails(data);
-        })
-        .catch((error) => console.error("Error:", error));
-    }
-  };
-
-  const handleAllocateCaregiver = async (caretaker, eventKey) => {
-    console.log("selected event key ", eventKey);
-    // const selectedCaregiver = caregivers.find(
-    //   (caregiver) => caregiver.caregiverId.toString() === eventKey
-    // );
-
-    if (eventKey) {
-      const caregiverId = eventKey;
-      const caretakerId = caretaker.caretakerId;
-      const requirementId = caretaker.requirementId;
-
-      if (
-        typeof caregiverId !== "number" ||
-        typeof caretakerId !== "number" ||
-        typeof requirementId !== "number"
-      ) {
-        console.error("Invalid input types");
-        return;
-      }
-
-      fetch(`http://localhost:5000/api/manager/getCaretakerById/${caretakerId}`)
-        .then((response) => response.json())
-        .then((data) => {
-          if (!data.caregiverId || data.caregiverId !== caregiverId) {
-            setSelectedCaregivers((prevCaregivers) => {
-              const updatedCaregivers = {
-                ...prevCaregivers,
-                [caretakerId]: {
-                  name: `${selectedCaregiver.firstName} (${selectedCaregiver.gender})`,
-                  id: caregiverId,
-                },
-              };
-              localStorage.setItem(
-                "selectedCaregivers",
-                JSON.stringify(updatedCaregivers)
-              );
-              return updatedCaregivers;
-            });
-
-            fetch(
-              `http://localhost:5000/api/manager/getCaregiverById/${caregiverId}`
-            )
-              .then((response) => response.json())
-              .then((data) => {
-                console.log("came gere ", data);
-                setSelectedCaregiver(data);
-
-                fetch(`http://localhost:5000/api/manager/allocateCaregiver`, {
-                  method: "PUT",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    category: caretaker.category,
-                    caretakerId: caretaker.caretakerId,
-                    caregiverId: eventKey,
-                    requirementId: caretaker.requirementId,
-                  }),
-                })
-                  .then((response) => {
-                    if (response.ok) {
-                      console.log("Caregiver allocated successfully!");
-                    } else {
-                      console.error(
-                        "Error allocating caregiver:",
-                        response.status
-                      );
-                    }
-                  })
-                  .catch((error) => console.error("Error:", error));
-              })
-              .catch((error) => console.error("Error:", error));
-          } else {
-            setSelectedCaregivers((prevCaregivers) => {
-              const updatedCaregivers = {
-                ...prevCaregivers,
-                [caretakerId]: {
-                  name: `${selectedCaregiver.firstName} (${selectedCaregiver.gender})`,
-                  id: caregiverId,
-                },
-              };
-              localStorage.setItem(
-                "selectedCaregivers",
-                JSON.stringify(updatedCaregivers)
-              );
-              return updatedCaregivers;
-            });
-
-            console.log("fetch even came here ", eventKey);
-            fetch(`http://localhost:5000/api/manager/allocateCaregiver`, {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                caretakerId: caretaker.caretakerId,
-                caregiverId: eventKey,
-                requirementId: caretaker.requirementId,
-              }),
-            })
-              .then((response) => {
-                if (response.ok) {
-                  console.log("Caregiver updated successfully!");
-                } else {
-                  console.error("Error updating caregiver:", response.status);
-                }
-              })
-              .catch((error) => console.error("Error:", error));
-          }
-        })
-        .catch((error) => console.error("Error:", error));
-    }
-  };
-
-  const calculateAge = (dobString) => {
-    if (!dobString) {
-      return "N/A";
-    }
-    const dob = dayjs(dobString);
-    const now = dayjs();
-    return now.diff(dob, "year");
-  };
-
-  const getCaretakerStatus = async (caretakerId) => {
-    try {
-      const response = await axios.get("/api/manager/getCaretakerInformation");
-      const caretakers = response.data;
-
-      const caretaker = caretakers.find(
-        (caretaker) => caretaker.caretakerId === caretakerId
-      );
-
-      if (caretaker) {
-        let status;
-        if (caretaker.status === "available") {
-          status = "available";
-        } else if (caretaker.status === "onprocess") {
-          status = "onprocess";
-        } else {
-          status = "pending";
-        }
-        setCaretakerStatuses((prevStatuses) => ({
-          ...prevStatuses,
-          [caretakerId]: status,
-        }));
-      } else {
-        setCaretakerStatuses((prevStatuses) => ({
-          ...prevStatuses,
-          [caretakerId]: "No Care Plan",
-        }));
-      }
-    } catch (error) {
-      console.error(error.message);
-      setCaretakerStatuses((prevStatuses) => ({
-        ...prevStatuses,
-        [caretakerId]: "Error fetching caretaker information",
-      }));
-    }
-  };
-
-  const handleSend = async () => {
-    try {
-      // Ensure instruction and requirementId are correctly set
-      const instructionToSend = instruction; // Ensure instruction is correctly defined
-      const requirementIdToSend = selectedCaretaker?.requirementId; // Ensure requirementId is correctly fetched or passed
-
-      const response = await axios.put(
-        "http://localhost:5000/api/manager/handleinstruction",
-        { instruction: instructionToSend, requirementId: requirementIdToSend }
-      );
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const styleModel = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-  };
-
-  const handleOpenModel = (careTakerData) => {
-    setOpenModel(true);
-    console.log("careTakerData", careTakerData);
-    setInstruction(careTakerData.requirement);
-  };
-
-  const fetchCareGivers = async (startDate, endDate, preffGender) => {
-    try {
-      fetch("http://localhost:5000/api/manager/getCaregivers")
-        .then((response) => response.json())
-        .then((data) => console.log("caregivers", data) || setCaregivers(data))
-        .catch((error) => console.error("Error:", error));
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
-
-  // const fetchCareGivers = async (startDate, endDate, preffGender) => {
-  //   try {
-  //     const response = await axios.get(
-  //       `http://localhost:5000/api/manager/getCaregivers?startDate=${startDate}&endDate=${endDate}&preffGender=${preffGender}`
-  //     );
-
-  //     console.log(response);
-
-  //     setCaregivers(response.data);
-  //   } catch (error) {
-  //     console.error(error.message);
-  //   }
-  // };
-
-  const getUserfromLocalStorage = localStorage.getItem("userDetails")
-    ? JSON.parse(localStorage.getItem("userDetails"))
-    : null;
+  }
 
   return (
-    <div style={{ display: "flex" }}>
+    <Box sx={{ display: "flex" }}>
       <Sidebar userType={getUserfromLocalStorage?.userType} />
-      <div style={{ flex: 1 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Navbar />
-        <div className="mgd-main" style={{ padding: "20px" }}>
-          <Container fluid>
-            <Row>
-              <Col>
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>caretaker ID</th>
-                      <th>First Name</th>
-                      <th>Last Name</th>
-                      <th>Start Date</th>
-                      <th>End Date</th>
-                      <th>Category</th>
-                      <th>Caregiver</th>
-                      <th>Preferred Gender</th>
-                      <th>Requirement</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {caretakers &&
-                      caretakers?.map((caretaker) => (
-                        <tr
-                          key={caretaker.caretakerId}
-                          onClick={() => handleRowClick(caretaker)}
-                        >
-                          <td>{caretaker.caretakerId}</td>
-                          <td>{caretaker.firstName}</td>
-                          <td>{caretaker.lastName}</td>
-                          <td>
-                            {dayjs(caretaker.startDate).format("DD/MM/YYYY")}
-                          </td>
-                          <td>
-                            {dayjs(caretaker.endDate).format("DD/MM/YYYY")}
-                          </td>
-                          <td>{caretaker.category}</td>
-                          <td>
-                            <Dropdown
-                              onSelect={(eventKey) =>
-                                handleAllocateCaregiver(caretaker, eventKey)
-                              }
-                              onClick={() => {
-                                fetchCareGivers(
-                                  caretaker.startDate,
-                                  caretaker.endDate,
-                                  caretaker.preffGender
-                                );
-                              }}
-                            >
-                              <Dropdown.Toggle
-                                variant="primary"
-                                id="dropdown-basic"
-                              >
-                                {selectedCaregivers[caretaker.caretakerId]
-                                  ?.name || "Allocate Caregiver"}
-                              </Dropdown.Toggle>
-                              <Dropdown.Menu>
-                                {caregivers[caretaker.requirementId]?.map(
-                                  (caregiver) => (
-                                    <Dropdown.Item
-                                      key={caregiver?.caregiverId}
-                                      eventKey={caregiver?.caregiverId?.toString()}
-                                    >
-                                      {`${caregiver?.caregiverId} ${caregiver?.lastName}`}
-                                    </Dropdown.Item>
-                                  )
-                                )}
-                              </Dropdown.Menu>
-                            </Dropdown>
-                          </td>
-                          <td>{caretaker.preffGender}</td>
-                          <td>
-                            <button onClick={() => handleOpenModel(caretaker)}>
-                              Instructions
-                            </button>
-                          </td>
-                          <td id="status-column">
-                            {caretakerStatuses[caretaker.caretakerId] ||
-                              "Loading..."}
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </Table>
-              </Col>
-            </Row>
-            <Row className="justify-content-center mb-4">
-              <Col md={4} className="d-flex justify-content-center">
-                <Dropdown
-                  onSelect={(eventKey) => handleViewCaregiver(eventKey)}
-                >
-                  <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                    Watch caregivers
-                  </Dropdown.Toggle>
-                  {/* <Dropdown.Menu>
-                    {caregivers.map((caregiver) => (
-                      <Dropdown.Item
-                        key={caregiver.caregiverId}
-                        eventKey={caregiver.caregiverId.toString()}
-                      >
-                        {`${caregiver.firstName} (${caregiver.gender})`}
-                      </Dropdown.Item>
-                    ))}
-                  </Dropdown.Menu> */}
-                </Dropdown>
-              </Col>
-            </Row>
-            <Row>
-              {caretakerDetails && (
-                <Col md={4}>
-                  <Card>
-                    <Card.Header>
-                      <Card.Title>Caretaker Details</Card.Title>
-                    </Card.Header>
-                    <Card.Body>
-                      <p>ID: {caretakerDetails.caretakerId}</p>
-                      <p>
-                        Name: {caretakerDetails.firstName}{" "}
-                        {caretakerDetails.lastName}
-                      </p>
-                      <p>Email: {caretakerDetails.email}</p>
-                      <p>Category: {caretakerDetails.category}</p>
-                      <p>Age: {calculateAge(caretakerDetails.dateOfBirth)}</p>
-                      <p>
-                        Address: {caretakerDetails.address},{" "}
-                        {caretakerDetails.suburb}
-                      </p>
-                      <p>
-                        Preferred Gender: {caretakerDetails.preferredGender}
-                      </p>
-                      <p>
-                        Status:{" "}
-                        {caretakerStatuses[caretakerDetails.caretakerId] ||
-                          "Loading..."}
-                      </p>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              )}
-              {selectedCaregiverDetails && (
-                <Col md={4}>
-                  <Card>
-                    <Card.Header>
-                      <Card.Title>Caregiver Details</Card.Title>
-                    </Card.Header>
-                    <Card.Body>
-                      <p>ID: {selectedCaregiverDetails.caregiverId}</p>
-                      <p>
-                        Name: {selectedCaregiverDetails.firstName}{" "}
-                        {selectedCaregiverDetails.lastName}
-                      </p>
-                      <p>Email: {selectedCaregiverDetails.email}</p>
-                      <p>Gender: {selectedCaregiverDetails.gender}</p>
-                      <p>Phone: {selectedCaregiverDetails.phone}</p>
-                      <p>
-                        Address: {selectedCaregiverDetails.address},{" "}
-                        {selectedCaregiverDetails.suburb}
-                      </p>
-                    </Card.Body>
-                  </Card>
-                </Col>
-              )}
-            </Row>
-          </Container>
-          <Modal
-            open={openModel}
-            onClose={handleCloseModel}
-            aria-labelledby="Requirement Description"
-            aria-describedby="modal-modal-description"
-          >
-            <Paper elevation={3} sx={styleModel}>
-              <Box p={2}>
-                <Typography variant="h4" gutterBottom>
-                  Requirement
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  Requirement Description
-                </Typography>
-                <TextField
-                  multiline
-                  rows={4}
-                  variant="outlined"
-                  fullWidth
-                  value={instruction}
-                  onChange={handleInstructionChange}
-                />
-                <Button
-                  variant="contained"
-                  color="primary"
-                  startIcon={<SendIcon />}
-                  onClick={handleSend}
-                >
-                  Send
-                </Button>
-              </Box>
-            </Paper>
-          </Modal>
-        </div>
-      </div>
-    </div>
+        <Container>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={4}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h5" component="div">
+                    On Going Services{/* Caretakers Serviced */}
+                  </Typography>
+                  <Typography variant="h2" color="primary">
+                    {serviceCount}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h5" component="div">
+                    Caretakers Waiting
+                  </Typography>
+                  <Typography variant="h2" color="secondary">
+                    {waitingCount}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h5" component="div">
+                    Caretakers rejected
+                  </Typography>
+                  <Typography variant="h2" color="secondary">
+                    {waitingCount}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+          <Grid container spacing={3} mt={3}>
+            <Grid item xs={12}>
+              <Paper>
+                <Box p={2}>
+                  <Typography variant="h6">Caretaker Details</Typography>
+                  <Table caretakers={caretakers} />
+                </Box>
+              </Paper>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+    </Box>
   );
 };
+
+const Table = ({ caretakers }) => (
+  <table style={{ width: "100%", borderCollapse: "collapse" }}>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Service Start</th>
+        <th>Service End</th>
+      </tr>
+    </thead>
+    <tbody>
+      {caretakers.map((caretaker) => (
+        <tr key={caretaker.caretakerId}>
+          <td>{caretaker.caretakerId}</td>
+          <td>
+            {caretaker.firstName} {caretaker.lastName}
+          </td>
+          <td>{caretaker.status}</td>
+          <td>
+            {caretaker.startDate
+              ? new Date(caretaker.startDate).toLocaleDateString()
+              : "N/A"}
+          </td>
+          <td>
+            {caretaker.endDate
+              ? new Date(caretaker.endDate).toLocaleDateString()
+              : "N/A"}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+);
 
 export default ManagerDashboard;

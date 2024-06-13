@@ -184,9 +184,14 @@ const Register = () => {
                       required
                       fullWidth
                       label="Contact Number"
+                      type="text"
                       name="mobileNo"
                       value={form.mobileNo}
                       onChange={handleChange}
+                      inputProps={{
+                        maxLength: 10,
+                        pattern: "\\d*",
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -200,6 +205,9 @@ const Register = () => {
                       InputLabelProps={{ shrink: true }}
                       value={form.dob}
                       onChange={handleChange}
+                      inputProps={{
+                        max: new Date().toISOString().split("T")[0],
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6}>
@@ -246,4 +254,3 @@ const Register = () => {
 };
 
 export default Register;
-

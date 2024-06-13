@@ -27,6 +27,8 @@ import NewPlan from "./Pages/MANAGER/NewPlan";
 import WaitingPlan from "./Pages/MANAGER/WaitingPlan";
 import AcceptedPlan from "./Pages/MANAGER/AcceptedPlan";
 import MReports from "./Pages/MANAGER/MReports";
+import PaymentPage from "./Pages/MANAGER/ProceedPayment";
+
 import { useEffect } from "react";
 
 
@@ -72,6 +74,7 @@ function App() {
         <Route path="waitingPlan" element={<WaitingPlan />} />
         <Route path="Finalized" element={<AcceptedPlan />} />
         <Route path="MReports" element={<MReports />} />
+        <Route path="PaymentPage" element={<PaymentPage/>} />
 
         {/* Pass userType to Sidebar */}
         <Route path="*" element={<Sidebar userType={userType1} />} />

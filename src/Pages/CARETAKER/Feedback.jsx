@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Button, Modal, Form } from "react-bootstrap";
+import { Container, Button, Modal, FormControl, InputLabel, Select, MenuItem, TextField } from "@mui/material";
 import {
   Table,
   TableBody,
@@ -9,9 +9,10 @@ import {
   TableRow,
   Paper,
   IconButton,
+  Typography,
 } from "@mui/material";
 import FeedbackIcon from "@mui/icons-material/Feedback";
-import Sidebar from "../../Components/Sidebar";
+import Sidebar from "../../Components/Sidebar"; 
 import Navbar from "../../Components/Navbar/Navbar";
 
 const getUserFromLocalStorage = localStorage.getItem("userDetails")
@@ -33,17 +34,11 @@ const AddFeedbackPage = () => {
   }, []);
 
   const fetchCaretakers = async () => {
-    const userId = getUserFromLocalStorage
-      ? getUserFromLocalStorage.userId
-      : null;
+    const userId = getUserFromLocalStorage ? getUserFromLocalStorage.userId : null;
     if (userId) {
       try {
-        const response = await fetch(
-          `http://localhost:5000/api/feedback/getcaretakers/${userId}`
-        );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
+        const response = await fetch(`http://localhost:5000/api/feedback/getcaretakers/${userId}`);
+        if (!response.ok) throw new Error("Network response was not ok");
         const caretakersData = await response.json();
         setCaretakers(caretakersData);
       } catch (error) {
@@ -56,12 +51,8 @@ const AddFeedbackPage = () => {
 
   const fetchCaregivers = async (caretakerId) => {
     try {
-      const response = await fetch(
-        `http://localhost:5000/api/feedback/getcaregivers/${caretakerId}`
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
+      const response = await fetch(`http://localhost:5000/api/feedback/getcaregivers/${caretakerId}`);
+      if (!response.ok) throw new Error("Network response was not ok");
       const caregiversData = await response.json();
       setCaregivers(caregiversData);
     } catch (error) {
@@ -80,43 +71,41 @@ const AddFeedbackPage = () => {
   };
 
   const handleFeedbackSubmit = async () => {
-    const response = await fetch(
-      "http://localhost:5000/api/feedback/addfeedback",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          userId: getUserFromLocalStorage.userId,
-          caregiver: selectedCaregiver,
-          feedback: feedback,
-        }),
-      }
-    );
+    const response = await fetch("http://localhost:5000/api/feedback/addfeedback", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: getUserFromLocalStorage.userId,
+        caregiver: selectedCaregiver,
+        feedback: feedback,
+      }),
+    });
 
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-  
+    if (!response.ok) throw new Error("Network response was not ok");
+
     setShowFeedbackModal(false);
   };
 
-  const handleLeaveFeedback = async (caregiver) => {
+  const handleLeaveFeedback = (caregiver) => {
     setSelectedCaregiver(caregiver);
     setFeedback("");
     setShowFeedbackModal(true);
   };
 
-  const handleViewPastFeedback = (caregiver) => {
-    const feedbackData = [
-      { feedback: "Great service!", date: "2024-05-01" },
-      { feedback: "Very helpful and kind.", date: "2024-05-15" },
-    ];
-    setPastFeedback(feedbackData);
-    setSelectedCaregiver(caregiver);
-    setShowFeedbackModal(false);
-    setShowPastFeedbackModal(true);
+  const handleViewPastFeedback = async (caregiver) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/feedback/getFeedbackHistory/${getUserFromLocalStorage.userId}`);
+      if (!response.ok) throw new Error("Network response was not ok");
+      const feedbackData = await response.json();
+      setPastFeedback(feedbackData);
+      setSelectedCaregiver(caregiver);
+      setShowFeedbackModal(false);
+      setShowPastFeedbackModal(true);
+    } catch (error) {
+      console.error("Error fetching feedback history:", error);
+    }
   };
 
   return (
@@ -129,25 +118,23 @@ const AddFeedbackPage = () => {
             <Container className="mt-5">
               <div className="p-3 shadow rounded">
                 <div className="row">
-                  <h2 className="mb-4" style={{ textAlign: "center" }}>
+                  <Typography variant="h4" align="center" className="mb-4">
                     Allocated Caregivers
-                  </h2>
+                  </Typography>
 
-                  <Form.Group controlId="caregiverDropdown">
-                    <Form.Label>Select caretaker</Form.Label>
-                    <Form.Select onChange={handleCaretakerChange}>
-                      <option value="">Select a caretaker</option>
+                  <FormControl fullWidth>
+                    <InputLabel>Select caretaker</InputLabel>
+                    <Select value={selectedCaretaker} onChange={handleCaretakerChange}>
+                      <MenuItem value=""><em>Select a caretaker</em></MenuItem>
                       {caretakers.map((caretaker) => (
-                        <option
-                          key={caretaker.caretakerId}
-                          value={caretaker.caretakerId}
-                        >
+                        <MenuItem key={caretaker.caretakerId} value={caretaker.caretakerId}>
                           {caretaker.ctName}
-                        </option>
+                        </MenuItem>
                       ))}
-                    </Form.Select>
-                  </Form.Group>
-                  <TableContainer component={Paper}>
+                    </Select>
+                  </FormControl>
+
+                  <TableContainer component={Paper} className="mt-4">
                     <Table>
                       <TableHead>
                         <TableRow>
@@ -164,17 +151,10 @@ const AddFeedbackPage = () => {
                             <TableCell>{caregiver.gender}</TableCell>
                             <TableCell>{caregiver.mobileNo}</TableCell>
                             <TableCell>
-                              <IconButton
-                                onClick={() => handleLeaveFeedback(caregiver)}
-                              >
+                              <IconButton onClick={() => handleLeaveFeedback(caregiver)}>
                                 <FeedbackIcon />
                               </IconButton>
-                              <Button
-                                variant="link"
-                                onClick={() =>
-                                  handleViewPastFeedback(caregiver)
-                                }
-                              >
+                              <Button variant="text" onClick={() => handleViewPastFeedback(caregiver)}>
                                 View Past Feedback
                               </Button>
                             </TableCell>
@@ -190,66 +170,47 @@ const AddFeedbackPage = () => {
         </div>
       </div>
 
-      <Modal
-        show={showFeedbackModal}
-        onHide={() => setShowFeedbackModal(false)}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>
+      <Modal open={showFeedbackModal} onClose={() => setShowFeedbackModal(false)}>
+        <div style={{ padding: '20px', background: 'white', margin: '20px auto', maxWidth: '500px' }}>
+          <Typography variant="h6">
             Leave Feedback for {selectedCaregiver?.fullName}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formFeedback">
-              <Form.Label>Feedback</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                value={feedback}
-                onChange={handleFeedbackChange}
-              />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="secondary"
-            onClick={() => setShowFeedbackModal(false)}
-          >
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={handleFeedbackSubmit}>
-            Submit
-          </Button>
-        </Modal.Footer>
+          </Typography>
+          <TextField
+            label="Feedback"
+            multiline
+            rows={4}
+            fullWidth
+            value={feedback}
+            onChange={handleFeedbackChange}
+            variant="outlined"
+            className="mt-3"
+          />
+          <div className="mt-4" style={{ textAlign: 'right' }}>
+            <Button variant="contained" color="secondary" onClick={() => setShowFeedbackModal(false)} className="mr-2">
+              Cancel
+            </Button>
+            <Button variant="contained" color="primary" onClick={handleFeedbackSubmit}>
+              Submit
+            </Button>
+          </div>
+        </div>
       </Modal>
 
-      <Modal
-        show={showPastFeedbackModal}
-        onHide={() => setShowPastFeedbackModal(false)}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>
+      <Modal open={showPastFeedbackModal} onClose={() => setShowPastFeedbackModal(false)}>
+        <div style={{ padding: '20px', background: 'white', margin: '20px auto', maxWidth: '500px' }}>
+          <Typography variant="h6">
             Past Feedback for {selectedCaregiver?.fullName}
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+          </Typography>
           {pastFeedback.length > 0 ? (
-            <div className="mt-4">
-              <h5>Past Feedback</h5>
-              <ul>
-                {pastFeedback.map((fb, index) => (
-                  <li key={index}>
-                    {fb.feedback} - {fb.date}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <ul className="mt-4">
+              {pastFeedback.map((fb, index) => (
+                <li key={index}>{fb.feedback} - {fb.date}</li>
+              ))}
+            </ul>
           ) : (
-            <p>No past feedback available.</p>
+            <Typography variant="body1">No past feedback available.</Typography>
           )}
-        </Modal.Body>
+        </div>
       </Modal>
     </div>
   );
@@ -260,16 +221,6 @@ export default AddFeedbackPage;
 
 
 
-
-
-
-
-
-
-
-
-
-//***************************************************************************************************** */
 
 // import React, { useState, useEffect } from "react";
 // import { Container, Button, Modal, Form } from "react-bootstrap";
@@ -284,7 +235,7 @@ export default AddFeedbackPage;
 //   IconButton,
 // } from "@mui/material";
 // import FeedbackIcon from "@mui/icons-material/Feedback";
-// import Sidebar from "../../Components/Sidebar";
+// import Sidebar from "../../Components/Sidebar"; 
 // import Navbar from "../../Components/Navbar/Navbar";
 
 // const getUserFromLocalStorage = localStorage.getItem("userDetails")
@@ -295,74 +246,43 @@ export default AddFeedbackPage;
 //   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
 //   const [showPastFeedbackModal, setShowPastFeedbackModal] = useState(false);
 //   const [feedback, setFeedback] = useState("");
+//   const [caretakers, setCaretakers] = useState([]);
+//   const [selectedCaretaker, setSelectedCaretaker] = useState(null);
 //   const [selectedCaregiver, setSelectedCaregiver] = useState(null);
 //   const [caregivers, setCaregivers] = useState([]);
 //   const [pastFeedback, setPastFeedback] = useState([]);
 
 //   useEffect(() => {
-//     // Fetch caregivers data from server
-//     fetchCaregivers();
+//     fetchCaretakers();
+
 //   }, []);
 
-//   const fetchCaregivers = async () => {
+//   const fetchCaretakers = async () => {
 //     const userId = getUserFromLocalStorage
 //       ? getUserFromLocalStorage.userId
 //       : null;
 //     if (userId) {
 //       try {
 //         const response = await fetch(
-//           `http://localhost:5000/api/feedback/getcaregiver/${userId}`
+//           `http://localhost:5000/api/feedback/getcaretakers/${userId}`
 //         );
 //         if (!response.ok) {
 //           throw new Error("Network response was not ok");
 //         }
-//         const caregiversData = await response.json();
-//         setCaregivers(caregiversData);
+//         const caretakersData = await response.json();
+//         setCaretakers(caretakersData);
 //       } catch (error) {
-//         console.error("Error fetching caregivers:", error);
+//         console.error("Error fetching caretakers:", error);
 //       }
 //     } else {
 //       console.error("No user ID found in local storage.");
 //     }
 //   };
 
-//   const handleFeedbackChange = (event) => {
-//     setFeedback(event.target.value);
-//   };
-
-//   const handleFeedbackSubmit = async () => {
-//     const response = await fetch('https://your-server-url/feedback', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify({
-//             caregiver: selectedCaregiver,
-//             feedback: feedback
-//         })
-//     });
-
-//     if (!response.ok) {
-//         throw new Error('Network response was not ok');
-//     }
-
-//     setShowFeedbackModal(false);
-//   };
-
-//   // const handleLeaveFeedback = (caregiver) => {
-//   //   setSelectedCaregiver(caregiver);
-//   //   setFeedback("");
-//   //   setShowFeedbackModal(true);
-//   //   setShowPastFeedbackModal(false);
-//   // };
-
-//   const handleLeaveFeedback = async (caregiver) => {
-//     setSelectedCaregiver(caregiver);
-
-//     // Fetch the requirement details for the selected caregiver
+//   const fetchCaregivers = async (caretakerId) => {
 //     try {
 //       const response = await fetch(
-//         `http://localhost:5000/api/feedback/getcaregiver/${getUserFromLocalStorage.userId}`
+//         `http://localhost:5000/api/feedback/getcaregivers/${caretakerId}`
 //       );
 //       if (!response.ok) {
 //         throw new Error("Network response was not ok");
@@ -372,23 +292,86 @@ export default AddFeedbackPage;
 //     } catch (error) {
 //       console.error("Error fetching caregivers:", error);
 //     }
+//   };
 
+//   const handleCaretakerChange = (event) => {
+//     const selectedCaretakerId = event.target.value;
+//     setSelectedCaretaker(selectedCaretakerId);
+//     fetchCaregivers(selectedCaretakerId);
+//   };
+
+//   const handleFeedbackChange = (event) => {
+//     setFeedback(event.target.value);
+//   };
+
+//   const handleFeedbackSubmit = async () => {
+//     const response = await fetch(
+//       "http://localhost:5000/api/feedback/addfeedback",
+//       {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({
+//           userId: getUserFromLocalStorage.userId,
+//           caregiver: selectedCaregiver,
+//           feedback: feedback,
+//         }),
+//       }
+//     );
+
+//     if (!response.ok) {
+//       throw new Error("Network response was not ok");
+//     }
+
+//     setShowFeedbackModal(false);
+//   };
+
+//   const handleLeaveFeedback = async (caregiver) => {
+//     setSelectedCaregiver(caregiver);
 //     setFeedback("");
 //     setShowFeedbackModal(true);
 //   };
 
-//   const handleViewPastFeedback = (caregiver) => {
-//     // Fetch past feedback for the selected caregiver
-//     // Replace with actual API call
-//     const feedbackData = [
-//       { feedback: "Great service!", date: "2024-05-01" },
-//       { feedback: "Very helpful and kind.", date: "2024-05-15" },
-//     ];
-//     setPastFeedback(feedbackData);
-//     setSelectedCaregiver(caregiver);
-//     setShowFeedbackModal(false);
-//     setShowPastFeedbackModal(true);
+//   const handleViewPastFeedback = async (caregiver) => {
+//     console.log(getUserFromLocalStorage.userId);
+//     try {
+//       const response = await fetch(
+//         `http://localhost:5000/api/feedback/getFeedbackHistory/${getUserFromLocalStorage.userId}`
+//       );
+
+//       if (!response.ok) {
+//         throw new Error("Network response was not ok");
+//       }
+//       const feedbackData = await response.json();
+//       setPastFeedback(feedbackData);
+//       console.log(feedbackData);
+//       setSelectedCaregiver(caregiver);
+//       setShowFeedbackModal(false);
+//       setShowPastFeedbackModal(true);
+//     } catch (error) {
+//       console.error("Error fetching feedback history:", error);
+//     }
 //   };
+
+//   // const handleViewPastFeedback = async (caregiver) => {
+//   //   try {
+//   //     const response = await fetch(
+//   //       `http://localhost:5000/api/feedback/getFeedbackHistory/${caregiver.requirementId}`
+//   //     );
+//   //     console.log(caregiver.requirementId);
+//   //     if (!response.ok) {
+//   //       throw new Error("Network response was not ok");
+//   //     }
+//   //     const feedbackData = await response.json();
+//   //     setPastFeedback(feedbackData);
+//   //     setSelectedCaregiver(caregiver);
+//   //     setShowFeedbackModal(false);
+//   //     setShowPastFeedbackModal(true);
+//   //   } catch (error) {
+//   //     console.error("Error fetching feedback history:", error);
+//   //   }
+//   // };
 
 //   return (
 //     <div style={{ display: "flex" }}>
@@ -403,6 +386,21 @@ export default AddFeedbackPage;
 //                   <h2 className="mb-4" style={{ textAlign: "center" }}>
 //                     Allocated Caregivers
 //                   </h2>
+
+//                   <Form.Group controlId="caregiverDropdown">
+//                     <Form.Label>Select caretaker</Form.Label>
+//                     <Form.Select onChange={handleCaretakerChange}>
+//                       <option value="">Select a caretaker</option>
+//                       {caretakers.map((caretaker) => (
+//                         <option
+//                           key={caretaker.caretakerId}
+//                           value={caretaker.caretakerId}
+//                         >
+//                           {caretaker.ctName}
+//                         </option>
+//                       ))}
+//                     </Form.Select>
+//                   </Form.Group>
 //                   <TableContainer component={Paper}>
 //                     <Table>
 //                       <TableHead>
@@ -410,7 +408,7 @@ export default AddFeedbackPage;
 //                           <TableCell>Name</TableCell>
 //                           <TableCell>Gender</TableCell>
 //                           <TableCell>Contact</TableCell>
-//                           <TableCell>Actions</TableCell>
+//                           <TableCell>Feedback</TableCell>
 //                         </TableRow>
 //                       </TableHead>
 //                       <TableBody>
@@ -446,7 +444,6 @@ export default AddFeedbackPage;
 //         </div>
 //       </div>
 
-//       {/* Feedback Modal */}
 //       <Modal
 //         show={showFeedbackModal}
 //         onHide={() => setShowFeedbackModal(false)}
@@ -482,7 +479,6 @@ export default AddFeedbackPage;
 //         </Modal.Footer>
 //       </Modal>
 
-//       {/* Past Feedback Modal */}
 //       <Modal
 //         show={showPastFeedbackModal}
 //         onHide={() => setShowPastFeedbackModal(false)}
@@ -495,7 +491,6 @@ export default AddFeedbackPage;
 //         <Modal.Body>
 //           {pastFeedback.length > 0 ? (
 //             <div className="mt-4">
-//               <h5>Past Feedback</h5>
 //               <ul>
 //                 {pastFeedback.map((fb, index) => (
 //                   <li key={index}>
@@ -514,3 +509,4 @@ export default AddFeedbackPage;
 // };
 
 // export default AddFeedbackPage;
+

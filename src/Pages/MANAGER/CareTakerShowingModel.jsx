@@ -63,7 +63,7 @@ const CareTakerShowingModel = ({ careTakerShowingModelOpen, setCareTakerShowingM
               <Text>{careTakerDetails.address}</Text>
             </Col>
             <Col span={12}>
-              <Text strong><IdcardOutlined /> National ID: </Text>
+              <Text strong><IdcardOutlined /> medicareNumber: </Text>
               <Text>{careTakerDetails.medicareNumber}</Text>
             </Col>
           </Row>

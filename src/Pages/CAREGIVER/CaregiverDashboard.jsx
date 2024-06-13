@@ -116,11 +116,12 @@ const DateCalendarValue = () => {
                       <h5>Caretaker Details</h5>
                       <p>
                         <FaUser /> Name:{" "}
-                        {requirement.careTakerDetails.firstName}{" "}
-                        {requirement.careTakerDetails.lastName}
+                        {requirement.careTakerDetails.caretakerFirstName}{" "}
+                        {requirement.careTakerDetails.caretakerLastName}
                       </p>
                       <p>
-                        <FaUser /> ID: {requirement.careTakerDetails.caretakerId}
+                        <FaUser /> ID:{" "}
+                        {requirement.careTakerDetails.caretakerId}
                       </p>
                       <p>
                         <FaMapMarkerAlt /> Address:{" "}
@@ -132,25 +133,32 @@ const DateCalendarValue = () => {
                       </p>
                     </Col>
                   </Row>
-                  {(requirement.status === "assigned" && dayjs(requirement.startDate).isBefore(dayjs())) && (
-                    <div className="mt-3">
-                      <Button
-                        variant="success"
-                        onClick={() =>
-                          handleAcceptRequest(requirement.requirementId, "start")
-                        }
-                      >
-                        Start
-                      </Button>
-                    </div>
-                  )}
+                  {requirement.status === "assigned" &&
+                    dayjs(requirement.startDate).isBefore(dayjs()) && (
+                      <div className="mt-3">
+                        <Button
+                          variant="success"
+                          onClick={() =>
+                            handleAcceptRequest(
+                              requirement.requirementId,
+                              "start"
+                            )
+                          }
+                        >
+                          Start
+                        </Button>
+                      </div>
+                    )}
                   {requirement.status === "assigned" && (
                     <div className="mt-3">
                       <Button
                         variant="primary"
                         className="me-2"
                         onClick={() =>
-                          handleAcceptRequest(requirement.requirementId, "accepted")
+                          handleAcceptRequest(
+                            requirement.requirementId,
+                            "accepted"
+                          )
                         }
                       >
                         Accept
@@ -158,7 +166,10 @@ const DateCalendarValue = () => {
                       <Button
                         variant="danger"
                         onClick={() =>
-                          handleAcceptRequest(requirement.requirementId, "rejected")
+                          handleAcceptRequest(
+                            requirement.requirementId,
+                            "rejected"
+                          )
                         }
                       >
                         Reject
@@ -170,7 +181,10 @@ const DateCalendarValue = () => {
                       <Button
                         variant="success"
                         onClick={() =>
-                          handleAcceptRequest(requirement.requirementId, "finished")
+                          handleAcceptRequest(
+                            requirement.requirementId,
+                            "finished"
+                          )
                         }
                       >
                         Finish

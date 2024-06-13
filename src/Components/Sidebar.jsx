@@ -58,7 +58,7 @@ const Sidebar = ({ userType }) => {
               activeClassName="activeClicked"
             >
               <CDBSidebarMenuItem icon="user">
-                Caretaker Dashboard{" "}
+                Caretaker Profile{" "}
               </CDBSidebarMenuItem>
             </NavLink>
 
@@ -76,9 +76,15 @@ const Sidebar = ({ userType }) => {
               </CDBSidebarMenuItem>
             </NavLink>
 
-            <NavLink exact to="/Report" activeClassName="activeClicked">
+            {/* <NavLink exact to="/Report" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="chart-line">Reports</CDBSidebarMenuItem>
-            </NavLink>
+            </NavLink> */}
+
+            {/* <NavLink exact to="/Payment" activeClassName="activeClicked">
+              <CDBSidebarMenuItem icon="credit-card">
+                Payments
+              </CDBSidebarMenuItem>
+            </NavLink> */}
           </>
         );
       case "manager":

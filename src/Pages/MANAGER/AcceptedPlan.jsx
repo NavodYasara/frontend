@@ -10,14 +10,10 @@ import AcceptedTable from './AcceptedTable';
 const AcceptedPlan = () => {
     const [finalizedRequirments,setFinalizedRequirments]=useState([]);
 
-
     useEffect(()=>{
         fetchFinalizedPlans();
     },[])
 
-
-
-   
     const fetchFinalizedPlans=async()=>{
         try {
             const results=await axios.get("http://localhost:5000/api/manager/finalizedPlans")
@@ -38,6 +34,7 @@ const AcceptedPlan = () => {
     const getUserfromLocalStorage = localStorage.getItem("userDetails")
     ? JSON.parse(localStorage.getItem("userDetails"))
     : null;
+    
   return (
     <div style={{ display: "flex" }}>
       <Sidebar userType={getUserfromLocalStorage?.userType} />
@@ -49,6 +46,5 @@ const AcceptedPlan = () => {
     </div>
   )
 }
-
 
 export default AcceptedPlan

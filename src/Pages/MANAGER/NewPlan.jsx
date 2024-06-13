@@ -8,14 +8,10 @@ import dayjs from 'dayjs';
 const NewPlan = () => {
     const [pendingRequirmentList,setPendingRequirmentList]=useState([]);
 
-
     useEffect(()=>{
         fetchPendingTasks();
     },[])
 
-
-
-   
     const fetchPendingTasks=async()=>{
         try {
             const results=await axios.get("http://localhost:5000/api/manager/pendingTasks")

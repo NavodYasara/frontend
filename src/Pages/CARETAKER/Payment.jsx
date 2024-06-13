@@ -12,6 +12,10 @@ import {
   ListItemText,
 } from "@mui/material";
 
+const getUserfromLocalStorage = localStorage.getItem("userDetails")
+  ? JSON.parse(localStorage.getItem("userDetails"))
+  : null;
+
 const PaymentPage = () => {
   // Sample data for the caregiver details, service period, and price
   const caregiverDetails = {
@@ -25,7 +29,7 @@ const PaymentPage = () => {
 
   return (
     <div style={{ display: "flex" }}>
-      <Sidebar />
+      <Sidebar userType={getUserfromLocalStorage?.userType} />
       <div style={{ flex: 1 }}>
         <Navbar />
         <div className="mgd-main" style={{ padding: "20px" }}>
