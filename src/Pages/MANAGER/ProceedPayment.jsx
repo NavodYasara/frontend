@@ -31,7 +31,7 @@ const PaymentPage = () => {
 
   const fetchCaretakers = async () => {
     try {
-      const response = await axios.get("/api/getFinalizedPlans"); // Adjust the endpoint as needed
+      const response = await axios.get("/api/getFinalizedPlans"); 
       setCaretakers(response.data);
     } catch (error) {
       console.error("Error fetching caretakers:", error);
@@ -47,7 +47,7 @@ const PaymentPage = () => {
 
   const handleSubmit = async () => {
     try {
-      await axios.post("/api/updatePayments", payments); // Adjust the endpoint as needed
+      await axios.post("/api/updatePayments", payments);
       alert("Payments updated successfully!");
     } catch (error) {
       console.error("Error updating payments:", error);

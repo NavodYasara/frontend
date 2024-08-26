@@ -57,6 +57,20 @@ const Register = () => {
       return;
     }
 
+    // // Validate names to contain only characters
+    // const namePattern = /^[A-Za-z]+$/;
+    // if (
+    //   !namePattern.test(form.firstName) ||
+    //   !namePattern.test(form.lastName) ||
+    //   !namePattern.test(form.userName)
+    // ) {
+    //   setError(
+    //     "First name, last name, and username should only contain characters!"
+    //   );
+    //   setOpenSnackbar(true);
+    //   return;
+    // }
+
     // Validate mobile number format
     if (!/^[0-9]{10}$/.test(form.mobileNo)) {
       setError("Please enter a valid 10-digit mobile number!");
@@ -178,6 +192,7 @@ const Register = () => {
                       onChange={handleChange}
                     />
                   </Grid>
+
                   <Grid item xs={12} sm={6}>
                     <TextField
                       margin="normal"
@@ -194,6 +209,30 @@ const Register = () => {
                       }}
                     />
                   </Grid>
+
+                  {/* <Grid item xs={12} sm={6}>
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      label="Contact Number"
+                      type="text"
+                      name="mobileNo"
+                      value={form.mobileNo}
+                      onChange={handleChange}
+                      inputProps={{
+                        maxLength: 10,
+                        pattern: "\\d*",
+                        onInput: (e) => {
+                          e.target.value = e.target.value.replace(
+                            /[^0-9]/g,
+                            ""
+                          );
+                        },
+                      }}
+                    />
+                  </Grid> */}
+
                   <Grid item xs={12} sm={6}>
                     <TextField
                       margin="normal"

@@ -15,7 +15,6 @@ const WaitingPlan = () => {
     },[])
 
 
-
    
     const fetchAssignedAndRejectedTasks=async()=>{
         try {
