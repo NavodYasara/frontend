@@ -14,6 +14,7 @@ import {
 import FeedbackIcon from "@mui/icons-material/Feedback";
 import Sidebar from "../../Components/Sidebar"; 
 import Navbar from "../../Components/Navbar/Navbar";
+import dayjs from "dayjs";
 
 const getUserFromLocalStorage = localStorage.getItem("userDetails")
   ? JSON.parse(localStorage.getItem("userDetails"))
@@ -31,12 +32,13 @@ const AddFeedbackPage = () => {
 
   useEffect(() => {
     fetchCaretakers();
-  }, []);
+  }, [localStorage.getItem("userDetails")]);
 
   const fetchCaretakers = async () => {
     const userId = getUserFromLocalStorage ? getUserFromLocalStorage.userId : null;
     if (userId) {
       try {
+        console.log("user id  : ", userId);
         const response = await fetch(`http://localhost:5000/api/feedback/getcaretakers/${userId}`);
         if (!response.ok) throw new Error("Network response was not ok");
         const caretakersData = await response.json();
@@ -99,6 +101,7 @@ const AddFeedbackPage = () => {
       const response = await fetch(`http://localhost:5000/api/feedback/getFeedbackHistory/${getUserFromLocalStorage.userId}`);
       if (!response.ok) throw new Error("Network response was not ok");
       const feedbackData = await response.json();
+      console.log("feedback data : ", feedbackData);
       setPastFeedback(feedbackData);
       setSelectedCaregiver(caregiver);
       setShowFeedbackModal(false);
@@ -124,10 +127,18 @@ const AddFeedbackPage = () => {
 
                   <FormControl fullWidth>
                     <InputLabel>Select caretaker</InputLabel>
-                    <Select value={selectedCaretaker} onChange={handleCaretakerChange}>
-                      <MenuItem value=""><em>Select a caretaker</em></MenuItem>
+                    <Select
+                      value={selectedCaretaker}
+                      onChange={handleCaretakerChange}
+                    >
+                      <MenuItem value="">
+                        <em>Select a caretaker</em>
+                      </MenuItem>
                       {caretakers.map((caretaker) => (
-                        <MenuItem key={caretaker.caretakerId} value={caretaker.caretakerId}>
+                        <MenuItem
+                          key={caretaker.caretakerId}
+                          value={caretaker.caretakerId}
+                        >
                           {caretaker.ctName}
                         </MenuItem>
                       ))}
@@ -151,10 +162,17 @@ const AddFeedbackPage = () => {
                             <TableCell>{caregiver.gender}</TableCell>
                             <TableCell>{caregiver.mobileNo}</TableCell>
                             <TableCell>
-                              <IconButton onClick={() => handleLeaveFeedback(caregiver)}>
+                              <IconButton
+                                onClick={() => handleLeaveFeedback(caregiver)}
+                              >
                                 <FeedbackIcon />
                               </IconButton>
-                              <Button variant="text" onClick={() => handleViewPastFeedback(caregiver)}>
+                              <Button
+                                variant="text"
+                                onClick={() =>
+                                  handleViewPastFeedback(caregiver)
+                                }
+                              >
                                 View Past Feedback
                               </Button>
                             </TableCell>
@@ -170,8 +188,18 @@ const AddFeedbackPage = () => {
         </div>
       </div>
 
-      <Modal open={showFeedbackModal} onClose={() => setShowFeedbackModal(false)}>
-        <div style={{ padding: '20px', background: 'white', margin: '20px auto', maxWidth: '500px' }}>
+      <Modal
+        open={showFeedbackModal}
+        onClose={() => setShowFeedbackModal(false)}
+      >
+        <div
+          style={{
+            padding: "20px",
+            background: "white",
+            margin: "20px auto",
+            maxWidth: "500px",
+          }}
+        >
           <Typography variant="h6">
             Leave Feedback for {selectedCaregiver?.fullName}
           </Typography>
@@ -185,26 +213,47 @@ const AddFeedbackPage = () => {
             variant="outlined"
             className="mt-3"
           />
-          <div className="mt-4" style={{ textAlign: 'right' }}>
-            <Button variant="contained" color="secondary" onClick={() => setShowFeedbackModal(false)} className="mr-2">
+          <div className="mt-4" style={{ textAlign: "right" }}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => setShowFeedbackModal(false)}
+              className="mr-2"
+            >
               Cancel
             </Button>
-            <Button variant="contained" color="primary" onClick={handleFeedbackSubmit}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleFeedbackSubmit}
+            >
               Submit
             </Button>
           </div>
         </div>
       </Modal>
 
-      <Modal open={showPastFeedbackModal} onClose={() => setShowPastFeedbackModal(false)}>
-        <div style={{ padding: '20px', background: 'white', margin: '20px auto', maxWidth: '500px' }}>
+      <Modal
+        open={showPastFeedbackModal}
+        onClose={() => setShowPastFeedbackModal(false)}
+      >
+        <div
+          style={{
+            padding: "20px",
+            background: "white",
+            margin: "20px auto",
+            maxWidth: "500px",
+          }}
+        >
           <Typography variant="h6">
             Past Feedback for {selectedCaregiver?.fullName}
           </Typography>
           {pastFeedback.length > 0 ? (
             <ul className="mt-4">
               {pastFeedback.map((fb, index) => (
-                <li key={index}>{fb.feedback} - {fb.date}</li>
+                <li key={index}>
+                  {fb.description} - {dayjs(fb.Date).format("DD/MM/YYYY")}
+                </li>
               ))}
             </ul>
           ) : (
